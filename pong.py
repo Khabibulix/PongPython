@@ -2,12 +2,19 @@
 #Import and Setup
 
 import turtle
+import winsound
+
 
 screen = turtle.Screen()
 screen.title("Pong Me If You Can")
 screen.bgcolor("black")
 screen.setup(width=800, height=600)
 screen.tracer(0)
+
+#Score
+
+score_a = 0
+score_b = 0
 
 #Paddle 1
 
@@ -37,9 +44,18 @@ ball.shape("turtle")
 ball.color("white")
 ball.penup()
 ball.goto(0, 0)
-ball.dx = 1
-ball.dy = 1
+ball.dx = 0.25
+ball.dy = 0.25
 
+#Pen
+
+pen = turtle.Turtle()
+pen.speed(0)
+pen.color("white")
+pen.penup()
+pen.hideturtle()
+pen.goto(0, 260)
+pen.write("Player A: 0\tPlayer B: 0", align="center", font=("Courier", 24, "normal"))
 
 #Functions
 
@@ -81,21 +97,47 @@ while True:
 	ball.setx(ball.xcor() + ball.dx)
 	ball.sety(ball.ycor() + ball.dy)
 
-	#Bouncing on borders
+	# Bouncing on borders
 
 	# 290 car height de l'écran(600)/2 - height de la balle
 	if ball.ycor() > 290:
-		#inverse direction de la balle
+		# inverse direction de la balle
 		ball.sety(290)
 		ball.dy *= -1
+		winsound.PlaySound("pong.wav", winsound.SND_ASYNC)
 	
 	if ball.ycor() < -290:
 		ball.sety(-290)
 		ball.dy *= -1
+		winsound.PlaySound("pong.wav", winsound.SND_ASYNC)
 
 	if ball.xcor() > 390:
-		ball.goto(0)
+		ball.goto(0, 0)
 		ball.dx *= -1
+		score_a += 1
+		pen.clear()
+		pen.write("Player A: {} \tPlayer B: {}".format(score_a, score_b), align="center", font=("Courier", 24, "normal"))
+
+	if ball.xcor() < -390:
+		ball.goto(0, 0)
+		ball.dx *= -1
+		score_b += 1
+		pen.clear()
+		pen.write("Player A: {} \tPlayer B: {}".format(score_a, score_b), align="center", font=("Courier", 24, "normal"))
+
+	# Collision detection
+	# 340 car position du paddle - sa largeur
+	# les ycor correspondent à la détection du paddle
+	# seconde assertion pour éviter le glicht chelou entre le bord du screen et le paddle
+	if ball.xcor() >  340 and ball.xcor() < 350 and ball.ycor() < rightPaddle.ycor() + 40 and ball.ycor() > rightPaddle.ycor() - 40:
+		ball.setx(340)
+		ball.dx *= -1
+		winsound.PlaySound("pong.wav", winsound.SND_ASYNC)
+
+	if ball.xcor() <  -340 and ball.xcor() > -350 and ball.ycor() > leftPaddle.ycor() - 40 and ball.ycor() < leftPaddle.ycor() + 40:
+		ball.setx(-340)
+		ball.dx *= -1
+		winsound.PlaySound("pong.wav", winsound.SND_ASYNC)
 
 
 
