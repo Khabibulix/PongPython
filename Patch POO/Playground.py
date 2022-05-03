@@ -13,22 +13,26 @@ class Pen():
         Pen.penup()
         Pen.hideturtle()
         Pen.goto(0, 260)
-        Pen.write("Player A: 0\tPlayer B: 0", align="center", font=("Courier", 24, "normal"))
+        Pen.write(""
+                  "Player A: 0\t"
+                  "Player B: 0",
+                  align="center",
+                  font=("Courier", 24, "normal")
+                  )
 
 
-class Screen():
+class Screen:
 
-    def initialisation(self):
-        Screen = turtle.Screen()
-        Screen.title("Pong Me If You Can")
-        Screen.bgcolor("black")
-        Screen.setup(width=800, height=600)
-        Screen.tracer(0)
-        Screen.listen()
+    def initialisation(self, s):
+        s = turtle.Screen()
+        s.title("Pong Me If You Can")
+        s.bgcolor("black")
+        s.setup(width=800, height=600)
+        s.tracer(0)
+        s.listen()
 
 
-def creating_playground():
-    pen = Pen()
-    pen.initialisation()
-    screen = Screen()
-    screen.initialisation()
+pen = Pen()
+pen.initialisation()
+screen = Screen()
+screen.initialisation(screen)
