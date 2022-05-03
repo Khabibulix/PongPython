@@ -3,40 +3,30 @@ import Playground
 
 
 class Paddle:
-    def __init__(self, speed, shape, color, xcor):
-        self.speed = speed
-        self.shape = shape
-        self.color = color
+    def __init__(self, xcor):
         self.xcor = xcor
 
     def initialisation(self, p):
+        p = turtle.Turtle()
+        p.speed = 0
+        p.shape = "square"
+        p.color = "white"
         p.shapesize(stretch_wid=5, stretch_len=1)
         p.penup()
-        p.goto(paddle.xcor, 0)
-
-    def moving_up(self, key_pressed):
-        screen = Playground.creating_playground()
-        if screen.onkeypress(key_pressed):
-            y = Paddle.ycor()
-            y += 20
-            Paddle.sety(y)
+        p.goto(self.xcor, 0)
 
 
-    def moving_down(self, key_pressed):
-        screen = Playground.creating_playground()
-        if screen.onkeypress(key_pressed):
-            y = Paddle.ycor()
-            y -= 20
-            Paddle.sety(y)
+try:
+    left_paddle = Paddle(xcor=-350)
+    right_paddle = Paddle(xcor=350)
+    left_paddle.initialisation(left_paddle)
+    left_paddle.initialisation(right_paddle)
+except NameError as ne:
+    print(ne)
+    print("L'appel à initialisation est foireux!")
+    print("Ou alors les variables paddle sont mal définies")
+except AttributeError as ae:
+    print(ae)
+    print("Modification du turtle dans initialisation()")
 
 
-left_paddle = Paddle(speed=0, shape="square", color="white", xcor=-350)
-right_paddle = Paddle(speed=0, shape="square", color="white", xcor=350)
-left_paddle = turtle.Turtle()
-right_paddle = turtle.Turtle()
-Paddle.initialisation(left_paddle)
-Paddle.initialisation(right_paddle)
-left_paddle.moving_down(key_pressed="s")
-left_paddle.moving_up(key_pressed="z")
-right_paddle.moving_down(key_pressed="Down")
-right_paddle.moving_up(key_pressed="Up")
