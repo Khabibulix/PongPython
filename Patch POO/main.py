@@ -1,6 +1,15 @@
+# "Macro" define
+linux = 'linux'
+windows = 'win32'
+
+
 # Import and Setup
+## Cross-Plateform Support
+import sys
+if sys.platform.startswith(windows):
+    import winsound
+## Game
 import turtle
-import winsound
 import Playground
 import Ball
 import Paddle
