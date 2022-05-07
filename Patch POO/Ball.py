@@ -33,14 +33,12 @@ def collision_detection(balle):
     # inverse direction de la balle
         balle.sety(settings.up_border)
         balle.dy *= -1
-        if sys.platform.startswith(windows):
-            winsound.PlaySound("pong.wav", winsound.SND_ASYNC)
+        ppgame_playsound("../pong.wav")
 
     if balle.ycor() < settings.down_border:
         balle.sety(settings.down_border)
         balle.dy *= -1
-        if sys.platform.startswith(windows):
-            winsound.PlaySound("pong.wav", winsound.SND_ASYNC)
+        ppgame_playsound("../pong.wav")
 
     if balle.xcor() > settings.right_goal:
         balle.goto(0, 0)
@@ -67,11 +65,9 @@ def collision_detection(balle):
     if balle.xcor() > 340 and balle.xcor() < 350 and balle.ycor() < rightPaddle.ycor() + 40 and balle.ycor() > rightPaddle.ycor() - 40:
         balle.setx(340)
         balle.dx *= -1
-        if sys.platform.startswith(windows):
-            winsound.PlaySound("pong.wav", winsound.SND_ASYNC)
+        ppgame_playsound("../pong.wav")
 
     if  balle.xcor() < -340 and balle.xcor() > -350 and balle.ycor() > leftPaddle.ycor() - 40 and balle.ycor() < leftPaddle.ycor() + 40:
         balle.setx(-340)
         balle.dx *= -1
-        if sys.platform.startswith(windows):
-            winsound.PlaySound("pong.wav", winsound.SND_ASYNC)
+        ppgame_playsound("../pong.wav")
