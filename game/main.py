@@ -20,12 +20,26 @@ def ppgame_playsound(sound):
 
 import turtle
 import winsound
-from Playground import *
-from Ball import *
-from Paddle import *
+import Playground
+#import Ball
+#import Paddle
+
+try:
+    pen = Playground.Pen()
+    pen.initialisation(pen)
+except AttributeError as ae:
+    print(ae)
+    print("Le problème est dans le fichier Playground, et dans la dénomination de la classe Pen")
+
+try:
+    screen = Playground.Screen()
+    screen.initialisation(screen)
+except AttributeError as ae:
+    print(ae)
+    print("Le problème est dans le fichier Playground, et dans la dénomination de la classe Screen")
+
 
 
 while True:
     turtle.update()
-    collision_detection(ball)
 
