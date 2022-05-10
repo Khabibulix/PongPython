@@ -21,7 +21,7 @@ def ppgame_playsound(sound):
 import turtle
 import winsound
 import Playground
-#import Ball
+import Ball
 #import Paddle
 
 try:
@@ -36,10 +36,20 @@ try:
     screen.initialisation(screen)
 except AttributeError as ae:
     print(ae)
-    print("Le problème est dans le fichier Playground, et dans la dénomination de la classe Screen")
+    print("***Le problème est dans le fichier Playground, et dans la dénomination de la classe Screen***")
 
+try:
+    ball = turtle.Turtle()
+    Ball.initialisation(ball)
+except NameError as ne:
+    print(ne)
+    print("***Vérifier nommage de la classe Ball***")
+except AttributeError as ae:
+    print(ae)
+    print("***Modification du turtle dans initialisation() incorrect***")
 
 
 while True:
+    Ball.moving_the_ball()
     turtle.update()
 
