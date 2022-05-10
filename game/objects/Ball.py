@@ -1,29 +1,22 @@
 import turtle
 
-class Ball:
-
-    def initialisation(self, b):
-        b = turtle.Turtle()
-        b.shapesize(0.7, 0.7)
-        b.penup()
-        b.goto(0, 0)
-        #vitesse de la balle
-        b.dx = 0.25
-        b.dy = 0.25
-        #direction de la balle
-        b.setx(b.xcor() + b.dx)
-        b.sety(b.ycor() + b.dy)
+def initialisation(balle):
+    balle = turtle.Turtle()
+    balle.shapesize(0.7, 0.7)
+    balle.penup()
+    balle.goto(0, 0)
+    balle.color("white")
+    balle.shape("turtle")
 
 
-try:
-    ball = Ball()
-    ball.initialisation(ball)
-except NameError as ne:
-    print(ne)
-    print("Vérifier nommage de la classe Ball")
-except AttributeError as ae:
-    print(ae)
-    print("Modification du turtle dans initialisation() incorrect")
+def moving_the_ball():
+    ball = turtle.Turtle()
+    ball.dx = 0.25
+    ball.dy = 0.25
+    ball.setx(ball.xcor() + ball.dx)
+    ball.sety(ball.ycor() + ball.dy)
+    return ball
+
 
 
 def collision_detection(balle):
