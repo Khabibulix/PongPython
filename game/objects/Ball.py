@@ -11,8 +11,8 @@ def initialisation():
     return ball
 
 def moving_the_ball():
-    ball.dx = 0.25
-    ball.dy = 0.25
+    ball.dx = 0.15
+    ball.dy = 0.15
     ball.setx(ball.xcor() + ball.dx)
     ball.sety(ball.ycor() + ball.dy)
     return ball

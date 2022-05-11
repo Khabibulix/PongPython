@@ -1,57 +1,59 @@
 import turtle
-import Playground
+from Playground import screen
+from Playground import pen
 
+left_paddle = turtle.Turtle()
+right_paddle = turtle.Turtle()
 
-class Paddle:
-    def __init__(self, xcor):
-        self.xcor = xcor
+def paddles_initialisation():
+    initialisation_lp()
+    initialisation_rp()
 
-    def initialisation(self, p):
-        p = turtle.Turtle()
-        p.speed = 0
-        p.shape = "square"
-        p.color = "white"
-        p.shapesize(stretch_wid=5, stretch_len=1)
-        p.penup()
-        p.goto(self.xcor, 0)
+def initialisation_lp():
+    left_paddle.speed = 0
+    left_paddle.shape = "square"
+    left_paddle.color = "white"
+    left_paddle.shapesize(stretch_wid=5, stretch_len=1)
+    left_paddle.penup()
+    left_paddle.goto(350, 0)
+    return left_paddle
 
-    def moving_up(self, key_pressed):
-        screen = Playground.screen
-        screen = turtle.Screen()
-        if screen.onkeypress(key_pressed):
-            y = Paddle.ycor()
-            y += 20
-            Paddle.sety(y)
+def initialisation_rp():
+    right_paddle.speed = 0
+    right_paddle.shape = "square"
+    right_paddle.color = "white"
+    right_paddle.shapesize(stretch_wid=5, stretch_len=1)
+    right_paddle.penup()
+    right_paddle.goto(-350, 0)
+    return right_paddle
 
-    def moving_down(self, key_pressed):
-        screen = Playground.screen
-        screen = turtle.Screen()
-        if screen.onkeypress(key_pressed):
-            y = Paddle.ycor()
-            y -= 20
-            Paddle.sety(y)
+def left_paddle_moving_up(key_pressed):
+    if screen.onkeypress(key_pressed):
+        y = left_paddle.ycor()
+        y += 20
+        left_paddle.sety(y)
 
+def right_paddle_moving_up(key_pressed):
+    if screen.onkeypress(key_pressed):
+        y = right_paddle.ycor()
+        y += 20
+        left_paddle.sety(y)
 
-left_paddle = Paddle(xcor=-350)
-right_paddle = Paddle(xcor=350)
+def left_paddle_moving_down(key_pressed):
+    if screen.onkeypress(key_pressed):
+        y = left_paddle.ycor()
+        y -= 20
+        left_paddle.sety(y)
 
-try:
-    left_paddle.initialisation(left_paddle)
-    left_paddle.initialisation(right_paddle)
-except NameError as ne:
-    print(ne)
-    print("L'appel à initialisation est foireux!")
-    print("Ou alors les variables paddle sont mal définies")
-except AttributeError as ae:
-    print(ae)
-    print("Modification du turtle dans initialisation()")
+def right_paddle_moving_down(key_pressed):
+    if screen.onkeypress(key_pressed):
+        y = right_paddle.ycor()
+        y -= 20
+        right_paddle.sety(y)
 
+def key_binding():
+    left_paddle_moving_down(key_pressed="s")
+    left_paddle_moving_up(key_pressed="z")
+    right_paddle_moving_down(key_pressed="Down")
+    right_paddle_moving_up(key_pressed="Up")
 
-try:
-    left_paddle.moving_down(key_pressed="s")
-    left_paddle.moving_up(key_pressed="z")
-    right_paddle.moving_down(key_pressed="Down")
-    right_paddle.moving_up(key_pressed="Up")
-except NameError as ne:
-    print(ne)
-    print("Les variables paddle sont mal définies")

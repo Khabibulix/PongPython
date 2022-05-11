@@ -2,37 +2,30 @@ import turtle
 
 score_a = 0
 score_b = 0
+pen = turtle.Turtle()
+screen = turtle.Screen()
 
 
-class Pen:
-
-    def initialisation(self, p):
-        Pen = turtle.Turtle()
-        Pen.speed(0)
-        Pen.color("white")
-        Pen.penup()
-        Pen.hideturtle()
-        Pen.goto(0, 260)
-        Pen.write(""
-                  "Player A: 0\t"
-                  "Player B: 0",
-                  align="center",
-                  font=("Courier", 24, "normal")
-                  )
+def initialisation_pen():
+    pen.speed(0)
+    pen.color("white")
+    pen.penup()
+    pen.hideturtle()
+    pen.goto(0, 260)
+    pen.write(""
+              "Player A: 0\t"
+              "Player B: 0",
+              align="center",
+              font=("Courier", 24, "normal")
+              )
 
 
-class Screen:
-
-    def initialisation(self, s):
-        s = turtle.Screen()
-        s.title("Pong Me If You Can")
-        s.bgcolor("black")
-        s.setup(width=800, height=600)
-        s.tracer(0)
-        s.listen()
+def initialisation_screen():
+    screen.title("Pong Me If You Can")
+    screen.bgcolor("black")
+    screen.setup(width=800, height=600)
+    screen.tracer(0)
+    screen.listen()
+    return screen
 
 
-pen = Pen()
-pen.initialisation(pen)
-screen = Screen()
-screen.initialisation(screen)
