@@ -1,16 +1,16 @@
 import turtle
 
-def initialisation(balle):
-    balle = turtle.Turtle()
-    balle.shapesize(0.7, 0.7)
-    balle.penup()
-    balle.goto(0, 0)
-    balle.color("white")
-    balle.shape("turtle")
+ball = turtle.Turtle()
 
+def initialisation():
+    ball.shapesize(0.7, 0.7)
+    ball.penup()
+    ball.goto(0, 0)
+    ball.color("white")
+    ball.shape("turtle")
+    return ball
 
 def moving_the_ball():
-    ball = turtle.Turtle()
     ball.dx = 0.25
     ball.dy = 0.25
     ball.setx(ball.xcor() + ball.dx)
