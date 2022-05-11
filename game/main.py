@@ -20,28 +20,30 @@ def ppgame_playsound(sound):
 
 import turtle
 import winsound
-import Playground
 import Ball
-#import Paddle
+import Playground
+import Paddle
+from Playground import screen, pen, initialisation_pen, initialisation_screen
+
 
 try:
-    pen = Playground.Pen()
-    pen.initialisation(pen)
+    initialisation_pen()
 except AttributeError as ae:
     print("=================================================================")
     print(ae)
-    print("***Le problème est dans le fichier Playground***")
-    print("***ou alors dans la dénomination de la classe Pen***")
+    print("***Problem is in Playground file***")
+    print("***or in naming into initialisation_pen***")
     print("=================================================================")
+
 try:
-    screen = Playground.Screen()
-    screen.initialisation(screen)
+    initialisation_screen()
 except AttributeError as ae:
     print("=================================================================")
     print(ae)
-    print("***Problem is in Playground file")
+    print("***Problem is in Playground file***")
     print("***or in naming into screen***")
     print("=================================================================")
+
 try:
     Ball.initialisation()
 except NameError as ne:
@@ -53,6 +55,28 @@ except AttributeError as ae:
     print("=================================================================")
     print(ae)
     print("***Don't touch turtle in initialisation!***")
+    print("=================================================================")
+
+try:
+    Paddle.paddles_initialisation()
+except NameError as ne:
+    print("=================================================================")
+    print(ne)
+    print("***Shitty call for initialisation()***")
+    print("***Bad definition for paddle variables***")
+    print("=================================================================")
+except AttributeError as ae:
+    print("=================================================================")
+    print(ae)
+    print("***Don't touch turtle in initialisation!***")
+    print("=================================================================")
+
+try:
+    Paddle.key_binding()
+except NameError as ne:
+    print("=================================================================")
+    print(ne)
+    print("***Bad definition for paddle variables***")
     print("=================================================================")
 
 while True:
