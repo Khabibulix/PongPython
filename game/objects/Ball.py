@@ -8,19 +8,16 @@ def initialisation():
     ball.goto(0, 0)
     ball.color("white")
     ball.shape("turtle")
-    return ball
-
-def moving_the_ball():
+    ball.speed(0)
     ball.dx = 0.15
     ball.dy = 0.15
-    ball.setx(ball.xcor() + ball.dx)
-    ball.sety(ball.ycor() + ball.dy)
     return ball
-
 
 
 def collision_detection():
-    moving_the_ball()
+    ball.setx(ball.xcor() + ball.dx)
+    ball.sety(ball.ycor() + ball.dy)
+
     if ball.ycor() > 290:
     # inverse direction de la balle
         ball.sety(290)
