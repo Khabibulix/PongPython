@@ -19,46 +19,47 @@ def moving_the_ball():
 
 
 
-def collision_detection(balle):
-    if balle.ycor() > 290:
+def collision_detection():
+    moving_the_ball()
+    if ball.ycor() > 290:
     # inverse direction de la balle
-        balle.sety(290)
-        balle.dy *= -1
-        ppgame_playsound("../pong.wav")
+        ball.sety(290)
+        ball.dy *= -1
+        #ppgame_playsound("../pong.wav")
 
-    if balle.ycor() < -290:
-        balle.sety(-290)
-        balle.dy *= -1
-        ppgame_playsound("../pong.wav")
+    if ball.ycor() < -290:
+        ball.sety(-290)
+        ball.dy *= -1
+        #ppgame_playsound("../pong.wav")
 
-    if balle.xcor() > 390:
-        balle.goto(0, 0)
-        balle.dx *= -1
-        score_a += 1
+    if ball.xcor() > 390:
+        ball.goto(0, 0)
+        ball.dx *= -1
+        """score_a += 1
         pen.clear()
         pen.write("Player A: {} \t"
                   "Player B: {}".format(score_a, score_b),
                   align="center",
                   font=("Courier", 24, "normal")
-                  )
+                  )"""
 
-    if balle.xcor() < -390:
-        balle.goto(0, 0)
-        balle.dx *= -1
-        score_b += 1
+    if ball.xcor() < -390:
+        ball.goto(0, 0)
+        ball.dx *= -1
+        """score_b += 1
         pen.clear()
         pen.write("Player A: {} \t"
                   "Player B: {}".format(score_a, score_b),
                   align="center",
                   font=("Courier", 24, "normal")
-                  )
+                  )"""
 
-    if balle.xcor() > 340 and balle.xcor() < 350 and balle.ycor() < rightPaddle.ycor() + 40 and balle.ycor() > rightPaddle.ycor() - 40:
-        balle.setx(340)
-        balle.dx *= -1
+    """if ball.xcor() > 340 and ball.xcor() < 350 and ball.ycor() < rightPaddle.ycor() + 40 and ball.ycor() > rightPaddle.ycor() - 40:
+        ball.setx(340)
+        ball.dx *= -1
         ppgame_playsound("../pong.wav")
 
-    if  balle.xcor() < -340 and balle.xcor() > -350 and balle.ycor() > leftPaddle.ycor() - 40 and balle.ycor() < leftPaddle.ycor() + 40:
-        balle.setx(-340)
-        balle.dx *= -1
-        ppgame_playsound("../pong.wav")
+    if  ball.xcor() < -340 and ball.xcor() > -350 and ball.ycor() > leftPaddle.ycor() - 40 and ball.ycor() < leftPaddle.ycor() + 40:
+        ball.setx(-340)
+        ball.dx *= -1
+        ppgame_playsound("../pong.wav")"""
