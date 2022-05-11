@@ -28,26 +28,32 @@ try:
     pen = Playground.Pen()
     pen.initialisation(pen)
 except AttributeError as ae:
+    print("=================================================================")
     print(ae)
-    print("Le problème est dans le fichier Playground, et dans la dénomination de la classe Pen")
-
+    print("***Le problème est dans le fichier Playground***")
+    print("***ou alors dans la dénomination de la classe Pen***")
+    print("=================================================================")
 try:
     screen = Playground.Screen()
     screen.initialisation(screen)
 except AttributeError as ae:
+    print("=================================================================")
     print(ae)
-    print("***Le problème est dans le fichier Playground, et dans la dénomination de la classe Screen***")
-
+    print("***Problem is in Playground file")
+    print("***or in naming into screen***")
+    print("=================================================================")
 try:
-    ball = turtle.Turtle()
-    Ball.initialisation(ball)
+    Ball.initialisation()
 except NameError as ne:
+    print("=================================================================")
     print(ne)
-    print("***Vérifier nommage de la classe Ball***")
+    print("***Warning in Ball file***")
+    print("=================================================================")
 except AttributeError as ae:
+    print("=================================================================")
     print(ae)
-    print("***Modification du turtle dans initialisation() incorrect***")
-
+    print("***Don't touch turtle in initialisation!***")
+    print("=================================================================")
 
 while True:
     Ball.moving_the_ball()
