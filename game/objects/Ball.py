@@ -6,7 +6,7 @@ def initialisation():
     ball.shapesize(0.7, 0.7)
     ball.penup()
     ball.goto(0, 0)
-    ball.color("yellow")
+    ball.color("white")
     ball.shape("circle")
     ball.speed(0)
     ball.dx = 0.15

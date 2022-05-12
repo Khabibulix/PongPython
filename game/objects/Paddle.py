@@ -1,25 +1,25 @@
 import turtle
 import Playground
 
-
 right_paddle = turtle.Turtle()
 left_paddle = turtle.Turtle()
 
-def initialisation_rp():
-    right_paddle.speed = 0.2
-    right_paddle.shape = "square"
-    right_paddle.color = "white"
-    right_paddle.shapesize(stretch_wid=5, stretch_len=1)
-    right_paddle.penup()
-    right_paddle.goto(350, 0)
 
 def initialisation_lp():
-    left_paddle.speed = 0.2
-    left_paddle.shape = "square"
-    left_paddle.color = "white"
+    left_paddle.speed(0)
+    left_paddle.shape("square")
+    left_paddle.color("white")
     left_paddle.shapesize(stretch_wid=5, stretch_len=1)
     left_paddle.penup()
     left_paddle.goto(-350, 0)
+
+def initialisation_rp():
+    right_paddle.speed(0)
+    right_paddle.shape("square")
+    right_paddle.color("white")
+    right_paddle.shapesize(stretch_wid=5, stretch_len=1)
+    right_paddle.penup()
+    right_paddle.goto(350, 0)
 
 try:
     initialisation_lp()
@@ -36,7 +36,7 @@ except AttributeError as ae:
     print("***Don't touch turtle in initialisation!***")
     print("=================================================================")
 
-
+"""
 def left_paddle_moving_up(key_pressed):
     if Playground.screen.onkeypress(key_pressed):
         y = left_paddle.ycor()
@@ -74,5 +74,5 @@ except NameError as ne:
     print(ne.args)
     print("***Bad definition for paddle variables***")
     print("=================================================================")
-
+"""
 
