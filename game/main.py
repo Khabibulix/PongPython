@@ -15,15 +15,12 @@ def ppgame_playsound(sound):
         os.system("paplay " + sound)"""
 
 import turtle
-import winsound
 import Paddle
 import Ball
 import Playground
-from Playground import screen, pen, initialisation_pen, initialisation_screen
 
-
-
+Playground.screen.listen()
 while True:
     Ball.collision_detection()
-    turtle.update()
+    Playground.screen.update()
 
