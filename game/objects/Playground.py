@@ -25,7 +25,24 @@ def initialisation_screen():
     screen.bgcolor("black")
     screen.setup(width=800, height=600)
     screen.tracer(0)
-    screen.listen()
     return screen
+
+try:
+    initialisation_screen()
+except AttributeError as ae:
+    print("=================================================================")
+    print(ae)
+    print("***Problem is in Playground file***")
+    print("***or in naming into screen***")
+    print("=================================================================")
+
+try:
+    initialisation_pen()
+except AttributeError as ae:
+    print("=================================================================")
+    print(ae)
+    print("***Problem is in Playground file***")
+    print("***or in naming into initialisation_pen***")
+    print("=================================================================")
 
 

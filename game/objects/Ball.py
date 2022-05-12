@@ -6,12 +6,26 @@ def initialisation():
     ball.shapesize(0.7, 0.7)
     ball.penup()
     ball.goto(0, 0)
-    ball.color("white")
-    ball.shape("turtle")
+    ball.color("yellow")
+    ball.shape("circle")
     ball.speed(0)
     ball.dx = 0.15
     ball.dy = 0.15
     return ball
+
+
+try:
+    initialisation()
+except NameError as ne:
+    print("=================================================================")
+    print(ne.args)
+    print("***Warning in Ball file***")
+    print("=================================================================")
+except AttributeError as ae:
+    print("=================================================================")
+    print(ae.args)
+    print("***Don't touch turtle in initialisation!***")
+    print("=================================================================")
 
 
 def collision_detection():
@@ -60,3 +74,5 @@ def collision_detection():
         ball.setx(-340)
         ball.dx *= -1
         ppgame_playsound("../pong.wav")"""
+
+
