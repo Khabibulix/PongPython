@@ -3,7 +3,7 @@ import Playground
 
 right_paddle = turtle.Turtle()
 left_paddle = turtle.Turtle()
-
+screen = Playground.screen
 
 def initialisation_lp():
     left_paddle.speed(0)
@@ -36,43 +36,41 @@ except AttributeError as ae:
     print("***Don't touch turtle in initialisation!***")
     print("=================================================================")
 
-"""
-def left_paddle_moving_up(key_pressed):
-    if Playground.screen.onkeypress(key_pressed):
-        y = left_paddle.ycor()
-        y += 20
-        left_paddle.sety(y)
+"""Ici que ça foire, l'appli ne crashe pas mais aucune touche n'est détectée...
+Solutions possibles testées:
+.Mettre le keybinding dans une fonction et l'appeller depuis main, résultat > import en boucle foireux sans les touches
+.J'ai relu la doc turtle, apparemment la syntaxe est bonne
+.Tenté avec une lambda depuis stack overflow ici --> Google 'onkeypress function in turtle module problem'
+.J'ai débuggué comme j'ai pu, pas de résultats en vue
+.Simplification du problème avec la première fonction ci-dessous"""
 
-def right_paddle_moving_up(key_pressed):
-    if Playground.screen.onkeypress(key_pressed):
-        y = right_paddle.ycor()
-        y += 20
-        left_paddle.sety(y)
+def left_paddle_moving_up():
+    left_paddle.forward(20)
+    """y = left_paddle.ycor()
+    y += 20
+    left_paddle.sety(y)"""
+def right_paddle_moving_up():
+    """y = right_paddle.ycor()
+    y += 20
+    left_paddle.sety(y)"""
+def left_paddle_moving_down():
+    """y = left_paddle.ycor()
+    y -= 20
+    left_paddle.sety(y)"""
+def right_paddle_moving_down():
+    """y = right_paddle.ycor()
+    y -= 20
+    right_paddle.sety(y)"""
 
-def left_paddle_moving_down(key_pressed):
-    if Playground.screen.onkeypress(key_pressed):
-        y = left_paddle.ycor()
-        y -= 20
-        left_paddle.sety(y)
-
-def right_paddle_moving_down(key_pressed):
-    if Playground.screen.onkeypress(key_pressed):
-        y = right_paddle.ycor()
-        y -= 20
-        right_paddle.sety(y)
-
-def key_binding():
-    left_paddle_moving_down(key_pressed="s")
-    left_paddle_moving_up(key_pressed="z")
-    right_paddle_moving_down(key_pressed="Down")
-    right_paddle_moving_up(key_pressed="Up")
 
 try:
-    key_binding()
+    screen.listen()
+    screen.onkeypress(left_paddle_moving_down(), "s")
+    screen.onkeypress(left_paddle_moving_up(), "z")
+    screen.onkeypress(right_paddle_moving_down(), "Down")
+    screen.onkeypress(right_paddle_moving_up(), "Up")
 except NameError as ne:
     print("=================================================================")
     print(ne.args)
     print("***Bad definition for paddle variables***")
     print("=================================================================")
-"""
-
