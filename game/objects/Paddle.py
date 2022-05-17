@@ -36,39 +36,31 @@ except AttributeError as ae:
     print("***Don't touch turtle in initialisation!***")
     print("=================================================================")
 
-"""Ici que ça foire, l'appli ne crashe pas mais aucune touche n'est détectée...
-Solutions possibles testées:
-.Mettre le keybinding dans une fonction et l'appeller depuis main, résultat > import en boucle foireux sans les touches
-.J'ai relu la doc turtle, apparemment la syntaxe est bonne
-.Tenté avec une lambda depuis stack overflow ici --> Google 'onkeypress function in turtle module problem'
-.J'ai débuggué comme j'ai pu, pas de résultats en vue
-.Simplification du problème avec la première fonction ci-dessous"""
 
 def left_paddle_moving_up():
-    left_paddle.forward(20)
-    """y = left_paddle.ycor()
+    y = left_paddle.ycor()
     y += 20
-    left_paddle.sety(y)"""
+    left_paddle.sety(y)
 def right_paddle_moving_up():
-    """y = right_paddle.ycor()
+    y = right_paddle.ycor()
     y += 20
-    left_paddle.sety(y)"""
+    right_paddle.sety(y)
 def left_paddle_moving_down():
-    """y = left_paddle.ycor()
+    y = left_paddle.ycor()
     y -= 20
-    left_paddle.sety(y)"""
+    left_paddle.sety(y)
 def right_paddle_moving_down():
-    """y = right_paddle.ycor()
+    y = right_paddle.ycor()
     y -= 20
-    right_paddle.sety(y)"""
+    right_paddle.sety(y)
 
 
 try:
     screen.listen()
-    screen.onkeypress(left_paddle_moving_down(), "s")
-    screen.onkeypress(left_paddle_moving_up(), "z")
-    screen.onkeypress(right_paddle_moving_down(), "Down")
-    screen.onkeypress(right_paddle_moving_up(), "Up")
+    screen.onkeypress(left_paddle_moving_down, "s")
+    screen.onkeypress(left_paddle_moving_up, "z")
+    screen.onkeypress(right_paddle_moving_down, "Down")
+    screen.onkeypress(right_paddle_moving_up, "Up")
 except NameError as ne:
     print("=================================================================")
     print(ne.args)

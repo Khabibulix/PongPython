@@ -1,10 +1,13 @@
 import turtle
 import Playground
+import Paddle
 
 ball = turtle.Turtle()
 pen = Playground.pen
 score_a = Playground.score_a
 score_b = Playground.score_b
+rightPaddle = Paddle.right_paddle
+leftPaddle = Paddle.left_paddle
 
 def initialisation():
     ball.shapesize(0.7, 0.7)
@@ -13,8 +16,8 @@ def initialisation():
     ball.color("white")
     ball.shape("circle")
     ball.speed(0)
-    ball.dx = 0.15
-    ball.dy = 0.15
+    ball.dx = 0.2
+    ball.dy = 0.2
     return ball
 
 
@@ -71,14 +74,14 @@ def collision_detection():
                   )
         score_b += 1
 
-    """if ball.xcor() > 340 and ball.xcor() < 350 and ball.ycor() < rightPaddle.ycor() + 40 and ball.ycor() > rightPaddle.ycor() - 40:
+    if ball.xcor() > 340 and ball.xcor() < 350 and ball.ycor() < rightPaddle.ycor() + 40 and ball.ycor() > rightPaddle.ycor() - 40:
         ball.setx(340)
         ball.dx *= -1
-        ppgame_playsound("../pong.wav")
+        #ppgame_playsound("../pong.wav")
 
     if  ball.xcor() < -340 and ball.xcor() > -350 and ball.ycor() > leftPaddle.ycor() - 40 and ball.ycor() < leftPaddle.ycor() + 40:
         ball.setx(-340)
         ball.dx *= -1
-        ppgame_playsound("../pong.wav")"""
+        #ppgame_playsound("../pong.wav")
 
 
