@@ -18,9 +18,11 @@ if sys.platform.startswith(windows):
 #               MACRO                #
 ##~~~~~~~~~~~~~~~~-~~~~~~~~~~~~~~~~~##
 """ SOUND - UNUSED
-linux = 'linux'
-windows = 'win32'
+OS_LINUX = 'linux'
+OS_LINUX = 'win32'
 """
+DEFAULT_WIDTH = 800
+DEFAULT_HEIGHT = 600
 ##~~~~~~~~~~~~~~~~-~~~~~~~~~~~~~~~~~##
 #              GLOBAL                #
 ##~~~~~~~~~~~~~~~~-~~~~~~~~~~~~~~~~~##
@@ -58,7 +60,7 @@ def initialisation_pen():
 def initialisation_screen():
     screen.title("Pong Me If You Can")
     screen.bgcolor("black")
-    screen.setup(width=800, height=600)
+    screen.setup(width = DEFAULT_WIDTH, height = DEFAULT_HEIGHT)
     screen.tracer(0)
     return screen
 
