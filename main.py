@@ -32,7 +32,7 @@ pen = turtle.Turtle()
 screen = turtle.Screen()
 rightPaddle = turtle.Turtle()
 leftPaddle = turtle.Turtle()
-ball = turtle.Turtle()
+ball_list = []
 ##~~~~~~~~~~~~~~~~-~~~~~~~~~~~~~~~~~##
 #              FUNCTION              #
 ##~~~~~~~~~~~~~~~~-~~~~~~~~~~~~~~~~~##
@@ -129,20 +129,15 @@ def rightPaddle_moving_down():
     y = rightPaddle.ycor()
     y -= 20
     rightPaddle.sety(y)
+def ball_create():
+    global ball_list
+    ball_list.append(ball_initialisation())
+    print(ball_list)
 
-try:
-    screen.listen()
-    screen.onkeypress(leftPaddle_moving_down, "s")
-    screen.onkeypress(leftPaddle_moving_up, "z")
-    screen.onkeypress(rightPaddle_moving_down, "Down")
-    screen.onkeypress(rightPaddle_moving_up, "Up")
-except NameError as ne:
-    print("=================================================================")
-    print(ne.args)
-    print("***Bad definition for paddle variables***")
-    print("=================================================================")
 
-def initialisation():
+# BALL INIT
+def ball_initialisation():
+    ball = turtle.Turtle()
     ball.shapesize(0.7, 0.7)
     ball.penup()
     ball.goto(0, 0)
@@ -153,8 +148,9 @@ def initialisation():
     ball.dy = 0.2
     return ball
 
+"""
 try:
-    initialisation()
+    ball_initialisation()
 except NameError as ne:
     print("=================================================================")
     print(ne.args)
@@ -165,8 +161,10 @@ except AttributeError as ae:
     print(ae.args)
     print("***Don't touch turtle in initialisation!***")
     print("=================================================================")
+"""
 
-def collision_detection():
+# BALL MOVEMENT
+def collision_detection(ball):
     global score_a
     global score_b
     ball.setx(ball.xcor() + ball.dx)
@@ -216,8 +214,24 @@ def collision_detection():
         #ppgame_playsound("../pong.wav")
 
 ##~~~~~~~~~~~~~~~~-~~~~~~~~~~~~~~~~~##
+#               INPUT                #
+##~~~~~~~~~~~~~~~~-~~~~~~~~~~~~~~~~~##
+try:
+    screen.listen()
+    screen.onkeypress(leftPaddle_moving_down, "s")
+    screen.onkeypress(leftPaddle_moving_up, "z")
+    screen.onkeypress(rightPaddle_moving_down, "Down")
+    screen.onkeypress(rightPaddle_moving_up, "Up")
+    screen.onkeypress(ball_create, "p")
+except NameError as ne:
+    print("=================================================================")
+    print(ne.args)
+    print("***Bad definition for paddle variables***")
+    print("=================================================================")
+##~~~~~~~~~~~~~~~~-~~~~~~~~~~~~~~~~~##
 #               MAIN                 #
 ##~~~~~~~~~~~~~~~~-~~~~~~~~~~~~~~~~~##
 while True:
-    collision_detection()
+    for i in ball_list:
+        collision_detection(i)
     screen.update()
