@@ -1,20 +1,29 @@
-"""linux = 'linux'
-windows = 'win32'
-
+##~~~~~~~~~~~~~~~~-~~~~~~~~~~~~~~~~~##
+#             PongPython             #
+##~~~~~~~~~~~~~~~~-~~~~~~~~~~~~~~~~~##
+######################################
+##~~~~~~~~~~~~~~~~-~~~~~~~~~~~~~~~~~##
+#              IMPORT                #
+##~~~~~~~~~~~~~~~~-~~~~~~~~~~~~~~~~~##
+import turtle
+""" SOUND - UNUSED
 # Import and Setup
 ## Cross-Plateform Support
 import sys
 import os
 if sys.platform.startswith(windows):
     import winsound
-
-def ppgame_playsound(sound):
-    if sys.platform.startswith(windows):
-        winsound.PlaySound(sound, winsound.SND_ASYNC)
-    if sys.platform.startswith(linux):
-        os.system("paplay " + sound)"""
-import turtle
-
+"""
+##~~~~~~~~~~~~~~~~-~~~~~~~~~~~~~~~~~##
+#               MACRO                #
+##~~~~~~~~~~~~~~~~-~~~~~~~~~~~~~~~~~##
+""" SOUND - UNUSED
+linux = 'linux'
+windows = 'win32'
+"""
+##~~~~~~~~~~~~~~~~-~~~~~~~~~~~~~~~~~##
+#              GLOBAL                #
+##~~~~~~~~~~~~~~~~-~~~~~~~~~~~~~~~~~##
 score_a = 0
 score_b = 0
 pen = turtle.Turtle()
@@ -22,7 +31,16 @@ screen = turtle.Screen()
 rightPaddle = turtle.Turtle()
 leftPaddle = turtle.Turtle()
 ball = turtle.Turtle()
-
+##~~~~~~~~~~~~~~~~-~~~~~~~~~~~~~~~~~##
+#              FUNCTION              #
+##~~~~~~~~~~~~~~~~-~~~~~~~~~~~~~~~~~##
+""" SOUND - UNUSED
+def ppgame_playsound(sound):
+    if sys.platform.startswith(windows):
+        winsound.PlaySound(sound, winsound.SND_ASYNC)
+    if sys.platform.startswith(linux):
+        os.system("paplay " + sound)
+"""
 
 def initialisation_pen():
     pen.speed(0)
@@ -36,7 +54,6 @@ def initialisation_pen():
               align="center",
               font=("Courier", 24, "normal")
               )
-
 
 def initialisation_screen():
     screen.title("Pong Me If You Can")
@@ -62,7 +79,6 @@ except AttributeError as ae:
     print("***Problem is in Playground file***")
     print("***or in naming into initialisation_pen***")
     print("=================================================================")
-
 
 def initialisation_lp():
     leftPaddle.speed(0)
@@ -95,7 +111,6 @@ except AttributeError as ae:
     print("***Don't touch turtle in initialisation!***")
     print("=================================================================")
 
-
 def leftPaddle_moving_up():
     y = leftPaddle.ycor()
     y += 20
@@ -113,7 +128,6 @@ def rightPaddle_moving_down():
     y -= 20
     rightPaddle.sety(y)
 
-
 try:
     screen.listen()
     screen.onkeypress(leftPaddle_moving_down, "s")
@@ -126,7 +140,6 @@ except NameError as ne:
     print("***Bad definition for paddle variables***")
     print("=================================================================")
 
-
 def initialisation():
     ball.shapesize(0.7, 0.7)
     ball.penup()
@@ -137,7 +150,6 @@ def initialisation():
     ball.dx = 0.2
     ball.dy = 0.2
     return ball
-
 
 try:
     initialisation()
@@ -151,7 +163,6 @@ except AttributeError as ae:
     print(ae.args)
     print("***Don't touch turtle in initialisation!***")
     print("=================================================================")
-
 
 def collision_detection():
     global score_a
@@ -202,8 +213,9 @@ def collision_detection():
         ball.dx *= -1
         #ppgame_playsound("../pong.wav")
 
-
+##~~~~~~~~~~~~~~~~-~~~~~~~~~~~~~~~~~##
+#               MAIN                 #
+##~~~~~~~~~~~~~~~~-~~~~~~~~~~~~~~~~~##
 while True:
     collision_detection()
     screen.update()
-
