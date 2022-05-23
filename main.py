@@ -34,7 +34,7 @@ screen = turtle.Screen()
 rightPaddle = turtle.Turtle()
 leftPaddle = turtle.Turtle()
 ball_list = []
-ball_color_list = ["purple","yellow","green","pink","purple","brown","blue","lightblue"]
+ball_color_list = ["purple","yellow","green","pink","gray","brown","blue","lightblue"]
 ##~~~~~~~~~~~~~~~~-~~~~~~~~~~~~~~~~~##
 #              FUNCTION              #
 ##~~~~~~~~~~~~~~~~-~~~~~~~~~~~~~~~~~##
@@ -115,6 +115,19 @@ except AttributeError as ae:
     print("***Don't touch turtle in initialisation!***")
     print("=================================================================")
 
+def adding_bot(ball):
+    #problem encountered: IA paddle is getting away, possible solutions: add a condition to make it stick inside
+    if ball.ycor() < 25:
+        print(f"{ball.ycor()} est plus petit que {leftPaddle.ycor()}")
+        leftPaddle_moving_up()
+    if ball.ycor() > -25:
+        print(f"{ball.ycor()} est plus grand que {leftPaddle.ycor()}")
+        leftPaddle_moving_down()
+
+
+
+
+
 def leftPaddle_moving_up():
     y = leftPaddle.ycor()
     y += 20
@@ -134,7 +147,7 @@ def rightPaddle_moving_down():
 def ball_create():
     global ball_list
     ball_list.append(ball_initialisation())
-    print(ball_list)
+
 
 
 
@@ -152,20 +165,6 @@ def ball_initialisation():
     ball.dy = 0.2
     return ball
 
-"""
-try:
-    ball_initialisation()
-except NameError as ne:
-    print("=================================================================")
-    print(ne.args)
-    print("***Warning in Ball file***")
-    print("=================================================================")
-except AttributeError as ae:
-    print("=================================================================")
-    print(ae.args)
-    print("***Don't touch turtle in initialisation!***")
-    print("=================================================================")
-"""
 
 # BALL MOVEMENT
 def collision_detection(ball):
@@ -222,21 +221,25 @@ def collision_detection(ball):
 ##~~~~~~~~~~~~~~~~-~~~~~~~~~~~~~~~~~##
 try:
     screen.listen()
-    screen.onkeypress(leftPaddle_moving_down, "s")
-    screen.onkeypress(leftPaddle_moving_up, "z")
+    #screen.onkeypress(leftPaddle_moving_down, "s")
+    #screen.onkeypress(leftPaddle_moving_up, "z")
     screen.onkeypress(rightPaddle_moving_down, "Down")
     screen.onkeypress(rightPaddle_moving_up, "Up")
     screen.onkeypress(ball_create, "p")
+
 except NameError as ne:
     print("=================================================================")
     print(ne.args)
     print("***Bad definition for paddle variables***")
     print("=================================================================")
+
+
 ##~~~~~~~~~~~~~~~~-~~~~~~~~~~~~~~~~~##
 #               MAIN                 #
 ##~~~~~~~~~~~~~~~~-~~~~~~~~~~~~~~~~~##
 while True:
     for i in ball_list:
         collision_detection(i)
+        adding_bot(i)
     screen.update()
 
