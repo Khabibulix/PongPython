@@ -6,6 +6,7 @@
 #              IMPORT                #
 ##~~~~~~~~~~~~~~~~-~~~~~~~~~~~~~~~~~##
 import turtle
+import random
 """ SOUND - UNUSED
 # Import and Setup
 ## Cross-Plateform Support
@@ -33,6 +34,7 @@ screen = turtle.Screen()
 rightPaddle = turtle.Turtle()
 leftPaddle = turtle.Turtle()
 ball_list = []
+ball_color_list = ["purple","yellow","green","pink","purple","brown","blue","lightblue"]
 ##~~~~~~~~~~~~~~~~-~~~~~~~~~~~~~~~~~##
 #              FUNCTION              #
 ##~~~~~~~~~~~~~~~~-~~~~~~~~~~~~~~~~~##
@@ -135,13 +137,15 @@ def ball_create():
     print(ball_list)
 
 
+
+
 # BALL INIT
 def ball_initialisation():
     ball = turtle.Turtle()
     ball.shapesize(0.7, 0.7)
     ball.penup()
     ball.goto(0, 0)
-    ball.color("white")
+    ball.color(random.choice(ball_color_list))
     ball.shape("circle")
     ball.speed(0)
     ball.dx = 0.2
@@ -235,3 +239,4 @@ while True:
     for i in ball_list:
         collision_detection(i)
     screen.update()
+
