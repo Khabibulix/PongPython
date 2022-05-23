@@ -116,13 +116,24 @@ except AttributeError as ae:
     print("=================================================================")
 
 def adding_bot(ball):
-    #problem encountered: IA paddle is getting away, possible solutions: add a condition to make it stick inside
-    if ball.ycor() < 25:
-        print(f"{ball.ycor()} est plus petit que {leftPaddle.ycor()}")
-        leftPaddle_moving_up()
-    if ball.ycor() > -25:
-        print(f"{ball.ycor()} est plus grand que {leftPaddle.ycor()}")
-        leftPaddle_moving_down()
+   #if the ball is coming fast from the other side, we moves, else we do nothing
+   if ball.xcor() < -100:
+        if ball.ycor() < leftPaddle.ycor():
+            print(f"{ball.ycor()} est plus petit que {leftPaddle.ycor()}")
+            leftPaddle_moving_down()
+            print(f"Après mouvement on a {leftPaddle.ycor()}")
+        if ball.ycor() > leftPaddle.ycor():
+            print(f"{ball.ycor()} est plus grand que {leftPaddle.ycor()}")
+            leftPaddle_moving_up()
+            print(f"Après mouvement on a {leftPaddle.ycor()}")
+   else:
+    pass
+
+    #conditions to make it stick inside but it cannot understand how to catch the ball
+    """if leftPaddle.ycor() < -360:
+        leftPaddle.sety(-250)
+    if leftPaddle.ycor() > 360:
+            leftPaddle.sety(250)"""
 
 
 
