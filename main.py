@@ -34,6 +34,9 @@ screen = turtle.Screen()
 rightPaddle = turtle.Turtle()
 leftPaddle = turtle.Turtle()
 ball_list = []
+paddle_list = []
+adding_ia = False
+ia_choice = random.randint(0,1)
 ball_color_list = ["purple","yellow","green","pink","gray","brown","blue","lightblue"]
 ##~~~~~~~~~~~~~~~~-~~~~~~~~~~~~~~~~~##
 #              FUNCTION              #
@@ -91,6 +94,7 @@ def initialisation_lp():
     leftPaddle.shapesize(stretch_wid=5, stretch_len=1)
     leftPaddle.penup()
     leftPaddle.goto(-350, 0)
+    return leftPaddle
 
 def initialisation_rp():
     rightPaddle.speed(0)
@@ -99,6 +103,7 @@ def initialisation_rp():
     rightPaddle.shapesize(stretch_wid=5, stretch_len=1)
     rightPaddle.penup()
     rightPaddle.goto(350, 0)
+    return rightPaddle
 
 try:
     initialisation_lp()
@@ -119,21 +124,29 @@ def adding_bot(ball):
    #if the ball is coming fast from the other side, we moves, else we do nothing
    if ball.xcor() < -100:
         if ball.ycor() < leftPaddle.ycor():
-            print(f"{ball.ycor()} est plus petit que {leftPaddle.ycor()}")
             leftPaddle_moving_down()
-            print(f"Après mouvement on a {leftPaddle.ycor()}")
         if ball.ycor() > leftPaddle.ycor():
-            print(f"{ball.ycor()} est plus grand que {leftPaddle.ycor()}")
             leftPaddle_moving_up()
-            print(f"Après mouvement on a {leftPaddle.ycor()}")
-   else:
-    pass
+   else: #we want the paddle to be less "rusty"
+       if ia_choice == 0:
+           leftPaddle_moving_up()
+       else:
+           leftPaddle_moving_down()
+
+def activate_ia():
+    adding_ia = True
+
+
 
     #conditions to make it stick inside but it cannot understand how to catch the ball
     """if leftPaddle.ycor() < -360:
         leftPaddle.sety(-250)
     if leftPaddle.ycor() > 360:
             leftPaddle.sety(250)"""
+
+def playing_with_human():
+    screen.onkeypress(leftPaddle_moving_down, "s")
+    screen.onkeypress(leftPaddle_moving_up, "z")
 
 
 
@@ -143,22 +156,30 @@ def leftPaddle_moving_up():
     y = leftPaddle.ycor()
     y += 20
     leftPaddle.sety(y)
+
 def rightPaddle_moving_up():
     y = rightPaddle.ycor()
     y += 20
     rightPaddle.sety(y)
+
 def leftPaddle_moving_down():
     y = leftPaddle.ycor()
     y -= 20
     leftPaddle.sety(y)
+
 def rightPaddle_moving_down():
     y = rightPaddle.ycor()
     y -= 20
     rightPaddle.sety(y)
+
 def ball_create():
     global ball_list
     ball_list.append(ball_initialisation())
 
+def paddle_create():
+    global paddle_list
+    paddle_list.append(initialisation_lp())
+    paddle_list.append(initialisation_rp())
 
 
 
@@ -232,13 +253,14 @@ def collision_detection(ball):
 ##~~~~~~~~~~~~~~~~-~~~~~~~~~~~~~~~~~##
 try:
     screen.listen()
-    #screen.onkeypress(leftPaddle_moving_down, "s")
-    #screen.onkeypress(leftPaddle_moving_up, "z")
+
+    screen.onkeypress(playing_with_human, "2")
+    screen.onkeypress(adding_ia, "1")
     screen.onkeypress(rightPaddle_moving_down, "Down")
     screen.onkeypress(rightPaddle_moving_up, "Up")
     screen.onkeypress(ball_create, "p")
 
-except NameError as ne:
+except NameError as ne: 
     print("=================================================================")
     print(ne.args)
     print("***Bad definition for paddle variables***")
@@ -251,6 +273,7 @@ except NameError as ne:
 while True:
     for i in ball_list:
         collision_detection(i)
-        adding_bot(i)
+        if adding_ia:
+            adding_bot(i)
     screen.update()
 
