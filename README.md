@@ -1,4 +1,6 @@
 <h1>PongPython</h1>
+The objective of this project is to practice the <b>Turtle Module</b> and the language <b>Python</b> by dissecting with all due respect that old game that is Pong. A very basic IA was implemented and do the job, without letting one ball go away.
+
 
 <h3>Controls</h3>
 <pre>
@@ -11,6 +13,12 @@
         "z" for getting up
         "s" for getting down
  </pre>
+
+
+<h2>GENERAL TODO</h2>
+- [] Make the IA more easy to fight? Levels of difficulty?
+<hr>
+- [] Fix the paddle exiting the playground in not full window?
 
 
 <hr>
@@ -26,8 +34,3 @@
 <hr>
 - [] Cheat mode to see trajectory, etc.(/3)
 <hr>
-
-<h2>TODO</h2>
-- [] Make the IA more easy to fight? Levels of difficulty?
-- [] Fix the paddle exiting the playground in not full window?
-    
