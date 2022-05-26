@@ -35,12 +35,10 @@ rightPaddle = turtle.Turtle()
 leftPaddle = turtle.Turtle()
 ball_list = []
 paddle_list = []
-adding_ia = False
+adding_ia = True
 ia_choice = random.randint(0,1)
 ball_color_list = ["purple","yellow","green","pink","gray","brown","blue","lightblue"]
-##~~~~~~~~~~~~~~~~-~~~~~~~~~~~~~~~~~##
-#              FUNCTION              #
-##~~~~~~~~~~~~~~~~-~~~~~~~~~~~~~~~~~##
+
 """ SOUND - UNUSED
 def ppgame_playsound(sound):
     if sys.platform.startswith(windows):
@@ -48,6 +46,9 @@ def ppgame_playsound(sound):
     if sys.platform.startswith(linux):
         os.system("paplay " + sound)
 """
+##~~~~~~~~~~~~~~~~-~~~~~~~~~~~~~~~~~##
+#              FUNCTIONS             #
+##~~~~~~~~~~~~~~~~-~~~~~~~~~~~~~~~~~##
 
 def initialisation_pen():
     pen.speed(0)
@@ -127,30 +128,27 @@ def adding_bot(ball):
             leftPaddle_moving_down()
         if ball.ycor() > leftPaddle.ycor():
             leftPaddle_moving_up()
-   else: #we want the paddle to be less "rusty"
-       if ia_choice == 0:
-           leftPaddle_moving_up()
-       else:
-           leftPaddle_moving_down()
+   else:
+       pass
+
 
 def activate_ia():
+    global adding_ia
     adding_ia = True
-
-
-
-    #conditions to make it stick inside but it cannot understand how to catch the ball
-    """if leftPaddle.ycor() < -360:
-        leftPaddle.sety(-250)
-    if leftPaddle.ycor() > 360:
-            leftPaddle.sety(250)"""
+    return adding_ia
 
 def playing_with_human():
     screen.onkeypress(leftPaddle_moving_down, "s")
     screen.onkeypress(leftPaddle_moving_up, "z")
+    global adding_ia
+    adding_ia = False
+    return adding_ia
 
 
 
-
+##~~~~~~~~~~~~~~~~-~~~~~~~~~~~~~~~~~##
+#              USER INPUT            #
+##~~~~~~~~~~~~~~~~-~~~~~~~~~~~~~~~~~##
 
 def leftPaddle_moving_up():
     y = leftPaddle.ycor()
@@ -183,8 +181,6 @@ def paddle_create():
 
 
 
-
-# BALL INIT
 def ball_initialisation():
     ball = turtle.Turtle()
     ball.shapesize(0.7, 0.7)
@@ -253,9 +249,8 @@ def collision_detection(ball):
 ##~~~~~~~~~~~~~~~~-~~~~~~~~~~~~~~~~~##
 try:
     screen.listen()
-
     screen.onkeypress(playing_with_human, "2")
-    screen.onkeypress(adding_ia, "1")
+    screen.onkeypress(activate_ia, "1")
     screen.onkeypress(rightPaddle_moving_down, "Down")
     screen.onkeypress(rightPaddle_moving_up, "Up")
     screen.onkeypress(ball_create, "p")
