@@ -7,6 +7,7 @@
 ##~~~~~~~~~~~~~~~~-~~~~~~~~~~~~~~~~~##
 import turtle
 import random
+import math
 """ SOUND - UNUSED
 # Import and Setup
 ## Cross-Plateform Support
@@ -51,13 +52,15 @@ def ppgame_playsound(sound):
 
 def get_posx_and_posy(position_tuple):
     pos_list = list(position_tuple)
+    global posx
+    global posy
     posx = pos_list[0]
     posy = pos_list[1]
-    if posx == posy:
-        print("posx et posy sont égaux")
-    else:
-        print("posx is:",posx)
-        print("posy is:",posy)
+
+def calculate_length_to_goal(x_position, y_position):
+    #Pythagoras
+    goal = math.sqrt((x_position ** 2) + (y_position ** 2))
+    print("goal is:",goal)
 
 def initialisation_pen():
     pen.speed(0)
@@ -279,6 +282,7 @@ while True:
     for i in ball_list:
         collision_detection(i)
         get_posx_and_posy(i.pos())
+        calculate_length_to_goal(posx, posy)
         if adding_ia:
             adding_bot(i)
     screen.update()
