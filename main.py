@@ -37,6 +37,7 @@ leftPaddle = turtle.Turtle()
 ball_list = []
 paddle_list = []
 adding_ia = True
+shock = False
 ball_color_list = ["purple","yellow","green","pink","gray","brown","blue","lightblue"]
 
 """ SOUND - UNUSED
@@ -59,8 +60,10 @@ def get_posx_and_posy(position_tuple):
 
 def calculate_length_to_goal(x_position, y_position):
     #Pythagoras
+    #make goal as global to add some instructions to IA?
     goal = math.sqrt((x_position ** 2) + (y_position ** 2))
-    print("goal is:",goal)
+    return goal
+
 
 def initialisation_pen():
     pen.speed(0)
@@ -135,14 +138,18 @@ except AttributeError as ae:
 
 
 def adding_bot(ball):
+   global shock
    #if the ball is coming fast from the other side, we moves, else we do nothing
-   if ball.xcor() < -100:
-        if ball.ycor() < leftPaddle.ycor()  and ia_choice > 3:
+   if ball.xcor() < -100 and ball.ycor():
+        if ball.ycor() < leftPaddle.ycor() and not shock:
+            leftPaddle.speed(50)
             leftPaddle_moving_down()
-        if ball.ycor() > leftPaddle.ycor() and ia_choice > 3:
+        if ball.ycor() > leftPaddle.ycor() and not shock:
+            leftPaddle.speed(50)
             leftPaddle_moving_up()
    else:
-       pass
+        shock = False
+
 
 
 def activate_ia():
@@ -209,6 +216,7 @@ def ball_initialisation():
 
 # BALL MOVEMENT
 def collision_detection(ball):
+    global shock
     global score_a
     global score_b
     ball.setx(ball.xcor() + ball.dx)
@@ -250,11 +258,13 @@ def collision_detection(ball):
     if ball.xcor() > 340 and ball.xcor() < 350 and ball.ycor() < rightPaddle.ycor() + 40 and ball.ycor() > rightPaddle.ycor() - 40:
         ball.setx(340)
         ball.dx *= -1
+        shock = True
         #ppgame_playsound("../pong.wav")
 
     if  ball.xcor() < -340 and ball.xcor() > -350 and ball.ycor() > leftPaddle.ycor() - 40 and ball.ycor() < leftPaddle.ycor() + 40:
         ball.setx(-340)
         ball.dx *= -1
+        shock = True
         #ppgame_playsound("../pong.wav")
 
 ##~~~~~~~~~~~~~~~~-~~~~~~~~~~~~~~~~~##
@@ -278,7 +288,6 @@ except NameError as ne:
 #               MAIN                 #
 ##~~~~~~~~~~~~~~~~-~~~~~~~~~~~~~~~~~##
 while True:
-    ia_choice = random.randint(0, 10)
     for i in ball_list:
         collision_detection(i)
         get_posx_and_posy(i.pos())
