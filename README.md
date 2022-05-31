@@ -24,7 +24,7 @@ The objective of this project is to practice the <b>Turtle Module</b> and the la
 <hr>
 <h3>Updates ideas and level of difficulty on a /5</h3>
 <hr>
-- [] Make the paddle smaller(/1)
+- [x] Make the paddle smaller(/1)
 <hr>
 - [] Increment the ball speed at each bouncing(/2)
 <hr>
