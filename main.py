@@ -62,6 +62,11 @@ def calculate_length_to_goal(x_position, y_position):
     #Pythagoras
     #make goal as global to add some instructions to IA?
     goal = math.sqrt((x_position ** 2) + (y_position ** 2))
+    '''cheatmode = turtle.Turtle()
+    cheatmode.color("white")
+    cheatmode.pendown()
+    cheatmode.goto(x_position - goal, y_position - goal)'''
+
     return goal
 
 
@@ -210,8 +215,8 @@ def ball_initialisation():
     ball.color(random.choice(ball_color_list))
     ball.shape("circle")
     ball.speed(10)
-    ball.dx = random.choice([0.2, -0.2])
-    ball.dy = random.choice([0.2, -0.2])
+    ball.dx = random.choice([0.2, -0.2, 0.3, -0.3, 0.4, -0.4])
+    ball.dy = random.choice([0.2, -0.2, 0.3, -0.3, 0.4, -0.4])
     return ball
 
 
