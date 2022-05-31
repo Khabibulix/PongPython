@@ -190,6 +190,7 @@ def rightPaddle_moving_down():
     y -= 20
     rightPaddle.sety(y)
 
+
 def ball_create():
     global ball_list
     ball_list.append(ball_initialisation())
@@ -208,9 +209,9 @@ def ball_initialisation():
     ball.goto(0, 0)
     ball.color(random.choice(ball_color_list))
     ball.shape("circle")
-    ball.speed(0)
-    ball.dx = 0.2
-    ball.dy = 0.2
+    ball.speed(10)
+    ball.dx = random.choice([0.2, -0.2])
+    ball.dy = random.choice([0.2, -0.2])
     return ball
 
 
