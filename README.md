@@ -5,6 +5,7 @@ The objective of this project is to practice the <b>Turtle Module</b> and the la
 <h3>Controls</h3>
 <pre>
     "p" to spawn one ball or many balls
+    "c" to add cheat mode
     "1" to play alone and let the IA control the <b>left</b> paddle
         "Up Arrow" to go up
         "Down Arrow" to go down
