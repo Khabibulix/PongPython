@@ -53,6 +53,7 @@ def ppgame_playsound(sound):
 ##~~~~~~~~~~~~~~~~-~~~~~~~~~~~~~~~~~##
 
 def initialisation_pen():
+
     pen.speed(0)
     pen.color("white")
     pen.penup()
@@ -144,9 +145,9 @@ def activate_ia():
     return adding_ia
 
 def activate_cheat():
-    global adding_cheat
-    adding_cheat = True
-    return adding_cheat
+    global adding_cheat_mode
+    adding_cheat_mode = True
+    return adding_cheat_mode
 
 def playing_with_human():
     screen.onkeypress(leftPaddle_moving_down, "s")
@@ -191,6 +192,7 @@ def paddle_create():
 
 def ball_initialisation():
     ball = turtle.Turtle()
+    ball.penup()
     ball.shapesize(0.7, 0.7)
     ball.goto(0, 0)
     ball.color(random.choice(ball_color_list))
@@ -198,15 +200,17 @@ def ball_initialisation():
     ball.speed(40)
     ball.dx = random.choice([0.2, -0.2, 0.3, -0.3, 0.4, -0.4])
     ball.dy = random.choice([0.2, -0.2, 0.3, -0.3, 0.4, -0.4])
-    if adding_cheat_mode:
-        ball.pendown()
-        ball.pen(speed=60, pencolor="red")
     return ball
 
 
 
 # BALL MOVEMENT
 def collision_detection(ball):
+    """
+    Adding collision detection to the ball. If it encounters a border or a paddlle, it bounces back
+    :param ball:
+    :return:
+    """
     global shock
     global score_a
     global score_b
@@ -293,5 +297,8 @@ while True:
         collision_detection(i)
         if adding_ia:
             adding_bot(i)
+        if adding_cheat_mode:
+            i.pendown()
+            i.pen(speed=60, pencolor="red")
     screen.update()
 
