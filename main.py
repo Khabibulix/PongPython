@@ -34,10 +34,11 @@ pen = turtle.Turtle()
 screen = turtle.Screen()
 rightPaddle = turtle.Turtle()
 leftPaddle = turtle.Turtle()
+trace_ray = turtle.Turtle()
 ball_list = []
 paddle_list = []
 adding_ia = False
-adding_cheat_mode = False
+#adding_cheat_mode = False
 shock = False
 ball_color_list = ["purple","yellow","green","pink","gray","brown","blue","lightblue"]
 
@@ -144,10 +145,10 @@ def activate_ia():
     adding_ia = True
     return adding_ia
 
-def activate_cheat():
+"""def activate_cheat():
     global adding_cheat_mode
     adding_cheat_mode = True
-    return adding_cheat_mode
+    return adding_cheat_mode"""
 
 def playing_with_human():
     screen.onkeypress(leftPaddle_moving_down, "s")
@@ -155,6 +156,29 @@ def playing_with_human():
     global adding_ia
     adding_ia = False
     return adding_ia
+
+
+def tracing_cheat_mode(ball, dx, dy):
+    global trace_ray
+    trace_ray = turtle.Turtle()
+    trace_ray.color("red")
+    trace_ray.ht() #hide_turtle
+    if (dx < 0 and dy < 0) and ball.distance(-200, -290) < DEFAULT_HEIGHT/2: #going to the bottom left side
+        print("going to bottom left border")
+        print(f"ball distance = {ball.distance(-200, -290)}")
+        if ball.distance(0, -290) < 15: #if bouncing close
+            trace_ray.goto(ball.pos()) #setting beginning of trace
+            trace_ray.st() #show_turtle
+            trace_ray.pendown()
+            trace_ray.right(90) #bouncing
+            trace_ray.forward(trace_ray.distance(0, -360)) #trace until left goal
+    elif dx > 0 and dy < 0: #going to the bottom right side
+        pass
+    elif dx < 0 and dy > 0: #going to the top left side
+        pass
+    else: #going to the top right side
+        pass
+
 
 ##~~~~~~~~~~~~~~~~-~~~~~~~~~~~~~~~~~##
 #              USER INPUT            #
@@ -197,9 +221,11 @@ def ball_initialisation():
     ball.goto(0, 0)
     ball.color(random.choice(ball_color_list))
     ball.shape("circle")
-    ball.speed(40)
-    ball.dx = random.choice([0.2, -0.2, 0.3, -0.3, 0.4, -0.4])
-    ball.dy = random.choice([0.2, -0.2, 0.3, -0.3, 0.4, -0.4])
+    ball.speed(20)
+    #ball.dx = random.choice([0.2, -0.2, 0.3, -0.3, 0.4, -0.4])
+    #ball.dy = random.choice([0.2, -0.2, 0.3, -0.3, 0.4, -0.4])
+    ball.dx = -1
+    ball.dy = -1
     return ball
 
 
@@ -209,7 +235,7 @@ def collision_detection(ball):
     """
     Adding collision detection to the ball. If it encounters a border or a paddlle, it bounces back
     :param ball:
-    :return:
+    :return: None
     """
     global shock
     global score_a
@@ -279,11 +305,8 @@ try:
     screen.onkeypress(rightPaddle_moving_down, "Down")
     screen.onkeypress(rightPaddle_moving_up, "Up")
     screen.onkeypress(ball_create, "p")
-    screen.onkeypress(activate_cheat, "c")
-
-
-
-except NameError as ne: 
+    #screen.onkeypress(activate_cheat, "c")
+except NameError as ne:
     print("=================================================================")
     print(ne.args)
     print("***Bad definition for paddle variables***")
@@ -292,13 +315,16 @@ except NameError as ne:
 ##~~~~~~~~~~~~~~~~-~~~~~~~~~~~~~~~~~##
 #               MAIN                 #
 ##~~~~~~~~~~~~~~~~-~~~~~~~~~~~~~~~~~##
+
+
 while True:
     for i in ball_list:
-        collision_detection(i)
+        collision_detection(ball=i)
+        tracing_cheat_mode(ball=i, dx=i.dx, dy=i.dy)
         if adding_ia:
-            adding_bot(i)
-        if adding_cheat_mode:
-            i.pendown()
-            i.pen(speed=60, pencolor="red")
+            adding_bot(ball=i)
+        #if adding_cheat_mode:
+            #i.pendown()
+            #i.pen(speed=60, pencolor="red")
     screen.update()
 
