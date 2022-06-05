@@ -36,7 +36,8 @@ rightPaddle = turtle.Turtle()
 leftPaddle = turtle.Turtle()
 ball_list = []
 paddle_list = []
-adding_ia = True
+adding_ia = False
+adding_cheat_mode = False
 shock = False
 ball_color_list = ["purple","yellow","green","pink","gray","brown","blue","lightblue"]
 
@@ -50,25 +51,6 @@ def ppgame_playsound(sound):
 ##~~~~~~~~~~~~~~~~-~~~~~~~~~~~~~~~~~##
 #              FUNCTIONS             #
 ##~~~~~~~~~~~~~~~~-~~~~~~~~~~~~~~~~~##
-
-def get_posx_and_posy(position_tuple):
-    pos_list = list(position_tuple)
-    global posx
-    global posy
-    posx = pos_list[0]
-    posy = pos_list[1]
-
-def calculate_length_to_goal(x_position, y_position):
-    #Pythagoras
-    #make goal as global to add some instructions to IA?
-    goal = math.sqrt((x_position ** 2) + (y_position ** 2))
-    '''cheatmode = turtle.Turtle()
-    cheatmode.color("white")
-    cheatmode.pendown()
-    cheatmode.goto(x_position - goal, y_position - goal)'''
-
-    return goal
-
 
 def initialisation_pen():
     pen.speed(0)
@@ -156,11 +138,15 @@ def adding_bot(ball):
         shock = False
 
 
-
 def activate_ia():
     global adding_ia
     adding_ia = True
     return adding_ia
+
+def activate_cheat():
+    global adding_cheat
+    adding_cheat = True
+    return adding_cheat
 
 def playing_with_human():
     screen.onkeypress(leftPaddle_moving_down, "s")
@@ -168,8 +154,6 @@ def playing_with_human():
     global adding_ia
     adding_ia = False
     return adding_ia
-
-
 
 ##~~~~~~~~~~~~~~~~-~~~~~~~~~~~~~~~~~##
 #              USER INPUT            #
@@ -195,7 +179,6 @@ def rightPaddle_moving_down():
     y -= 20
     rightPaddle.sety(y)
 
-
 def ball_create():
     global ball_list
     ball_list.append(ball_initialisation())
@@ -206,18 +189,20 @@ def paddle_create():
     paddle_list.append(initialisation_rp())
 
 
-
 def ball_initialisation():
     ball = turtle.Turtle()
     ball.shapesize(0.7, 0.7)
-    ball.penup()
     ball.goto(0, 0)
     ball.color(random.choice(ball_color_list))
     ball.shape("circle")
-    ball.speed(10)
+    ball.speed(40)
     ball.dx = random.choice([0.2, -0.2, 0.3, -0.3, 0.4, -0.4])
     ball.dy = random.choice([0.2, -0.2, 0.3, -0.3, 0.4, -0.4])
+    if adding_cheat_mode:
+        ball.pendown()
+        ball.pen(speed=60, pencolor="red")
     return ball
+
 
 
 # BALL MOVEMENT
@@ -232,11 +217,13 @@ def collision_detection(ball):
     # inverse direction de la balle
         ball.sety(290)
         ball.dy *= -1
+        ball.clear()
         #ppgame_playsound("../pong.wav")
 
     if ball.ycor() < -290:
         ball.sety(-290)
         ball.dy *= -1
+        ball.clear()
         #ppgame_playsound("../pong.wav")
 
     if ball.xcor() > 390:
@@ -249,6 +236,7 @@ def collision_detection(ball):
                   font=("Courier", 24, "normal")
                   )
         score_a += 1
+        ball.clear()
 
     if ball.xcor() < -390:
         ball.goto(0, 0)
@@ -260,22 +248,26 @@ def collision_detection(ball):
                   font=("Courier", 24, "normal")
                   )
         score_b += 1
+        ball.clear()
 
     if ball.xcor() > 340 and ball.xcor() < 350 and ball.ycor() < rightPaddle.ycor() + 40 and ball.ycor() > rightPaddle.ycor() - 40:
         ball.setx(340)
         ball.dx *= -1
         shock = True
+        ball.clear()
         #ppgame_playsound("../pong.wav")
 
     if  ball.xcor() < -340 and ball.xcor() > -350 and ball.ycor() > leftPaddle.ycor() - 40 and ball.ycor() < leftPaddle.ycor() + 40:
         ball.setx(-340)
         ball.dx *= -1
         shock = True
+        ball.clear()
         #ppgame_playsound("../pong.wav")
 
 ##~~~~~~~~~~~~~~~~-~~~~~~~~~~~~~~~~~##
 #               INPUT                #
 ##~~~~~~~~~~~~~~~~-~~~~~~~~~~~~~~~~~##
+
 try:
     screen.listen()
     screen.onkeypress(playing_with_human, "2")
@@ -283,6 +275,9 @@ try:
     screen.onkeypress(rightPaddle_moving_down, "Down")
     screen.onkeypress(rightPaddle_moving_up, "Up")
     screen.onkeypress(ball_create, "p")
+    screen.onkeypress(activate_cheat, "c")
+
+
 
 except NameError as ne: 
     print("=================================================================")
@@ -296,8 +291,6 @@ except NameError as ne:
 while True:
     for i in ball_list:
         collision_detection(i)
-        get_posx_and_posy(i.pos())
-        calculate_length_to_goal(posx, posy)
         if adding_ia:
             adding_bot(i)
     screen.update()
