@@ -170,22 +170,20 @@ def where_will_it_bounce(ball, direction):
     actual_position = ball.pos()
 
     if direction == "TLB":
-        a_side = ball.distance(ball.xcor,290) #distance top border
-        bouncing_point = (ball.xcor - a_side, 290)
+        a_side = ball.distance(ball.xcor(),290) #distance top border
+        bouncing_point = (ball.xcor() - a_side, 290)
     elif direction == "TRB":
-        a_side = ball.distance(ball.xcor, 290)
-        bouncing_point = (ball.xcor + a_side, 290)
+        a_side = ball.distance(ball.xcor(), 290)
+        bouncing_point = (ball.xcor() + a_side, 290)
     elif direction == "BLB":
-        a_side = ball.distance(ball.xcor, -290)
-        bouncing_point = (ball.xcor - a_side, -290) #distance bottom border
+        a_side = ball.distance(ball.xcor(), -290)
+        bouncing_point = (ball.xcor() - a_side, -290) #distance bottom border
     elif direction == "BLB":
-        a_side = ball.distance(ball.xcor, -290)
-        bouncing_point = (ball.xcor + a_side, -290)
+        a_side = ball.distance(ball.xcor(), -290)
+        bouncing_point = (ball.xcor() + a_side, -290)
     else:
         print("Not a valid input")
     return bouncing_point
-
-
 
 
 def tracing_cheat_mode(ball, dx, dy):
@@ -193,17 +191,20 @@ def tracing_cheat_mode(ball, dx, dy):
     trace_ray = turtle.Turtle()
     trace_ray.color("red")
     trace_ray.ht() #hide_turtle
-    trace_ray.dx = dx
-    trace_ray.dy = dy
+    trace_ray.penup()
     if (dx < 0 and dy < 0) and ball.distance(-200, -290) < DEFAULT_HEIGHT/2: #going to the bottom left side
         #print("going to bottom left border")
         #print(f"ball distance = {ball.distance(-200, -290)}")
-        if ball.distance(0, -290) < 15: #if bouncing close
-            trace_ray.goto(ball.pos()) #setting beginning of trace
-            trace_ray.st() #show_turtle
-            trace_ray.pendown()
-            trace_ray.right(90) #bouncing
-            trace_ray.forward(trace_ray.distance(0, -360)) #trace until left goal
+        bouncing_point = where_will_it_bounce(ball=ball, direction="BLB")
+        if ball.distance(bouncing_point) < 100: #if bouncing close
+            trace_ray.goto(bouncing_point) #setting beginning of trace
+            #trace_ray.st() #show_turtle
+            #trace_ray.pendown()
+            trace_ray.dx = -dx
+            trace_ray.dy = -dy
+        if ball.pos() == bouncing_point:
+            print("It bounced!")
+            #trace_ray.forward(trace_ray.distance(0, -360)) #trace until left goal
     elif dx > 0 and dy < 0: #going to the bottom right side
         pass
     elif dx < 0 and dy > 0: #going to the top left side
