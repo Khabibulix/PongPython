@@ -157,15 +157,47 @@ def playing_with_human():
     adding_ia = False
     return adding_ia
 
+def where_will_it_bounce(ball, direction):
+    """
+    :param ball: ball where we want to calculate the bouncing
+    :param direction:
+        BLB, bottom left border
+        BRB, bottom right border
+        TLB, top left border
+        TRB, top right border
+    :return: bouncing_point: coordinates of the bouncing
+    """
+    actual_position = ball.pos()
+
+    if direction == "TLB":
+        a_side = ball.distance(ball.xcor,290) #distance top border
+        bouncing_point = (ball.xcor - a_side, 290)
+    elif direction == "TRB":
+        a_side = ball.distance(ball.xcor, 290)
+        bouncing_point = (ball.xcor + a_side, 290)
+    elif direction == "BLB":
+        a_side = ball.distance(ball.xcor, -290)
+        bouncing_point = (ball.xcor - a_side, -290) #distance bottom border
+    elif direction == "BLB":
+        a_side = ball.distance(ball.xcor, -290)
+        bouncing_point = (ball.xcor + a_side, -290)
+    else:
+        print("Not a valid input")
+    return bouncing_point
+
+
+
 
 def tracing_cheat_mode(ball, dx, dy):
     global trace_ray
     trace_ray = turtle.Turtle()
     trace_ray.color("red")
     trace_ray.ht() #hide_turtle
+    trace_ray.dx = dx
+    trace_ray.dy = dy
     if (dx < 0 and dy < 0) and ball.distance(-200, -290) < DEFAULT_HEIGHT/2: #going to the bottom left side
-        print("going to bottom left border")
-        print(f"ball distance = {ball.distance(-200, -290)}")
+        #print("going to bottom left border")
+        #print(f"ball distance = {ball.distance(-200, -290)}")
         if ball.distance(0, -290) < 15: #if bouncing close
             trace_ray.goto(ball.pos()) #setting beginning of trace
             trace_ray.st() #show_turtle
