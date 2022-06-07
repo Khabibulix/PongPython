@@ -63,6 +63,7 @@ def print_help():
         print(i)
 
 def console_input(arg):
+    arg = arg.lower() # Don't care of the case
     if arg == "help":
         print_help()
     elif arg == "dev_gamelog":
@@ -94,4 +95,5 @@ if argcount > 1:
 while(1):
     usercommand = input("- ")
     log.append(usercommand)
-    console_input(usercommand)
+    usercommand = list(usercommand.split(" ")) # Take the string list as a whole and split it into string sub-lists (= 2D array) for each words
+    console_input(usercommand[0]) # Take the first word as parameter (= command)
