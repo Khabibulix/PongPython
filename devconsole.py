@@ -64,7 +64,9 @@ def print_wip(arg):
     print(message)
 
 def print_help():
-    print("Available commands :")
+    message = "Available commands :"
+    log.append(message)
+    print(message)
     for i in commandlist :
         message = i[0].ljust(25) + i[1].ljust(25) + i[2]
         log.append(message)
