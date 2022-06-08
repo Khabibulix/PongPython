@@ -5,10 +5,7 @@
 ##~~~~~~~~~~~~~~~~-~~~~~~~~~~~~~~~~~##
 #              IMPORT                #
 ##~~~~~~~~~~~~~~~~-~~~~~~~~~~~~~~~~~##
-import logging
-import turtle
-import random
-import math
+import logging, turtle, random, math
 
 #Logging config
 logging.basicConfig(filename="log.txt", filemode="w", level=logging.DEBUG)
@@ -35,17 +32,20 @@ DEFAULT_HEIGHT = 600
 ##~~~~~~~~~~~~~~~~-~~~~~~~~~~~~~~~~~##
 score_a = 0
 score_b = 0
+
 pen = turtle.Turtle()
 screen = turtle.Screen()
 rightPaddle = turtle.Turtle()
 leftPaddle = turtle.Turtle()
 trace_ray = turtle.Turtle()
+
 ball_list = []
 paddle_list = []
+ball_color_list = ["purple","yellow","green","pink","gray","brown","blue","lightblue"]
+
 adding_ia = False
 #adding_cheat_mode = False
 shock = False
-ball_color_list = ["purple","yellow","green","pink","gray","brown","blue","lightblue"]
 
 """ SOUND - UNUSED
 def ppgame_playsound(sound):
@@ -79,10 +79,6 @@ def initialisation_screen():
     screen.tracer(0)
     return screen
 
-
-initialisation_screen()
-initialisation_pen()
-
 def initialisation_lp():
     leftPaddle.speed(0)
     leftPaddle.shape("square")
@@ -102,6 +98,8 @@ def initialisation_rp():
     return rightPaddle
 
 try:
+    initialisation_screen()
+    initialisation_pen()
     initialisation_lp()
     initialisation_rp()
 except NameError as ne:
@@ -129,7 +127,6 @@ def adding_bot(ball):
             leftPaddle_moving_up()
    else:
         shock = False
-
 
 def activate_ia():
     global adding_ia
@@ -178,20 +175,26 @@ def where_will_it_bounce(ball, direction):
 
 
 def tracing_cheat_mode(ball, dx, dy):
+
     global trace_ray
-    trace_ray = turtle.Turtle()
     trace_ray.color("red")
     trace_ray.ht() #hide_turtle
     trace_ray.penup()
+
     if (dx < 0 and dy < 0) and ball.distance(-200, -290) < DEFAULT_HEIGHT/2: #going to the bottom left side
         bouncing_point = where_will_it_bounce(ball=ball, direction="BLB")
-        if ball.distance(bouncing_point) < 20: #if bouncing close
+        if 5 < ball.distance(bouncing_point) < 100:  # if bouncing close
             trace_ray.goto(bouncing_point) #setting beginning of trace
             trace_ray.st() #show_turtle
             trace_ray.pendown()
             trace_ray.setheading(135) #setting up angle
             trace_ray.forward(100) #trace until goal
             trace_ray.ht()
+            trace_ray.penup()
+            return trace_ray
+
+
+
     elif dx > 0 and dy < 0: #going to the bottom right side
         pass
     elif dx < 0 and dy > 0: #going to the top left side
@@ -199,6 +202,7 @@ def tracing_cheat_mode(ball, dx, dy):
     else: #going to the top right side
         pass
 
+trace_ray.clear()
 
 ##~~~~~~~~~~~~~~~~-~~~~~~~~~~~~~~~~~##
 #              USER INPUT            #
@@ -241,7 +245,7 @@ def ball_initialisation():
     ball.goto(0, 0)
     ball.color(random.choice(ball_color_list))
     ball.shape("circle")
-    ball.speed(20)
+    ball.speed(3)
     #ball.dx = random.choice([0.2, -0.2, 0.3, -0.3, 0.4, -0.4])
     #ball.dy = random.choice([0.2, -0.2, 0.3, -0.3, 0.4, -0.4])
     ball.dx = -1
@@ -299,6 +303,7 @@ def collision_detection(ball):
                   )
         score_b += 1
         ball.clear()
+        trace_ray.clear()
 
     if ball.xcor() > 340 and ball.xcor() < 350 and ball.ycor() < rightPaddle.ycor() + 40 and ball.ycor() > rightPaddle.ycor() - 40:
         ball.setx(340)
