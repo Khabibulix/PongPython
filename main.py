@@ -5,9 +5,14 @@
 ##~~~~~~~~~~~~~~~~-~~~~~~~~~~~~~~~~~##
 #              IMPORT                #
 ##~~~~~~~~~~~~~~~~-~~~~~~~~~~~~~~~~~##
+import logging
 import turtle
 import random
 import math
+
+
+logging.basicConfig(filename="log.txt", filemode="w", level=logging.DEBUG)
+
 """ SOUND - UNUSED
 # Import and Setup
 ## Cross-Plateform Support
@@ -74,23 +79,9 @@ def initialisation_screen():
     screen.tracer(0)
     return screen
 
-try:
-    initialisation_screen()
-except AttributeError as ae:
-    print("=================================================================")
-    print(ae)
-    print("***Problem is in Playground file***")
-    print("***or in naming into screen***")
-    print("=================================================================")
 
-try:
-    initialisation_pen()
-except AttributeError as ae:
-    print("=================================================================")
-    print(ae)
-    print("***Problem is in Playground file***")
-    print("***or in naming into initialisation_pen***")
-    print("=================================================================")
+initialisation_screen()
+initialisation_pen()
 
 def initialisation_lp():
     leftPaddle.speed(0)
@@ -114,16 +105,16 @@ try:
     initialisation_lp()
     initialisation_rp()
 except NameError as ne:
-    print("=================================================================")
-    print(ne.args)
-    print("***Shitty call for initialisation()***")
-    print("***Bad definition for paddle variables***")
-    print("=================================================================")
+    logging.warning("=================================================================")
+    logging.warning(ne.args)
+    logging.warning("***Shitty call for initialisation()***")
+    logging.warning("***Bad definition for paddle variables***")
+    logging.warning("=================================================================")
 except AttributeError as ae:
-    print("=================================================================")
-    print(ae.args)
-    print("***Don't touch turtle in initialisation!***")
-    print("=================================================================")
+    logging.warning("=================================================================")
+    logging.warning(ae.args)
+    logging.warning("***Don't touch turtle in initialisation!***")
+    logging.warning("=================================================================")
 
 
 def adding_bot(ball):
@@ -182,7 +173,7 @@ def where_will_it_bounce(ball, direction):
         a_side = ball.distance(ball.xcor(), -290)
         bouncing_point = (ball.xcor() + a_side, -290)
     else:
-        print("Not a valid input")
+        logging.warning("Not a valid input")
     return bouncing_point
 
 
@@ -193,18 +184,15 @@ def tracing_cheat_mode(ball, dx, dy):
     trace_ray.ht() #hide_turtle
     trace_ray.penup()
     if (dx < 0 and dy < 0) and ball.distance(-200, -290) < DEFAULT_HEIGHT/2: #going to the bottom left side
-        #print("going to bottom left border")
-        #print(f"ball distance = {ball.distance(-200, -290)}")
+        #logging.warning("going to bottom left border")
+        #logging.warning(f"ball distance = {ball.distance(-200, -290)}")
         bouncing_point = where_will_it_bounce(ball=ball, direction="BLB")
         if ball.distance(bouncing_point) < 100: #if bouncing close
             trace_ray.goto(bouncing_point) #setting beginning of trace
             #trace_ray.st() #show_turtle
             #trace_ray.pendown()
-            trace_ray.dx = -dx
             trace_ray.dy = -dy
-        if ball.pos() == bouncing_point:
-            print("It bounced!")
-            #trace_ray.forward(trace_ray.distance(0, -360)) #trace until left goal
+            #trace_ray.goto(-390, 0) #trace until left goal
     elif dx > 0 and dy < 0: #going to the bottom right side
         pass
     elif dx < 0 and dy > 0: #going to the top left side
@@ -340,10 +328,10 @@ try:
     screen.onkeypress(ball_create, "p")
     #screen.onkeypress(activate_cheat, "c")
 except NameError as ne:
-    print("=================================================================")
-    print(ne.args)
-    print("***Bad definition for paddle variables***")
-    print("=================================================================")
+    logging.warning("=================================================================")
+    logging.warning(ne.args)
+    logging.warning("***Bad definition for paddle variables***")
+    logging.warning("=================================================================")
 
 ##~~~~~~~~~~~~~~~~-~~~~~~~~~~~~~~~~~##
 #               MAIN                 #
