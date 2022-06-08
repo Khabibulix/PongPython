@@ -40,7 +40,14 @@ argv = sys.argv
 argcount = len(argv)
 if argcount > 1:
     argcommand = argv[1]
-commandlist = ["dev_gamelog","game_ball_add","game_ball_remove","game_reset","game_ball_retrace","game_pad_size"]
+# commandlist = ["dev_gamelog","game_ball_add","game_ball_remove","game_reset","game_ball_retrace","game_pad_size"]
+commandlist = []
+commandlist.append(["dev_gamelog","{Bool}","Enable/Disable game event log print"])
+commandlist.append(["game_ball_add","No param","Add a new ball"])
+commandlist.append(["game_ball_remove","No param","Remove the last ball"])
+commandlist.append(["game_reset","No param","Reset the game"])
+commandlist.append(["game_ball_retrace","{Bool}","Enable/Disable Ball raytrace"])
+commandlist.append(["game_pad_size","{Pad id} {Size}","Change pad size"])
 log = []
 
 ##~~~~~~~~~~~~~~~~-~~~~~~~~~~~~~~~~~##
@@ -59,8 +66,9 @@ def print_wip(arg):
 def print_help():
     print("Available commands :")
     for i in commandlist :
-        log.append(i)
-        print(i)
+        message = i[0].ljust(25) + i[1].ljust(25) + i[2]
+        log.append(message)
+        print(message)
 
 def console_input(arg):
     arg = arg.lower() # Don't care of the case
