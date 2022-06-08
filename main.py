@@ -10,7 +10,7 @@ import turtle
 import random
 import math
 
-
+#Logging config
 logging.basicConfig(filename="log.txt", filemode="w", level=logging.DEBUG)
 
 """ SOUND - UNUSED
@@ -184,15 +184,14 @@ def tracing_cheat_mode(ball, dx, dy):
     trace_ray.ht() #hide_turtle
     trace_ray.penup()
     if (dx < 0 and dy < 0) and ball.distance(-200, -290) < DEFAULT_HEIGHT/2: #going to the bottom left side
-        #logging.warning("going to bottom left border")
-        #logging.warning(f"ball distance = {ball.distance(-200, -290)}")
         bouncing_point = where_will_it_bounce(ball=ball, direction="BLB")
-        if ball.distance(bouncing_point) < 100: #if bouncing close
+        if ball.distance(bouncing_point) < 20: #if bouncing close
             trace_ray.goto(bouncing_point) #setting beginning of trace
-            #trace_ray.st() #show_turtle
-            #trace_ray.pendown()
-            trace_ray.dy = -dy
-            #trace_ray.goto(-390, 0) #trace until left goal
+            trace_ray.st() #show_turtle
+            trace_ray.pendown()
+            trace_ray.setheading(135) #setting up angle
+            trace_ray.forward(100) #trace until goal
+            trace_ray.ht()
     elif dx > 0 and dy < 0: #going to the bottom right side
         pass
     elif dx < 0 and dy > 0: #going to the top left side
