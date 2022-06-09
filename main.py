@@ -7,9 +7,10 @@
 ##~~~~~~~~~~~~~~~~-~~~~~~~~~~~~~~~~~##
 import logging, random, math
 import devconsole
+import tkinter as tk
 
 #Logging config
-logging.basicConfig(filename="log.txt", filemode="w", level=logging.DEBUG)""""""
+logging.basicConfig(filename="log.txt", filemode="w", level=logging.DEBUG)
 
 # Import and Setup
 ## Cross-Plateform Support"""
@@ -396,4 +397,9 @@ while True:
             tracing_cheat_mode(ball=i, dx=i.dx, dy=i.dy)
     screen.update()
 """
-""""""
+
+windows = tk.Tk()
+title_windows = tk.Label(windows)
+title_windows.pack()
+windows.title('Pong Game On Steroids')
+windows.mainloop()
