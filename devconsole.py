@@ -30,9 +30,6 @@
 ##~~~~~~~~~~~~~~~~-~~~~~~~~~~~~~~~~~##
 # IMPORT
 #
-""" DEPRECATED
-import sys
-"""
 
 ##~~~~~~~~~~~~~~~~-~~~~~~~~~~~~~~~~~##
 # MACROS
@@ -48,13 +45,6 @@ GAME_BALL_SIZE = 6
 # GLOBAL
 #
 
-""" DEPRECATED
-argv = sys.argv
-argcount = len(argv)
-if argcount > 1:
-    argcommand = argv[1]
-# commandlist = ["dev_gamelog","game_ball_add","game_ball_remove","game_reset","game_ball_raytrace","game_pad_size"]
-"""
 commandlist = []
 commandlist.append(["dev_gamelog","{Bool}","Enable/Disable game event log print"])
 commandlist.append(["game_ball_add","No param","Add a new ball"])
@@ -130,18 +120,3 @@ def get_log():
 ##~~~~~~~~~~~~~~~~-~~~~~~~~~~~~~~~~~##
 # MAIN
 #
-""" PRINT INPUT - DEPRECATED
-print(argv)
-print(argcount)
-print("Command : " + argcommand)
-"""
-
-""" DEPRECATED
-if argcount > 1:
-    console_input(argcommand)
-while(1):
-    usercommand = input("- ")
-    log.append(usercommand)
-    usercommand = list(usercommand.split(" ")) # Take the string list as a whole and split it into string sub-lists (= 2D array) for each words
-    console_input(usercommand[0]) # Take the first word as parameter (= command)
-"""
