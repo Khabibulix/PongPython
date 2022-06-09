@@ -28,6 +28,15 @@ OS_LINUX = 'win32'
 """
 DEFAULT_WIDTH = 800
 DEFAULT_HEIGHT = 600
+
+### DEVCONSOLE
+DEV_GAMELOG = 1
+GAME_BALL_ADD = 2
+GAME_BALL_REMOVE = 3
+GAME_RESET = 4
+GAME_BALL_RAYTRACE = 5
+GAME_BALL_SIZE = 6
+
 ##~~~~~~~~~~~~~~~~-~~~~~~~~~~~~~~~~~##
 #              GLOBAL                #
 ##~~~~~~~~~~~~~~~~-~~~~~~~~~~~~~~~~~##
@@ -259,7 +268,7 @@ def console_take_input():
     arg = screen.textinput("CONSOLE", "")
     value = devconsole.console_input(arg)
     log = devconsole.get_log() # DOESN'T WORK
-    if value == 2:
+    if value == GAME_BALL_ADD:
         ball_create()
     
 

@@ -37,6 +37,13 @@ import sys
 ##~~~~~~~~~~~~~~~~-~~~~~~~~~~~~~~~~~##
 # MACROS
 #
+SKIP = 0
+DEV_GAMELOG = 1
+GAME_BALL_ADD = 2
+GAME_BALL_REMOVE = 3
+GAME_RESET = 4
+GAME_BALL_RAYTRACE = 5
+GAME_BALL_SIZE = 6
 ##~~~~~~~~~~~~~~~~-~~~~~~~~~~~~~~~~~##
 # GLOBAL
 #
@@ -46,14 +53,14 @@ argv = sys.argv
 argcount = len(argv)
 if argcount > 1:
     argcommand = argv[1]
-# commandlist = ["dev_gamelog","game_ball_add","game_ball_remove","game_reset","game_ball_retrace","game_pad_size"]
+# commandlist = ["dev_gamelog","game_ball_add","game_ball_remove","game_reset","game_ball_raytrace","game_pad_size"]
 """
 commandlist = []
 commandlist.append(["dev_gamelog","{Bool}","Enable/Disable game event log print"])
 commandlist.append(["game_ball_add","No param","Add a new ball"])
 commandlist.append(["game_ball_remove","No param","Remove the last ball"])
 commandlist.append(["game_reset","No param","Reset the game"])
-commandlist.append(["game_ball_retrace","{Bool}","Enable/Disable Ball raytrace"])
+commandlist.append(["game_ball_raytrace","{Bool}","Enable/Disable Ball raytrace"])
 commandlist.append(["game_pad_size","{Pad id} {Size}","Change pad size"])
 log = []
 
@@ -89,32 +96,32 @@ def print_game_ball_add():
 
 ### INPUT TREATMENT
 def console_input(arg):
-    if arg == "" or arg[0] == " " : return 0 # Do nothing if input is blank
+    if arg == "" or arg[0] == " " : return SKIP # Do nothing if input is blank
     arg = arg.lower() # Don't care of the case
     if arg == "help":
         print_help()
-        return 0
+        return SKIP
     elif arg == "dev_gamelog":
         print_wip(arg)
-        return 1
+        return DEV_GAMELOG
     elif arg == "game_ball_add":
         print_game_ball_add()
-        return 2
+        return GAME_BALL_ADD
     elif arg == "game_ball_remove":
         print_wip(arg)
-        return 3
+        return GAME_BALL_REMOVE
     elif arg == "game_reset":
         print_wip(arg)
-        return 4
-    elif arg == "game_ball_retrace":
+        return GAME_RESET
+    elif arg == "game_ball_raytrace":
         print_wip(arg)
-        return 5
+        return GAME_BALL_RAYTRACE
     elif arg == "game_pad_size":
         print_wip(arg)
-        return 6
+        return GAME_BALL_SIZE
     else:
         print_undefined(arg)
-        return 0
+        return SKIP
 
 ### LOG MANAGEMENT
 def get_log():
