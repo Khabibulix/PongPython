@@ -29,7 +29,7 @@ OS_LINUX = 'win32'
 DEFAULT_WIDTH = 800
 DEFAULT_HEIGHT = 600
 
-### DEVCONSOLE
+
 DEV_GAMELOG = 1
 GAME_BALL_ADD = 2
 GAME_BALL_REMOVE = 3
@@ -37,9 +37,6 @@ GAME_RESET = 4
 GAME_BALL_RAYTRACE = 5
 GAME_BALL_SIZE = 6
 
-##~~~~~~~~~~~~~~~~-~~~~~~~~~~~~~~~~~##
-#              GLOBAL                #
-##~~~~~~~~~~~~~~~~-~~~~~~~~~~~~~~~~~##
 score_a = 0
 score_b = 0
 
@@ -55,7 +52,7 @@ ball_color_list = ["purple","yellow","green","pink","gray","brown","blue","light
 log = []
 
 adding_ia = False
-#adding_cheat_mode = False
+adding_cheat_mode = False
 shock = False
 
 """ SOUND - UNUSED
@@ -139,22 +136,6 @@ def adding_bot(ball):
    else:
         shock = False
 
-def activate_ia():
-    global adding_ia
-    adding_ia = True
-    return adding_ia
-
-"""def activate_cheat():
-    global adding_cheat_mode
-    adding_cheat_mode = True
-    return adding_cheat_mode"""
-
-def playing_with_human():
-    screen.onkeypress(leftPaddle_moving_down, "s")
-    screen.onkeypress(leftPaddle_moving_up, "z")
-    global adding_ia
-    adding_ia = False
-    return adding_ia
 
 def where_will_it_bounce(ball, direction):
     """
@@ -213,6 +194,7 @@ def tracing_cheat_mode(ball, dx, dy):
             trace_ray.forward(100)  # trace
             trace_ray.ht()
             trace_ray.penup()
+
     elif (dx < 0 and dy > 0) and ball.distance(-200, 290) < DEFAULT_HEIGHT/2: #going to the top left side
         bcp = where_will_it_bounce(ball=ball, direction="TLB")
         if 5 < ball.distance(bcp) < 100:  # if bouncing close
@@ -223,6 +205,7 @@ def tracing_cheat_mode(ball, dx, dy):
             trace_ray.forward(100)  # trace
             trace_ray.ht()
             trace_ray.penup()
+
     elif (dx > 0 and dy > 0) and ball.distance(200,290) < DEFAULT_HEIGHT: #going to the top right side
         bcp = where_will_it_bounce(ball=ball, direction="TRB")
         if 5 < ball.distance(bcp) < 100:  # if bouncing close
@@ -270,17 +253,39 @@ def paddle_create():
     paddle_list.append(initialisation_lp())
     paddle_list.append(initialisation_rp())
 
-### DEVCONSOLE INPUT GETTER AND TREATMENT
+
 def console_take_input():
+    '''
+    Devconsole input getter and treatment
+    :return:
+    '''
     arg = screen.textinput("CONSOLE", "")
     value = devconsole.console_input(arg)
     log = devconsole.get_log() # DOESN'T WORK
     if value == GAME_BALL_ADD:
         ball_create()
 
+def activate_ia():
+    global adding_ia
+    adding_ia = True
+    return adding_ia
+
+def activate_cheat():
+    global adding_cheat_mode
+    adding_cheat_mode = True
+    return adding_cheat_mode
+
+def playing_with_human():
+    screen.onkeypress(leftPaddle_moving_down, "s")
+    screen.onkeypress(leftPaddle_moving_up, "z")
+    global adding_ia
+    adding_ia = False
+    return adding_ia
+
 ##~~~~~~~~~~~~~~~~-~~~~~~~~~~~~~~~~~##
-#         BALL INTERACTION           #
+#            BALL INIT               #
 ##~~~~~~~~~~~~~~~~-~~~~~~~~~~~~~~~~~##
+
 def ball_initialisation():
     ball = turtle.Turtle()
     ball.penup()
@@ -370,7 +375,7 @@ try:
     screen.onkeypress(rightPaddle_moving_down, "Down")
     screen.onkeypress(rightPaddle_moving_up, "Up")
     screen.onkeypress(ball_create, "p")
-    #screen.onkeypress(activate_cheat, "c")
+    screen.onkeypress(activate_cheat, "c")
     screen.onkeypress(console_take_input, "Tab")
 except NameError as ne:
     logging.warning("=================================================================")
@@ -386,11 +391,9 @@ except NameError as ne:
 while True:
     for i in ball_list:
         collision_detection(ball=i)
-        tracing_cheat_mode(ball=i, dx=i.dx, dy=i.dy)
         if adding_ia:
             adding_bot(ball=i)
-        #if adding_cheat_mode:
-            #i.pendown()
-            #i.pen(speed=60, pencolor="red")
+        if adding_cheat_mode:
+            tracing_cheat_mode(ball=i, dx=i.dx, dy=i.dy)
     screen.update()
 
