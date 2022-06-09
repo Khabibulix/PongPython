@@ -6,7 +6,6 @@
 #              IMPORT                #
 ##~~~~~~~~~~~~~~~~-~~~~~~~~~~~~~~~~~##
 import logging, turtle, random, math
-import devconsole
 
 #Logging config
 logging.basicConfig(filename="log.txt", filemode="w", level=logging.DEBUG)
@@ -28,15 +27,6 @@ OS_LINUX = 'win32'
 """
 DEFAULT_WIDTH = 800
 DEFAULT_HEIGHT = 600
-
-### DEVCONSOLE
-DEV_GAMELOG = 1
-GAME_BALL_ADD = 2
-GAME_BALL_REMOVE = 3
-GAME_RESET = 4
-GAME_BALL_RAYTRACE = 5
-GAME_BALL_SIZE = 6
-
 ##~~~~~~~~~~~~~~~~-~~~~~~~~~~~~~~~~~##
 #              GLOBAL                #
 ##~~~~~~~~~~~~~~~~-~~~~~~~~~~~~~~~~~##
@@ -52,7 +42,6 @@ trace_ray = turtle.Turtle()
 ball_list = []
 paddle_list = []
 ball_color_list = ["purple","yellow","green","pink","gray","brown","blue","lightblue"]
-log = []
 
 adding_ia = False
 #adding_cheat_mode = False
@@ -177,7 +166,7 @@ def where_will_it_bounce(ball, direction):
     elif direction == "BLB":
         a_side = ball.distance(ball.xcor(), -290)
         bouncing_point = (ball.xcor() - a_side, -290) #distance bottom border
-    elif direction == "BLB":
+    elif direction == "BRB":
         a_side = ball.distance(ball.xcor(), -290)
         bouncing_point = (ball.xcor() + a_side, -290)
     else:
@@ -193,25 +182,47 @@ def tracing_cheat_mode(ball, dx, dy):
     trace_ray.penup()
 
     if (dx < 0 and dy < 0) and ball.distance(-200, -290) < DEFAULT_HEIGHT/2: #going to the bottom left side
-        bouncing_point = where_will_it_bounce(ball=ball, direction="BLB")
-        if 5 < ball.distance(bouncing_point) < 100:  # if bouncing close
-            trace_ray.goto(bouncing_point) #setting beginning of trace
+        bcp = where_will_it_bounce(ball=ball, direction="BLB")
+        if 5 < ball.distance(bcp) < 100:  # if bouncing close
+            trace_ray.goto(bcp) #setting beginning of trace
             trace_ray.st() #show_turtle
             trace_ray.pendown()
             trace_ray.setheading(135) #setting up angle
-            trace_ray.forward(100) #trace until goal
+            trace_ray.forward(100) #trace
             trace_ray.ht()
             trace_ray.penup()
-            return trace_ray
 
+    elif (dx > 0 and dy < 0) and ball.distance(200, -290) < DEFAULT_HEIGHT/2: #going to the bottom right side
+        bcp = where_will_it_bounce(ball=ball, direction="BRB")
+        if 5 < ball.distance(bcp) < 100:  # if bouncing close
+            trace_ray.goto(bcp)  # setting beginning of trace
+            trace_ray.st()  # show_turtle
+            trace_ray.pendown()
+            trace_ray.setheading(45)  # setting up angle
+            trace_ray.forward(100)  # trace
+            trace_ray.ht()
+            trace_ray.penup()
+    elif (dx < 0 and dy > 0) and ball.distance(-200, 290) < DEFAULT_HEIGHT/2: #going to the top left side
+        bcp = where_will_it_bounce(ball=ball, direction="TLB")
+        if 5 < ball.distance(bcp) < 100:  # if bouncing close
+            trace_ray.goto(bcp)  # setting beginning of trace
+            trace_ray.st()  # show_turtle
+            trace_ray.pendown()
+            trace_ray.setheading(230)  # setting up angle
+            trace_ray.forward(100)  # trace
+            trace_ray.ht()
+            trace_ray.penup()
+    elif (dx > 0 and dy > 0) and ball.distance(200,290) < DEFAULT_HEIGHT: #going to the top right side
+        bcp = where_will_it_bounce(ball=ball, direction="TRB")
+        if 5 < ball.distance(bcp) < 100:  # if bouncing close
+            trace_ray.goto(bcp)  # setting beginning of trace
+            trace_ray.st()  # show_turtle
+            trace_ray.pendown()
+            trace_ray.setheading(-35)  # setting up angle
+            trace_ray.forward(100)  # trace
+            trace_ray.ht()
+            trace_ray.penup()
 
-
-    elif dx > 0 and dy < 0: #going to the bottom right side
-        pass
-    elif dx < 0 and dy > 0: #going to the top left side
-        pass
-    else: #going to the top right side
-        pass
 
 trace_ray.clear()
 
@@ -259,22 +270,11 @@ def ball_initialisation():
     ball.speed(3)
     #ball.dx = random.choice([0.2, -0.2, 0.3, -0.3, 0.4, -0.4])
     #ball.dy = random.choice([0.2, -0.2, 0.3, -0.3, 0.4, -0.4])
-    ball.dx = -1
-    ball.dy = -1
+    ball.dx = 1
+    ball.dy = 1
     return ball
 
-### DEVCONSOLE INPUT GETTER AND TREATMENT
-def console_take_input():
-    arg = screen.textinput("CONSOLE", "")
-    value = devconsole.console_input(arg)
-    log = devconsole.get_log() # DOESN'T WORK
-    if value == GAME_BALL_ADD:
-        ball_create()
-    
 
-##~~~~~~~~~~~~~~~~-~~~~~~~~~~~~~~~~~##
-#         BALL INTERACTION           #
-##~~~~~~~~~~~~~~~~-~~~~~~~~~~~~~~~~~##
 
 # BALL MOVEMENT
 def collision_detection(ball):
@@ -353,7 +353,6 @@ try:
     screen.onkeypress(rightPaddle_moving_up, "Up")
     screen.onkeypress(ball_create, "p")
     #screen.onkeypress(activate_cheat, "c")
-    screen.onkeypress(console_take_input, "Tab")
 except NameError as ne:
     logging.warning("=================================================================")
     logging.warning(ne.args)
