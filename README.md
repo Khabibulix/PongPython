@@ -33,5 +33,5 @@ The objective of this project is to practice the <b>Turtle Module</b> and the la
 <hr>
 - [x] Craft an IA for second paddle with an option if desactivation needed(/4)
 <hr>
-- [] Cheat mode to see trajectory, etc.(/3)
+- [x] Cheat mode to see trajectory, etc.(/3)
 <hr>
