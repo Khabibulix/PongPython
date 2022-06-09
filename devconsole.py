@@ -44,7 +44,6 @@ GAME_BALL_SIZE = 6
 ##~~~~~~~~~~~~~~~~-~~~~~~~~~~~~~~~~~##
 # GLOBAL
 #
-
 commandlist = []
 commandlist.append(["dev_gamelog","{Bool}","Enable/Disable game event log print"])
 commandlist.append(["game_ball_add","No param","Add a new ball"])
@@ -59,16 +58,30 @@ log = []
 #
 ### PRINT
 def print_undefined(arg):
+    """
+    Tells that the command does not exist.
+    :param arg: A string : The name of the concerned command.
+    :return: Nothing.
+    """
     message = "Error : command \"" + arg + "\" does not exist."
     log.append(message)
     print(message)
 
 def print_wip(arg):
+    """
+    Tells that the command does exist but is not implemented.
+    :param arg: A string : The name of the concerned command.
+    :return: Nothing.
+    """
     message = "Sorry : command \"" + arg + "\" is not implemented yet."
     log.append(message)
     print(message)
 
 def print_help():
+    """
+    Prints the list of the available commands.
+    :return: Nothing.
+    """
     message = "Available commands :"
     log.append(message)
     print(message)
@@ -79,6 +92,10 @@ def print_help():
 
 
 def print_game_ball_add():
+    """
+    Tells that a ball is added to the game.
+    :return: Nothing.
+    """
     message = "Adding one ball to the game."
     log.append(message)
     print(message)
@@ -86,6 +103,11 @@ def print_game_ball_add():
 
 ### INPUT TREATMENT
 def console_input(arg):
+    """
+    Decodes the command fed in.
+    :param arg: A string : The name of the concerned command.
+    :return: An int, if it is 0 it does nothing else the value might be treated outside to call the associated function.
+    """
     if arg == "" or arg[0] == " " : return SKIP # Do nothing if input is blank
     arg = arg.lower() # Don't care of the case
     if arg == "help":
@@ -115,8 +137,13 @@ def console_input(arg):
 
 ### LOG MANAGEMENT
 def get_log():
+    """
+    Gives the log of all sended print to the caller.
+    :return: A string list : The log.
+    """
     return log
 
 ##~~~~~~~~~~~~~~~~-~~~~~~~~~~~~~~~~~##
 # MAIN
 #
+# UNUSED
