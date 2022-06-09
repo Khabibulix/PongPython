@@ -18,29 +18,36 @@
 #   # - [X] Treat the input and print result
 #   # - [X] User command log
 #   ### Combined with PongPython game
-#   # - [ ] In-game window
-#   # - [ ] Window appearance based on a button press (maybe TAB key)
-#   # - [ ] Typing box
+#   # - [X] In-game window
+#   # - [X] Window appearance based on a button press (maybe TAB key)
+#   # - [X] Typing box
+#   # - [/] In-game support of all the commands
 #   # - [ ] Game event log
-#   # - [ ] Scrollable log
+#   # - [CANCELLED] Scrollable log
 #____________________________________#
 ##~~~~~~~~~~~~~~~~-~~~~~~~~~~~~~~~~~##
 # CODE BEGIN
 ##~~~~~~~~~~~~~~~~-~~~~~~~~~~~~~~~~~##
 # IMPORT
 #
+""" DEPRECATED
 import sys
+"""
+
 ##~~~~~~~~~~~~~~~~-~~~~~~~~~~~~~~~~~##
 # MACROS
 #
 ##~~~~~~~~~~~~~~~~-~~~~~~~~~~~~~~~~~##
 # GLOBAL
 #
+
+""" DEPRECATED
 argv = sys.argv
 argcount = len(argv)
 if argcount > 1:
     argcommand = argv[1]
 # commandlist = ["dev_gamelog","game_ball_add","game_ball_remove","game_reset","game_ball_retrace","game_pad_size"]
+"""
 commandlist = []
 commandlist.append(["dev_gamelog","{Bool}","Enable/Disable game event log print"])
 commandlist.append(["game_ball_add","No param","Add a new ball"])
@@ -53,6 +60,7 @@ log = []
 ##~~~~~~~~~~~~~~~~-~~~~~~~~~~~~~~~~~##
 # FUNCTIONS
 #
+### PRINT
 def print_undefined(arg):
     message = "Error : command \"" + arg + "\" does not exist."
     log.append(message)
@@ -72,34 +80,56 @@ def print_help():
         log.append(message)
         print(message)
 
+
+def print_game_ball_add():
+    message = "Adding one ball to the game."
+    log.append(message)
+    print(message)
+
+
+### INPUT TREATMENT
 def console_input(arg):
+    if arg == "" or arg[0] == " " : return 0 # Do nothing if input is blank
     arg = arg.lower() # Don't care of the case
     if arg == "help":
         print_help()
+        return 0
     elif arg == "dev_gamelog":
         print_wip(arg)
+        return 1
     elif arg == "game_ball_add":
-        print_wip(arg)
+        print_game_ball_add()
+        return 2
     elif arg == "game_ball_remove":
         print_wip(arg)
+        return 3
     elif arg == "game_reset":
         print_wip(arg)
+        return 4
     elif arg == "game_ball_retrace":
         print_wip(arg)
+        return 5
     elif arg == "game_pad_size":
         print_wip(arg)
+        return 6
     else:
         print_undefined(arg)
+        return 0
+
+### LOG MANAGEMENT
+def get_log():
+    return log
 
 ##~~~~~~~~~~~~~~~~-~~~~~~~~~~~~~~~~~##
 # MAIN
 #
-""" PRINT INPUT
+""" PRINT INPUT - DEPRECATED
 print(argv)
 print(argcount)
 print("Command : " + argcommand)
 """
 
+""" DEPRECATED
 if argcount > 1:
     console_input(argcommand)
 while(1):
@@ -107,3 +137,4 @@ while(1):
     log.append(usercommand)
     usercommand = list(usercommand.split(" ")) # Take the string list as a whole and split it into string sub-lists (= 2D array) for each words
     console_input(usercommand[0]) # Take the first word as parameter (= command)
+"""

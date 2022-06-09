@@ -6,6 +6,7 @@
 #              IMPORT                #
 ##~~~~~~~~~~~~~~~~-~~~~~~~~~~~~~~~~~##
 import logging, turtle, random, math
+import devconsole
 
 #Logging config
 logging.basicConfig(filename="log.txt", filemode="w", level=logging.DEBUG)
@@ -42,6 +43,7 @@ trace_ray = turtle.Turtle()
 ball_list = []
 paddle_list = []
 ball_color_list = ["purple","yellow","green","pink","gray","brown","blue","lightblue"]
+log = []
 
 adding_ia = False
 #adding_cheat_mode = False
@@ -252,7 +254,18 @@ def ball_initialisation():
     ball.dy = -1
     return ball
 
+### DEVCONSOLE INPUT GETTER AND TREATMENT
+def console_take_input():
+    arg = screen.textinput("CONSOLE", "")
+    value = devconsole.console_input(arg)
+    log = devconsole.get_log() # DOESN'T WORK
+    if value == 2:
+        ball_create()
+    
 
+##~~~~~~~~~~~~~~~~-~~~~~~~~~~~~~~~~~##
+#         BALL INTERACTION           #
+##~~~~~~~~~~~~~~~~-~~~~~~~~~~~~~~~~~##
 
 # BALL MOVEMENT
 def collision_detection(ball):
@@ -331,6 +344,7 @@ try:
     screen.onkeypress(rightPaddle_moving_up, "Up")
     screen.onkeypress(ball_create, "p")
     #screen.onkeypress(activate_cheat, "c")
+    screen.onkeypress(console_take_input, "Tab")
 except NameError as ne:
     logging.warning("=================================================================")
     logging.warning(ne.args)
