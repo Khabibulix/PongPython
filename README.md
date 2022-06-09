@@ -1,5 +1,8 @@
 <h1>PongPython</h1>
-The objective of this project is to practice the <b>Turtle Module</b> and the language <b>Python</b> by dissecting with all due respect that old game that is Pong. A very basic IA was implemented and do the job, without letting one ball go away.
+The objective of this project is to practice the <b>Turtle Module</b> and the language <b>Python</b> by dissecting with all due respect that old game that is Pong. 
+
+<h3>Functionalities added: </h3><br>
+<li>A very basic IA was implemented and do the job, without letting one ball go away.
 
 
 <h3>Controls</h3>
