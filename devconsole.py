@@ -106,7 +106,7 @@ def console_input(arg):
     """
     Decodes the command fed in.
     :param arg: A string : The name of the concerned command.
-    :return: An int, if it is 0 it does nothing else the value might be treated outside to call the associated function.
+    :return: An int, if it is 0 it does nothing, else the value might be treated outside to call the associated function.
     """
     if arg == "" or arg[0] == " " : return SKIP # Do nothing if input is blank
     arg = arg.lower() # Don't care of the case
