@@ -6,6 +6,7 @@
 #              IMPORT                #
 ##~~~~~~~~~~~~~~~~-~~~~~~~~~~~~~~~~~##
 import logging, turtle, random, math
+import devconsole
 
 #Logging config
 logging.basicConfig(filename="log.txt", filemode="w", level=logging.DEBUG)
@@ -27,6 +28,15 @@ OS_LINUX = 'win32'
 """
 DEFAULT_WIDTH = 800
 DEFAULT_HEIGHT = 600
+
+### DEVCONSOLE
+DEV_GAMELOG = 1
+GAME_BALL_ADD = 2
+GAME_BALL_REMOVE = 3
+GAME_RESET = 4
+GAME_BALL_RAYTRACE = 5
+GAME_BALL_SIZE = 6
+
 ##~~~~~~~~~~~~~~~~-~~~~~~~~~~~~~~~~~##
 #              GLOBAL                #
 ##~~~~~~~~~~~~~~~~-~~~~~~~~~~~~~~~~~##
@@ -42,6 +52,7 @@ trace_ray = turtle.Turtle()
 ball_list = []
 paddle_list = []
 ball_color_list = ["purple","yellow","green","pink","gray","brown","blue","lightblue"]
+log = []
 
 adding_ia = False
 #adding_cheat_mode = False
@@ -259,7 +270,17 @@ def paddle_create():
     paddle_list.append(initialisation_lp())
     paddle_list.append(initialisation_rp())
 
+### DEVCONSOLE INPUT GETTER AND TREATMENT
+def console_take_input():
+    arg = screen.textinput("CONSOLE", "")
+    value = devconsole.console_input(arg)
+    log = devconsole.get_log() # DOESN'T WORK
+    if value == GAME_BALL_ADD:
+        ball_create()
 
+##~~~~~~~~~~~~~~~~-~~~~~~~~~~~~~~~~~##
+#         BALL INTERACTION           #
+##~~~~~~~~~~~~~~~~-~~~~~~~~~~~~~~~~~##
 def ball_initialisation():
     ball = turtle.Turtle()
     ball.penup()
@@ -274,9 +295,6 @@ def ball_initialisation():
     ball.dy = 1
     return ball
 
-
-
-# BALL MOVEMENT
 def collision_detection(ball):
     """
     Adding collision detection to the ball. If it encounters a border or a paddlle, it bounces back
@@ -353,6 +371,7 @@ try:
     screen.onkeypress(rightPaddle_moving_up, "Up")
     screen.onkeypress(ball_create, "p")
     #screen.onkeypress(activate_cheat, "c")
+    screen.onkeypress(console_take_input, "Tab")
 except NameError as ne:
     logging.warning("=================================================================")
     logging.warning(ne.args)
