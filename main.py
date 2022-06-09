@@ -5,27 +5,26 @@
 ##~~~~~~~~~~~~~~~~-~~~~~~~~~~~~~~~~~##
 #              IMPORT                #
 ##~~~~~~~~~~~~~~~~-~~~~~~~~~~~~~~~~~##
-import logging, turtle, random, math
+import logging, random, math
 import devconsole
 
 #Logging config
-logging.basicConfig(filename="log.txt", filemode="w", level=logging.DEBUG)
+logging.basicConfig(filename="log.txt", filemode="w", level=logging.DEBUG)""""""
 
-""" SOUND - UNUSED
 # Import and Setup
-## Cross-Plateform Support
-import sys
+## Cross-Plateform Support"""
+"""import sys
 import os
 if sys.platform.startswith(windows):
-    import winsound
+    import winsound""""""
 """
 ##~~~~~~~~~~~~~~~~-~~~~~~~~~~~~~~~~~##
 #               MACRO                #
 ##~~~~~~~~~~~~~~~~-~~~~~~~~~~~~~~~~~##
-""" SOUND - UNUSED
+""""""""" SOUND - UNUSED
 OS_LINUX = 'linux'
 OS_LINUX = 'win32'
-"""
+""""""
 DEFAULT_WIDTH = 800
 DEFAULT_HEIGHT = 600
 
@@ -53,14 +52,14 @@ log = []
 
 adding_ia = False
 adding_cheat_mode = False
-shock = False
+shock = False"""
 
 """ SOUND - UNUSED
 def ppgame_playsound(sound):
     if sys.platform.startswith(windows):
         winsound.PlaySound(sound, winsound.SND_ASYNC)
     if sys.platform.startswith(linux):
-        os.system("paplay " + sound)
+        os.system("paplay " + sound)"""
 """
 ##~~~~~~~~~~~~~~~~-~~~~~~~~~~~~~~~~~##
 #              FUNCTIONS             #
@@ -138,7 +137,7 @@ def adding_bot(ball):
 
 
 def where_will_it_bounce(ball, direction):
-    """
+    """"""
     :param ball: ball where we want to calculate the bouncing
     :param direction:
         BLB, bottom left border
@@ -146,7 +145,7 @@ def where_will_it_bounce(ball, direction):
         TLB, top left border
         TRB, top right border
     :return: bouncing_point: coordinates of the bouncing
-    """
+    """"""
     actual_position = ball.pos()
 
     if direction == "TLB":
@@ -301,11 +300,11 @@ def ball_initialisation():
     return ball
 
 def collision_detection(ball):
-    """
+    """"""
     Adding collision detection to the ball. If it encounters a border or a paddlle, it bounces back
     :param ball:
     :return: None
-    """
+    """"""
     global shock
     global score_a
     global score_b
@@ -396,4 +395,5 @@ while True:
         if adding_cheat_mode:
             tracing_cheat_mode(ball=i, dx=i.dx, dy=i.dy)
     screen.update()
-
+"""
+""""""
