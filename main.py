@@ -38,9 +38,14 @@ playground = tk.Canvas(windows,
 #paddle creation
 left_paddle = playground.create_rectangle(10, DEFAULT_HEIGHT/2, 20, 200, fill="white")
 right_paddle = playground.create_rectangle(780, DEFAULT_HEIGHT/2, 790, 200, fill="white")
-print(playground.coords(right_paddle))
-#x_default_position, y_default_position, x_after_trace_pos, y_after_trace_position
+"""
+create_rectangle(x,y,x2,y2)
+    (x,y) is the defaults coodinates before tracing
+    (x2,y2) is the defaults coodinates after tracing
+"""
 
+#ball creation
+ball = playground.create_oval(375,275,385,285,fill="white")
 
 playground.pack()
 
