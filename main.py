@@ -49,10 +49,10 @@ create_rectangle(x,y,x2,y2)
 ball = playground.create_oval(375,275,385,285,fill="white")
 
 #keybinding
-windows.bind("<Up>", lambda event: print("right_paddle_moving_up"))
-windows.bind("<Down>", lambda event: print("right_paddle_moving_down"))
-windows.bind("<z>", lambda event: print("left_paddle_moving_up"))
-windows.bind("<s>", lambda event: print("left_paddle_moving_down"))
+windows.bind("<Up>", lambda event: playground.move(right_paddle, 0, -5))
+windows.bind("<Down>", lambda event: playground.move(right_paddle, 0, 5))
+windows.bind("<z>", lambda event: playground.move(left_paddle, 0, -5))
+windows.bind("<s>", lambda event: playground.move(left_paddle, 0, 5))
 windows.bind("<Escape>", lambda event: windows.destroy())
 
 
