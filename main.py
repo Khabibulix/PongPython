@@ -5,12 +5,13 @@ import tkinter as tk
 #Logging config
 logging.basicConfig(filename="log.txt", filemode="w", level=logging.DEBUG)
 
+#global variables
 DEFAULT_WIDTH = 800
 DEFAULT_HEIGHT = 600
 score_a = 0
 score_b = 0
 
-#TODO jouer avec les padding pour centrer la fenêtre (winfo_screen)
+
 #windows
 windows = tk.Tk()
 windows.title('Pong Game On Steroids')
@@ -46,6 +47,14 @@ create_rectangle(x,y,x2,y2)
 
 #ball creation
 ball = playground.create_oval(375,275,385,285,fill="white")
+
+#keybinding
+windows.bind("<Up>", lambda event: print("right_paddle_moving_up"))
+windows.bind("<Down>", lambda event: print("right_paddle_moving_down"))
+windows.bind("<z>", lambda event: print("left_paddle_moving_up"))
+windows.bind("<s>", lambda event: print("left_paddle_moving_down"))
+windows.bind("<Escape>", lambda event: windows.destroy())
+
 
 playground.pack()
 
