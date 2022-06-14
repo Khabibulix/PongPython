@@ -1,5 +1,7 @@
 <h1>PongPython</h1>
-The objective of this project was initially to practice the <b>Turtle Module</b> and the language <b>Python</b> by dissecting, with all due respect, that old game that is Pong. But, we had a laggy game with this module and some functionnalities that we can't implement, so we switched to <b>TKinter</b>.
+The objective of this project was initially to practice the <b>Turtle Module</b> and the language <b>Python</b> by dissecting, with all due respect, that old game that is Pong. 
+<br>But, we had a laggy game with this module and some functionnalities that we can't implement, so we switched to <b>TKinter</b>.
+<br><br>However, pong.py is a functional game even if it misses the final features of tKinter one
 
 <h3>Functionalities added: </h3><br>
 <li>A very basic IA was implemented and do the job, without letting one ball go away.
