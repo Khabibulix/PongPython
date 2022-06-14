@@ -127,8 +127,15 @@ def make_paddle(posX, posY, width, height):
 
 ### GETTER
 def is_colliding(bbox1, bbox2):
-    print(bbox1[0])
-    return
+    return (
+    bbox1[0] < bbox2[0] + bbox2[2]
+    and
+    bbox1[0] + bbox1[2] > bbox2[0]
+    and
+    bbox1[1] < bbox2[1] + bbox2[3]
+    and
+    bbox1[1] + bbox1[3] > bbox2[1]
+    )
 
 ##~~~~~~~~~~~~~~~~-~~~~~~~~~~~~~~~~~##
 # KEY BINDING
@@ -156,8 +163,6 @@ while True:
 ### INIT
 list_paddle.append(make_paddle(0, 0, paddle_width, paddle_height)) # Add a new paddle to the game
 print(windows.bbox(list_paddle[0]))
-thething = windows.bbox(list_paddle[0])
-is_colliding(thething, thething)
 
 ### MAIN LOOP
 """-- windows.after() goes here --"""
