@@ -38,6 +38,8 @@ DX = 10
 score_a = 0
 score_b = 0
 
+game_timescale = 1.0
+
 ##~~~~~~~~~~~~~~~~-~~~~~~~~~~~~~~~~~##
 # OBJECTS INIT
 #
