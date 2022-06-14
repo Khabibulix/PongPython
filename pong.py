@@ -113,7 +113,7 @@ def leftPaddle_moving_up():
 
 def rightPaddle_moving_up():
     y = rightPaddle.ycor()
-    y += MOVING_DISTANCE
+    y += MOVING_DISTANCE + 10
     rightPaddle.sety(y)
 
 def leftPaddle_moving_down():
@@ -123,7 +123,7 @@ def leftPaddle_moving_down():
 
 def rightPaddle_moving_down():
     y = rightPaddle.ycor()
-    y -= MOVING_DISTANCE
+    y -= MOVING_DISTANCE + 10
     rightPaddle.sety(y)
 
 def ball_create():
@@ -153,7 +153,7 @@ def ball_initialisation():
     ball.goto(0, 0)
     ball.color(random.choice(color_list))
     ball.shape("circle")
-    ball.speed(3)
+    ball.speed(1)
     ball.dx = random.choice([0.2, -0.2, 0.3, -0.3, 0.4, -0.4])
     ball.dy = random.choice([0.2, -0.2, 0.3, -0.3, 0.4, -0.4])
     return ball
@@ -171,19 +171,21 @@ def collision_detection(ball):
     ball.setx(ball.xcor() + ball.dx)
     ball.sety(ball.ycor() + ball.dy)
 
+    #bouncing on top
     if ball.ycor() > UP_BORDER:
-    # inverse direction de la balle
         ball.sety(UP_BORDER)
         ball.dy *= -1
         ppgame_playsound("pong.wav")
         ball.clear()
 
+    #bouncing on bottom
     if ball.ycor() < DOWN_BORDER:
         ball.sety(DOWN_BORDER)
         ball.dy *= -1
         ppgame_playsound("pong.wav")
         ball.clear()
 
+    #left goal
     if ball.xcor() > DEFAULT_XPOS_RIGHT_GOAL + 40:
         ball.goto(0, 0)
         ball.dx *= -1
@@ -196,6 +198,7 @@ def collision_detection(ball):
         score_a += 1
         ball.clear()
 
+    #right goal
     if ball.xcor() < DEFAULT_XPOS_LEFT_GOAL - 40:
         ball.goto(0, 0)
         ball.dx *= -1
@@ -208,16 +211,26 @@ def collision_detection(ball):
         score_b += 1
         ball.clear()
 
-    if ball.xcor() > 340 and ball.xcor() < 350 and ball.ycor() < rightPaddle.ycor() + 40 and ball.ycor() > rightPaddle.ycor() - 40:
+    #bouncing on right paddle
+
+
+    bntrb = ball.xcor() > 340 and ball.xcor() < 350 # ball next to right border
+    borp = ball.ycor() < rightPaddle.ycor() + 50 and ball.ycor() > rightPaddle.ycor() - 50 #ball on right paddle
+
+    bntlb = ball.xcor() < -340 and ball.xcor() > -350 # ball next to left border
+    bolp = ball.ycor() > leftPaddle.ycor() - 50 and ball.ycor() < leftPaddle.ycor() + 50 #ball on left paddle
+
+    #bouncing on right paddle
+    if bntrb and borp:
         ball.setx(340)
-        ball.dx *= -1
+        ball.dx *= random.choice([-0.8, -0.9, -1])
         ppgame_playsound("pong.wav")
         shock = True
         ball.clear()
-
-    if  ball.xcor() < -340 and ball.xcor() > -350 and ball.ycor() > leftPaddle.ycor() - 40 and ball.ycor() < leftPaddle.ycor() + 40:
+    #bouncing on left paddle
+    if bntlb and bolp:
         ball.setx(-340)
-        ball.dx *= -1
+        ball.dx *= random.choice([-0.8, -0.9, -1])
         ppgame_playsound("pong.wav")
         shock = True
         ball.clear()
