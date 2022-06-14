@@ -24,21 +24,37 @@ SECONDARY_COLOR = "white"
 ##~~~~~~~~~~~~~~~~-~~~~~~~~~~~~~~~~~##
 # GLOBAL
 #
-ball_x = 375
-ball_y = 275
 
-right_paddle_x = 780
-left_paddle_x = 10
-paddle_y = DEFAULT_HEIGHT/2
-paddle_length = 200
+ball_x = 375 # Has to be deprecated soon
+ball_y = 275 # Has to be deprecated soon
 
-DY = 10
-DX = 10
+right_paddle_x = 780 # To improve
+left_paddle_x = 10 # To improve
+paddle_y = DEFAULT_HEIGHT/2  # Quiet efficient, needs a rename
+
+paddle_length = 200 # Has to be deprecated soon
+
+DY = 10 # Has to be deprecated soon
+DX = 10 # Has to be deprecated soon
+
+### GAME STATE
 
 score_a = 0
 score_b = 0
 
 game_timescale = 1.0
+
+### OBJECTS
+paddle_width = DEFAULT_WIDTH / 80
+paddle_height = DEFAULT_HEIGHT / 6
+
+ball_width = (DEFAULT_WIDTH + DEFAULT_HEIGHT) / 140
+
+### LISTS
+
+list_paddle = []
+list_ball = []
+list_player = []
 
 ##~~~~~~~~~~~~~~~~-~~~~~~~~~~~~~~~~~##
 # OBJECTS INIT
@@ -99,6 +115,16 @@ ball = playground.create_oval(
 # FUNCTIONS
 #
 
+### CONSTRUCTOR
+def make_paddle(posX, posY, width, height):
+    paddle = playground.create_rectangle(
+        posX,           # X1
+        posY,           # Y1
+        posX + width,   # X2
+        posY + height,  # Y2
+        fill=SECONDARY_COLOR)
+    return paddle
+
 ##~~~~~~~~~~~~~~~~-~~~~~~~~~~~~~~~~~##
 # KEY BINDING
 #
@@ -122,5 +148,9 @@ while True:
 ##~~~~~~~~~~~~~~~~-~~~~~~~~~~~~~~~~~##
 # MAIN
 #
+### INIT
+list_paddle.append(make_paddle(0, 0, paddle_width, paddle_height)) # Add a new paddle to the game
+
+### MAIN LOOP
 """-- windows.after() goes here --"""
 windows.mainloop()
