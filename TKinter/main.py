@@ -125,6 +125,11 @@ def make_paddle(posX, posY, width, height):
         fill=SECONDARY_COLOR)
     return paddle
 
+### GETTER
+def is_colliding(bbox1, bbox2):
+    print(bbox1[0])
+    return
+
 ##~~~~~~~~~~~~~~~~-~~~~~~~~~~~~~~~~~##
 # KEY BINDING
 #
@@ -150,6 +155,9 @@ while True:
 #
 ### INIT
 list_paddle.append(make_paddle(0, 0, paddle_width, paddle_height)) # Add a new paddle to the game
+print(windows.bbox(list_paddle[0]))
+thething = windows.bbox(list_paddle[0])
+is_colliding(thething, thething)
 
 ### MAIN LOOP
 """-- windows.after() goes here --"""
