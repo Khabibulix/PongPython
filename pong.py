@@ -1,4 +1,4 @@
-import turtle, random, math
+import turtle, random, math, os, sys, winsound
 
 DEFAULT_WIDTH = 800
 DEFAULT_HEIGHT = 600
@@ -25,6 +25,12 @@ shock = False
 ##~~~~~~~~~~~~~~~~-~~~~~~~~~~~~~~~~~##
 #              FUNCTIONS             #
 ##~~~~~~~~~~~~~~~~-~~~~~~~~~~~~~~~~~##
+
+def ppgame_playsound(sound):
+    if sys.platform.startswith("win"):
+        winsound.PlaySound(sound, winsound.SND_ASYNC)
+    if sys.platform.startswith("lin"):
+        os.system("paplay " + sound)
 
 def initialisation_pen():
 
@@ -169,11 +175,13 @@ def collision_detection(ball):
     # inverse direction de la balle
         ball.sety(UP_BORDER)
         ball.dy *= -1
+        ppgame_playsound("pong.wav")
         ball.clear()
 
     if ball.ycor() < DOWN_BORDER:
         ball.sety(DOWN_BORDER)
         ball.dy *= -1
+        ppgame_playsound("pong.wav")
         ball.clear()
 
     if ball.xcor() > DEFAULT_XPOS_RIGHT_GOAL + 40:
@@ -203,12 +211,14 @@ def collision_detection(ball):
     if ball.xcor() > 340 and ball.xcor() < 350 and ball.ycor() < rightPaddle.ycor() + 40 and ball.ycor() > rightPaddle.ycor() - 40:
         ball.setx(340)
         ball.dx *= -1
+        ppgame_playsound("pong.wav")
         shock = True
         ball.clear()
 
     if  ball.xcor() < -340 and ball.xcor() > -350 and ball.ycor() > leftPaddle.ycor() - 40 and ball.ycor() < leftPaddle.ycor() + 40:
         ball.setx(-340)
         ball.dx *= -1
+        ppgame_playsound("pong.wav")
         shock = True
         ball.clear()
 
