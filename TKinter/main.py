@@ -1,24 +1,36 @@
+##~~~~~~~~~~~~~~~~-~~~~~~~~~~~~~~~~~##
+#   PongPython - TKinter
+##~~~~~~~~~~~~~~~~-~~~~~~~~~~~~~~~~~##
+# IMPORT
+#
 import logging, random, math
 import devconsole
 import tkinter as tk
 
-#Logging config
+##~~~~~~~~~~~~~~~~-~~~~~~~~~~~~~~~~~##
+# LOGGING CONFIG
+#
 logging.basicConfig(filename="log.txt", filemode="w", level=logging.DEBUG)
 
-#global variables
+##~~~~~~~~~~~~~~~~-~~~~~~~~~~~~~~~~~##
+# MACROS / CONSTANT
+#
 DEFAULT_WIDTH = 800
 DEFAULT_HEIGHT = 600
-
-RIGHT_PADDLE_X = 780
-LEFT_PADDLE_X = 10
-PADDLE_Y = DEFAULT_HEIGHT/2
-PADDLE_LENGTH = 200
 
 PRIMARY_COLOR = "black"
 SECONDARY_COLOR = "white"
 
-BALL_X = 375
-BALL_Y = 275
+##~~~~~~~~~~~~~~~~-~~~~~~~~~~~~~~~~~##
+# GLOBAL
+#
+ball_x = 375
+ball_y = 275
+
+right_paddle_x = 780
+left_paddle_x = 10
+paddle_y = DEFAULT_HEIGHT/2
+paddle_length = 200
 
 DY = 10
 DX = 10
@@ -26,15 +38,17 @@ DX = 10
 score_a = 0
 score_b = 0
 
-
-#windows
+##~~~~~~~~~~~~~~~~-~~~~~~~~~~~~~~~~~##
+# OBJECTS INIT
+#
+### GAME WINDOW
 windows = tk.Tk()
 windows.title('Pong Game On Steroids')
 windows.geometry(str(DEFAULT_WIDTH)+"x"+str(DEFAULT_HEIGHT))
 windows.configure(bg=PRIMARY_COLOR)
 windows.resizable(False,False)
 
-#scoring
+### SCORE
 scoring = tk.Label(
     windows,
     text=f"Player A: {score_a}\t\tPlayer B: {score_b}",
@@ -44,7 +58,7 @@ scoring = tk.Label(
     )
 scoring.pack(ipady=10)
 
-#canvas
+### CANVAS
 playground = tk.Canvas(windows,
     width=DEFAULT_WIDTH,
     height=DEFAULT_HEIGHT,
@@ -52,18 +66,18 @@ playground = tk.Canvas(windows,
     )
 playground.pack()
 
-#paddle creation
+### PADDLE
 left_paddle = playground.create_rectangle(
-    LEFT_PADDLE_X,
+    left_paddle_x,
     DEFAULT_HEIGHT/2,
-    LEFT_PADDLE_X + 10,
-    PADDLE_LENGTH,
+    left_paddle_x + 10,
+    paddle_length,
     fill=SECONDARY_COLOR)
 right_paddle = playground.create_rectangle(
-    RIGHT_PADDLE_X,
+    right_paddle_x,
     DEFAULT_HEIGHT/2,
-    RIGHT_PADDLE_X - 10,
-    PADDLE_LENGTH,
+    right_paddle_x - 10,
+    paddle_length,
     fill=SECONDARY_COLOR)
 """
 create_rectangle(x,y,x2,y2)
@@ -71,25 +85,40 @@ create_rectangle(x,y,x2,y2)
     (x2,y2) is the defaults coodinates after tracing
 """
 
-#ball creation
+### BALL
 ball = playground.create_oval(
-    BALL_X,
-    BALL_Y,
-    BALL_X + 10,
-    BALL_Y + 10,
+    ball_x,
+    ball_y,
+    ball_x + 10,
+    ball_y + 10,
     fill=SECONDARY_COLOR)
 
-#keybinding
+##~~~~~~~~~~~~~~~~-~~~~~~~~~~~~~~~~~##
+# FUNCTIONS
+#
+
+##~~~~~~~~~~~~~~~~-~~~~~~~~~~~~~~~~~##
+# KEY BINDING
+#
 windows.bind("<Up>", lambda event: playground.move(right_paddle, 0, -5))
 windows.bind("<Down>", lambda event: playground.move(right_paddle, 0, 5))
 windows.bind("<z>", lambda event: playground.move(left_paddle, 0, -5))
 windows.bind("<s>", lambda event: playground.move(left_paddle, 0, 5))
 windows.bind("<Escape>", lambda event: windows.destroy())
 
+""" Infinite loop won't work as it's tk.mainloop() job.
+--- You should turn this into a function and call it with
+--- windows.after(0, name_of_your_function_without_parenthesis)
+--- this goes just before tk.mainloop in # main #.
+---------------------------------------------
 while True:
     if int(playground.coords(ball)[0]) > 200:
         playground.move(ball, DX, DY)
         print(playground.coords(ball))
+"""
 
-
+##~~~~~~~~~~~~~~~~-~~~~~~~~~~~~~~~~~##
+# MAIN
+#
+"""-- windows.after() goes here --"""
 windows.mainloop()
