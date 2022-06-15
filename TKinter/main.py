@@ -125,6 +125,15 @@ def make_paddle(posX, posY, width, height):
         fill=SECONDARY_COLOR)
     return paddle
 
+def make_ball(posX, posY, width):
+    ball = playground.create_oval(
+        posX,           # X1
+        posY,           # Y1
+        posX + width,   # X2
+        posY + width,   # Y2
+        fill=SECONDARY_COLOR)
+    return ball
+
 ### GETTER
 def is_colliding(bbox1, bbox2):
     return (
@@ -162,7 +171,12 @@ while True:
 #
 ### INIT
 list_paddle.append(make_paddle(0, 0, paddle_width, paddle_height)) # Add a new paddle to the game
-print(windows.bbox(list_paddle[0]))
+print(playground.coords(list_paddle[0]))
+print(playground.bbox(list_paddle[0]))
+
+list_ball.append(make_ball(100, 0, ball_width))
+print(playground.coords(list_ball[0]))
+print(playground.bbox(list_ball[0]))
 
 ### MAIN LOOP
 """-- windows.after() goes here --"""
