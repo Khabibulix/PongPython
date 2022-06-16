@@ -212,6 +212,12 @@ def print_ball(ball_id):
 ### HIGH-LEVEL / USERSIDE FUNCTION
 def game_add_ball(posX, posY, width): return list_ball.append(make_ball(posX, posY, width)) # TODO : rename in devconsole
 
+##### I DON'T WHAT IT IS / EXPERIMENT
+def for_every(list_object, function):
+    """Takes a compatible list, applies a function to each element of it"""
+    for i in range(len(list_object)):
+        function(i)
+    
 ##~~~~~~~~~~~~~~~~-~~~~~~~~~~~~~~~~~##
 # KEY BINDING
 #
@@ -236,14 +242,12 @@ def game_init():
     # OBJECT SPAWN
     game_add_ball(DEFAULT_WIDTH/2, DEFAULT_HEIGHT/2, ball_width)
     # UPDATE
-    for i in range(len(list_ball)):
-        ball_update(i)
+    for_every(list_ball, ball_update)
     # READY
     return
 
 def game_loop():
-    for i in range(len(list_ball)):
-        ball_physics(i)
+    for_every(list_ball, ball_physics)
     windows.after(1, game_loop)
     return
 
