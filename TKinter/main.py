@@ -21,6 +21,12 @@ DEFAULT_HEIGHT = 600
 PRIMARY_COLOR = "black"
 SECONDARY_COLOR = "white"
 
+### BALL STRUCTURE (because we don't use class)
+BALL_CANVAS = 0    # Contains the TKinter canvas object
+BALL_X = 1
+BALL_Y = 2
+BALL_ANGLE = 3
+
 ##~~~~~~~~~~~~~~~~-~~~~~~~~~~~~~~~~~##
 # GLOBAL
 #
@@ -132,7 +138,7 @@ def make_ball(posX, posY, width):
         posX + width,   # X2
         posY + width,   # Y2
         fill=SECONDARY_COLOR)
-    return ball
+    return [ball,0,0,90]
 
 ### GETTER
 def is_colliding(bbox1, bbox2):
@@ -145,6 +151,22 @@ def is_colliding(bbox1, bbox2):
     and
     bbox1[1] + bbox1[3] > bbox2[1]
     )
+
+##### BALL DATA
+def ball_get_coords(ball_id):
+    return playground.coords(list_ball[ball_id][BALL_CANVAS])
+
+def ball_get_bbox(ball_id):
+    return playground.bbox(list_ball[ball_id][BALL_CANVAS])
+
+def ball_get_x(ball_id):
+    return list_ball[ball_id][BALL_X]
+
+def ball_get_y(ball_id):
+    return list_ball[ball_id][BALL_Y]
+
+def ball_get_angle(ball_id):
+    return list_ball[ball_id][BALL_ANGLE]
 
 ##~~~~~~~~~~~~~~~~-~~~~~~~~~~~~~~~~~##
 # KEY BINDING
@@ -175,8 +197,11 @@ print(playground.coords(list_paddle[0]))
 print(playground.bbox(list_paddle[0]))
 
 list_ball.append(make_ball(100, 0, ball_width))
-print(playground.coords(list_ball[0]))
-print(playground.bbox(list_ball[0]))
+print("Coords : ", ball_get_coords(0))
+print("Bbox : ", ball_get_bbox(0))
+print("X = ", ball_get_x(0))
+print("Y = ", ball_get_y(0))
+print("Angle = ", ball_get_angle(0))
 
 ### MAIN LOOP
 """-- windows.after() goes here --"""
