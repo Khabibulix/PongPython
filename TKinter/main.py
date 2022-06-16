@@ -32,10 +32,13 @@ SECONDARY_COLOR = "white"
 
 ### BALL STRUCTURE (because we don't use class)
 BALL_CANVAS = 0    # Contains the TKinter canvas object
-BALL_VECX = 1
-BALL_VECY = 2
-BALL_ANGLE = 3
-BALL_SPEED = 4
+BALL_VEC = 1
+##
+BALL_VECX = 0
+BALL_VECY = 1
+##
+BALL_ANGLE = 2
+BALL_SPEED = 3
 
 ##~~~~~~~~~~~~~~~~-~~~~~~~~~~~~~~~~~##
 # GLOBAL
@@ -132,7 +135,7 @@ def make_ball(posX, posY, width):
     speed = 1
     vecX = 0
     vecY = 0
-    return [ball,vecX,vecY,angle,speed]
+    return [ball,[vecX,vecY],angle,speed]
 
 ### GETTER
 def is_colliding(bbox1, bbox2):
@@ -153,8 +156,8 @@ def ball_get_posy(ball_id): return ball_get_coords(ball_id)[1]
 def ball_get_width(ball_id): return ball_get_coords(ball_id)[2]
 def ball_get_height(ball_id): return ball_get_coords(ball_id)[3]
 def ball_get_bbox(ball_id): return playground.bbox(list_ball[ball_id][BALL_CANVAS])
-def ball_get_vecx(ball_id): return list_ball[ball_id][BALL_VECX]
-def ball_get_vecy(ball_id): return list_ball[ball_id][BALL_VECY]
+def ball_get_vecx(ball_id): return list_ball[ball_id][BALL_VEC][BALL_VECX]
+def ball_get_vecy(ball_id): return list_ball[ball_id][BALL_VEC][BALL_VECY]
 def ball_get_angle(ball_id): return list_ball[ball_id][BALL_ANGLE]
 def ball_get_speed(ball_id): return list_ball[ball_id][BALL_SPEED]
 
