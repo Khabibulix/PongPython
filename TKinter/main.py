@@ -232,6 +232,12 @@ def paddle_physics(paddle_id):
 
 ##### BALL PHYSIC
 
+def ball_switch_direction(ball_id):
+    angle = ball_get_angle(ball_id)
+    ball_set_angle(ball_id, angle-180)
+    ball_update(ball_id)
+    
+
 def ball_update(ball_id):
     """To call when an event change the state of the ball (for exemple a collision)"""
     angle = ball_get_angle(ball_id)
@@ -245,6 +251,7 @@ def ball_physics(ball_id):
     for paddle_id in range(len(list_paddle)):
         if is_colliding(ball_id, paddle_id):
             print("Collision with ", paddle_id)
+            ball_switch_direction(ball_id)
     return
 
 ### PRINT AND DEBUG
