@@ -31,8 +31,8 @@ PRIMARY_COLOR = "black"
 SECONDARY_COLOR = "white"
 
 ### BALL STRUCTURE (because we don't use class)
-BALL_CANVAS = 0    # Contains the TKinter canvas object
-BALL_VEC = 1
+BALL_CANVAS = 0     # Contains the TKinter canvas object
+BALL_VEC = 1        # Contains a sublist of 2D vector
 ##
 BALL_VECX = 0
 BALL_VECY = 1
@@ -185,8 +185,7 @@ def print_ball(ball_id):
     print("BALL ", ball_id ," Speed = ", ball_get_speed(ball_id))
 
 ### HIGH-LEVEL / USERSIDE FUNCTION
-def game_add_ball(posX, posY, width): # To rename in devconsole
-    return list_ball.append(make_ball(posX, posY, width))
+def game_add_ball(posX, posY, width): return list_ball.append(make_ball(posX, posY, width)) # TODO : rename in devconsole
 
 ##~~~~~~~~~~~~~~~~-~~~~~~~~~~~~~~~~~##
 # KEY BINDING
@@ -196,17 +195,6 @@ windows.bind("<Down>", lambda event: playground.move(right_paddle, 0, 5))
 windows.bind("<z>", lambda event: playground.move(left_paddle, 0, -5))
 windows.bind("<s>", lambda event: playground.move(left_paddle, 0, 5))
 windows.bind("<Escape>", lambda event: windows.destroy())
-
-""" Infinite loop won't work as it's tk.mainloop() job.
---- You should turn this into a function and call it with
---- windows.after(0, name_of_your_function_without_parenthesis)
---- this goes just before tk.mainloop in # main #.
----------------------------------------------
-while True:
-    if int(playground.coords(ball)[0]) > 200:
-        playground.move(ball, DX, DY)
-        print(playground.coords(ball))
-"""
 
 ##~~~~~~~~~~~~~~~~-~~~~~~~~~~~~~~~~~##
 # MAIN
