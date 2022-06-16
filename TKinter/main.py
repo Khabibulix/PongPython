@@ -30,10 +30,6 @@ BALL_ANGLE = 3
 ##~~~~~~~~~~~~~~~~-~~~~~~~~~~~~~~~~~##
 # GLOBAL
 #
-
-ball_x = 375 # Has to be deprecated soon
-ball_y = 275 # Has to be deprecated soon
-
 right_paddle_x = 780 # To improve
 left_paddle_x = 10 # To improve
 paddle_y = DEFAULT_HEIGHT/2  # Quiet efficient, needs a rename
@@ -109,14 +105,6 @@ create_rectangle(x,y,x2,y2)
     (x2,y2) is the defaults coodinates after tracing
 """
 
-### BALL
-ball = playground.create_oval(
-    ball_x,
-    ball_y,
-    ball_x + 10,
-    ball_y + 10,
-    fill=SECONDARY_COLOR)
-
 ##~~~~~~~~~~~~~~~~-~~~~~~~~~~~~~~~~~##
 # FUNCTIONS
 #
@@ -168,6 +156,15 @@ def ball_get_y(ball_id):
 def ball_get_angle(ball_id):
     return list_ball[ball_id][BALL_ANGLE]
 
+### PRINT AND DEBUG
+
+def print_ball(ball_id):
+    print("BALL ", ball_id ," Coords : ", ball_get_coords(ball_id))
+    print("BALL ", ball_id ," Bbox : ", ball_get_bbox(ball_id))
+    print("BALL ", ball_id ," X = ", ball_get_x(ball_id))
+    print("BALL ", ball_id ," Y = ", ball_get_y(ball_id))
+    print("BALL ", ball_id ," Angle = ", ball_get_angle(ball_id))
+
 ##~~~~~~~~~~~~~~~~-~~~~~~~~~~~~~~~~~##
 # KEY BINDING
 #
@@ -196,12 +193,10 @@ list_paddle.append(make_paddle(0, 0, paddle_width, paddle_height)) # Add a new p
 print(playground.coords(list_paddle[0]))
 print(playground.bbox(list_paddle[0]))
 
-list_ball.append(make_ball(100, 0, ball_width))
-print("Coords : ", ball_get_coords(0))
-print("Bbox : ", ball_get_bbox(0))
-print("X = ", ball_get_x(0))
-print("Y = ", ball_get_y(0))
-print("Angle = ", ball_get_angle(0))
+##### BALL INIT
+list_ball.append(make_ball(DEFAULT_WIDTH/2, DEFAULT_HEIGHT/2, ball_width))
+print_ball(0)
+
 
 ### MAIN LOOP
 """-- windows.after() goes here --"""
