@@ -165,6 +165,16 @@ def ball_get_angle(ball_id):
 def ball_get_speed(ball_id):
     return list_ball[ball_id][BALL_SPEED]
 
+### PHYSICS
+
+def angle_to_vec(angle,speed):
+    """Angle is between 0 and 359 (degrees)"""
+    vecX = math.cos(math.radians(i))
+    vecY = math.sin(math.radians(i))
+    vecX *= speed
+    vecY *= speed
+    return [vecX, vecY]
+
 ### PRINT AND DEBUG
 def print_ball(ball_id):
     print("BALL ", ball_id ," Coords : ", ball_get_coords(ball_id))
