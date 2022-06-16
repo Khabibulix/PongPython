@@ -140,18 +140,7 @@ def make_ball(posX, posY, width, angle=BALL_STARTING_ANGLE, speed=BALL_STARTING_
     vecY = 0
     return [ball,[vecX,vecY],angle,speed]
 
-### GETTER
-def is_colliding(bbox1, bbox2):
-    return (
-    bbox1[0] < bbox2[0] + bbox2[2]
-    and
-    bbox1[0] + bbox1[2] > bbox2[0]
-    and
-    bbox1[1] < bbox2[1] + bbox2[3]
-    and
-    bbox1[1] + bbox1[3] > bbox2[1]
-    )
-
+### GETTER AND SETTER
 ##### BALL DATA
 def ball_get_canvas(ball_id): return list_ball[ball_id][0]
 def ball_get_coords(ball_id): return playground.coords(list_ball[ball_id][BALL_CANVAS])
@@ -165,8 +154,30 @@ def ball_get_vecx(ball_id): return list_ball[ball_id][BALL_VEC][BALL_VECX]
 def ball_get_vecy(ball_id): return list_ball[ball_id][BALL_VEC][BALL_VECY]
 def ball_get_angle(ball_id): return list_ball[ball_id][BALL_ANGLE]
 def ball_get_speed(ball_id): return list_ball[ball_id][BALL_SPEED]
+#
+def ball_set_canvas(ball_id, value): list_ball[ball_id][0] = value
+def ball_set_posx(ball_id, value): ball_get_coords(ball_id)[0] = value
+def ball_set_posy(ball_id, value): ball_get_coords(ball_id)[1] = value
+def ball_set_width(ball_id, value): ball_get_coords(ball_id)[2] = value
+def ball_set_height(ball_id, value): ball_get_coords(ball_id)[3] = value
+def ball_set_vec(ball_id, value): list_ball[ball_id][BALL_VEC] = value
+def ball_set_vecx(ball_id, value): list_ball[ball_id][BALL_VEC][BALL_VECX] = value
+def ball_set_vecy(ball_id, value): list_ball[ball_id][BALL_VEC][BALL_VECY] = value
+def ball_set_angle(ball_id, value): list_ball[ball_id][BALL_ANGLE] = value
+def ball_set_speed(ball_id, value): list_ball[ball_id][BALL_SPEED] = value
 
 ### PHYSICS
+def is_colliding(bbox1, bbox2):
+    return (
+    bbox1[0] < bbox2[0] + bbox2[2]
+    and
+    bbox1[0] + bbox1[2] > bbox2[0]
+    and
+    bbox1[1] < bbox2[1] + bbox2[3]
+    and
+    bbox1[1] + bbox1[3] > bbox2[1]
+    )
+
 def angle_to_vec(angle,speed):
     """Angle is between 0 and 359 (degrees)"""
     vecX = math.cos(math.radians(angle-90))
@@ -181,13 +192,12 @@ def ball_update(ball_id):
     """To call when an event change the state of the ball (for exemple a collision)"""
     angle = ball_get_angle(ball_id)
     speed = ball_get_speed(ball_id)
-    list_ball[ball_id][BALL_VEC] = angle_to_vec(angle, speed)
+    ball_set_vec(ball_id, angle_to_vec(angle, speed))
     return
 
 def ball_physics(ball_id):
-    """Core logic of a ball"""
-    ball_canvas = ball_get_canvas(ball_id)
-    playground.move(ball_canvas, ball_get_vecx(ball_id), ball_get_vecy(ball_id))
+    """Core logic of a ball""" 
+    playground.move(ball_get_canvas(ball_id), ball_get_vecx(ball_id), ball_get_vecy(ball_id))
     return
 
 ### PRINT AND DEBUG
@@ -214,21 +224,22 @@ windows.bind("<Escape>", lambda event: windows.destroy())
 ##~~~~~~~~~~~~~~~~-~~~~~~~~~~~~~~~~~##
 # MAIN
 #
-### INIT
-def game_init():
-    for i in range(len(list_ball)):
-        ball_update(i)
-
 ##### TESTS
 
 list_paddle.append(make_paddle(0, 0, paddle_width, paddle_height)) # Add a new paddle to the game
 print(playground.coords(list_paddle[0]))
 print(playground.bbox(list_paddle[0]))
 
-game_add_ball(DEFAULT_WIDTH/2, DEFAULT_HEIGHT/2, ball_width)
-print(list_ball)
-
 ### MAIN LOOP
+
+def game_init():
+    # OBJECT SPAWN
+    game_add_ball(DEFAULT_WIDTH/2, DEFAULT_HEIGHT/2, ball_width)
+    # UPDATE
+    for i in range(len(list_ball)):
+        ball_update(i)
+    # READY
+    return
 
 def game_loop():
     for i in range(len(list_ball)):
@@ -238,5 +249,4 @@ def game_loop():
 
 game_init()
 game_loop()
-print_ball(0)
 windows.mainloop()
