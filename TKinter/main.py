@@ -8,6 +8,15 @@ import devconsole
 import tkinter as tk
 
 ##~~~~~~~~~~~~~~~~-~~~~~~~~~~~~~~~~~##
+# PINBOARD
+#
+"""
+create_rectangle(x,y,x2,y2)
+    (x,y) is the defaults coodinates before tracing
+    (x2,y2) is the defaults coodinates after tracing
+"""
+
+##~~~~~~~~~~~~~~~~-~~~~~~~~~~~~~~~~~##
 # LOGGING CONFIG
 #
 logging.basicConfig(filename="log.txt", filemode="w", level=logging.DEBUG)
@@ -57,7 +66,7 @@ list_ball = []
 list_player = []
 
 ##~~~~~~~~~~~~~~~~-~~~~~~~~~~~~~~~~~##
-# OBJECTS INIT
+# TK INIT
 #
 ### GAME WINDOW
 windows = tk.Tk()
@@ -84,7 +93,11 @@ playground = tk.Canvas(windows,
     )
 playground.pack()
 
-### PADDLE
+##~~~~~~~~~~~~~~~~-~~~~~~~~~~~~~~~~~##
+# FUNCTIONS
+#
+### CONSTRUCTOR
+"""TODO"""
 left_paddle = playground.create_rectangle(
     left_paddle_x,
     DEFAULT_HEIGHT/2,
@@ -97,16 +110,7 @@ right_paddle = playground.create_rectangle(
     right_paddle_x - 10,
     paddle_length,
     fill=SECONDARY_COLOR)
-"""
-create_rectangle(x,y,x2,y2)
-    (x,y) is the defaults coodinates before tracing
-    (x2,y2) is the defaults coodinates after tracing
-"""
 
-##~~~~~~~~~~~~~~~~-~~~~~~~~~~~~~~~~~##
-# FUNCTIONS
-#
-### CONSTRUCTOR
 def make_paddle(posX, posY, width, height):
     paddle = playground.create_rectangle(
         posX,           # X1
