@@ -30,6 +30,11 @@ DEFAULT_HEIGHT = 600
 PRIMARY_COLOR = "black"
 SECONDARY_COLOR = "white"
 
+### GAME PARAMETER
+
+BALL_STARTING_ANGLE = 90
+BALL_STARTING_SPEED = 0.01
+
 ### BALL STRUCTURE (because we don't use class)
 BALL_CANVAS = 0     # Contains the TKinter canvas object
 BALL_VEC = 1        # Contains a sublist of 2D vector
@@ -124,15 +129,13 @@ def make_paddle(posX, posY, width, height):
         fill=SECONDARY_COLOR)
     return paddle
 
-def make_ball(posX, posY, width):
+def make_ball(posX, posY, width, angle=BALL_STARTING_ANGLE, speed=BALL_STARTING_SPEED):
     ball = playground.create_oval(
         posX,           # X1
         posY,           # Y1
         posX + width,   # X2
         posY + width,   # Y2
         fill=SECONDARY_COLOR)
-    angle = 90
-    speed = 1
     vecX = 0
     vecY = 0
     return [ball,[vecX,vecY],angle,speed]
@@ -150,6 +153,7 @@ def is_colliding(bbox1, bbox2):
     )
 
 ##### BALL DATA
+def ball_get_canvas(ball_id): return list_ball[ball_id][0]
 def ball_get_coords(ball_id): return playground.coords(list_ball[ball_id][BALL_CANVAS])
 def ball_get_posx(ball_id): return ball_get_coords(ball_id)[0]
 def ball_get_posy(ball_id): return ball_get_coords(ball_id)[1]
@@ -165,8 +169,8 @@ def ball_get_speed(ball_id): return list_ball[ball_id][BALL_SPEED]
 ### PHYSICS
 def angle_to_vec(angle,speed):
     """Angle is between 0 and 359 (degrees)"""
-    vecX = math.cos(math.radians(angle))
-    vecY = math.sin(math.radians(angle))
+    vecX = math.cos(math.radians(angle-90))
+    vecY = math.sin(math.radians(angle-90))
     vecX *= speed
     vecY *= speed
     return [vecX, vecY]
@@ -182,8 +186,8 @@ def ball_update(ball_id):
 
 def ball_physics(ball_id):
     """Core logic of a ball"""
-    canvas_id = ball_id[0]
-    playground.move(canvas_id, 0.01, 0)
+    ball_canvas = ball_get_canvas(ball_id)
+    playground.move(ball_canvas, ball_get_vecx(ball_id), ball_get_vecy(ball_id))
     return
 
 ### PRINT AND DEBUG
@@ -227,7 +231,7 @@ print(list_ball)
 ### MAIN LOOP
 
 def game_loop():
-    for i in list_ball:
+    for i in range(len(list_ball)):
         ball_physics(i)
     windows.after(1, game_loop)
     return
