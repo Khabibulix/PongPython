@@ -153,6 +153,16 @@ def paddle_get_vec(paddle_id): return list_paddle[paddle_id][PADDLE_VEC]
 def paddle_get_key_moveup(paddle_id): return list_paddle[paddle_id][PADDLE_KEYSET][PADDLE_KEYSET_MOVEUP]
 def paddle_get_key_movedown(paddle_id): return list_paddle[paddle_id][PADDLE_KEYSET][PADDLE_KEYSET_MOVEDOWN]
 def paddle_get_speed(paddle_id): return list_paddle[paddle_id][PADDLE_SPEED]
+#
+def paddle_set_canvas(paddle_id, value): list_paddle[paddle_id][0] = value
+def paddle_set_posx(paddle_id, value): paddle_get_coords(paddle_id)[0] = value
+def paddle_set_posy(paddle_id, value): paddle_get_coords(paddle_id)[1] = value
+def paddle_set_width(paddle_id, value): paddle_get_coords(paddle_id)[2] = value
+def paddle_set_height(paddle_id, value): paddle_get_coords(paddle_id)[3] = value
+def paddle_set_vec(paddle_id, value): list_paddle[paddle_id][PADDLE_VEC] = value
+def paddle_set_key_moveup(paddle_id, value): list_paddle[paddle_id][PADDLE_KEYSET][PADDLE_KEYSET_MOVEUP] = value
+def paddle_set_key_movedown(paddle_id, value): list_paddle[paddle_id][PADDLE_KEYSET][PADDLE_KEYSET_MOVEDOWN] = value
+def paddle_set_speed(paddle_id, value): list_paddle[paddle_id][PADDLE_SPEED] = value
 ##### BALL DATA
 def ball_get_canvas(ball_id): return list_ball[ball_id][0]
 def ball_get_coords(ball_id): return playground.coords(list_ball[ball_id][BALL_CANVAS])
