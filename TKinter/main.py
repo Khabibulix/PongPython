@@ -32,10 +32,18 @@ SECONDARY_COLOR = "white"
 
 ### GAME PARAMETER
 
+PADDLE_STARTING_SPEED = 0.1
+
 BALL_STARTING_ANGLE = 90
 BALL_STARTING_SPEED = 0.01
 
-### BALL STRUCTURE (because we don't use class)
+### STRUCTURES (because we don't use class)
+##### PADDLE STRUCTURE
+PADDLE_CANVAS = 0 # Contains the TKinter canvas object
+PADDLE_VEC = 1
+PADDLE_SPEED = 2
+
+##### BALL STRUCTURE
 BALL_CANVAS = 0     # Contains the TKinter canvas object
 BALL_VEC = 1        # Contains a sublist of 2D vector
 ##
@@ -107,6 +115,7 @@ playground.pack()
 #
 ### CONSTRUCTOR
 """TODO"""
+"""
 left_paddle = playground.create_rectangle(
     left_paddle_x,
     DEFAULT_HEIGHT/2,
@@ -119,15 +128,17 @@ right_paddle = playground.create_rectangle(
     right_paddle_x - 10,
     paddle_length,
     fill=SECONDARY_COLOR)
+"""
 
-def make_paddle(posX, posY, width, height):
+def make_paddle(posX, posY, width, height, speed=PADDLE_STARTING_SPEED):
     paddle = playground.create_rectangle(
         posX,           # X1
         posY,           # Y1
         posX + width,   # X2
         posY + height,  # Y2
         fill=SECONDARY_COLOR)
-    return paddle
+    vecY = 0
+    return [paddle, vecY, speed]
 
 def make_ball(posX, posY, width, angle=BALL_STARTING_ANGLE, speed=BALL_STARTING_SPEED):
     ball = playground.create_oval(
@@ -141,6 +152,16 @@ def make_ball(posX, posY, width, angle=BALL_STARTING_ANGLE, speed=BALL_STARTING_
     return [ball,[vecX,vecY],angle,speed]
 
 ### GETTER AND SETTER
+##### PADDLE DATA
+def paddle_get_canvas(paddle_id): return list_paddle[paddle_id][0]
+def paddle_get_coords(paddle_id): return playground.coords(list_paddle[paddle_id][PADDLE_CANVAS])
+def paddle_get_posx(paddle_id): return paddle_get_coords(paddle_id)[0]
+def paddle_get_posy(paddle_id): return paddle_get_coords(paddle_id)[1]
+def paddle_get_width(paddle_id): return paddle_get_coords(paddle_id)[2]
+def paddle_get_height(paddle_id): return paddle_get_coords(paddle_id)[3]
+def paddle_get_bbox(paddle_id): return playground.bbox(list_paddle[paddle_id][PADDLE_CANVAS])
+def paddle_get_vec(paddle_id): return list_paddle[paddle_id][PADDLE_VEC]
+def paddle_get_speed(paddle_id): return list_paddle[paddle_id][PADDLE_SPEED]
 ##### BALL DATA
 def ball_get_canvas(ball_id): return list_ball[ball_id][0]
 def ball_get_coords(ball_id): return playground.coords(list_ball[ball_id][BALL_CANVAS])
@@ -186,6 +207,10 @@ def angle_to_vec(angle,speed):
     vecY *= speed
     return [vecX, vecY]
 
+##### PADDLE PHYSIC
+def paddle_physics(paddle_id):
+    return
+
 ##### BALL PHYSIC
 
 def ball_update(ball_id):
@@ -201,7 +226,15 @@ def ball_physics(ball_id):
     return
 
 ### PRINT AND DEBUG
+def print_paddle(paddle_id):
+    print("PADDLE ", paddle_id ," Canvas : ", paddle_get_canvas(paddle_id))
+    print("PADDLE ", paddle_id ," Coords : ", paddle_get_coords(paddle_id))
+    print("PADDLE ", paddle_id ," Bbox : ", paddle_get_bbox(paddle_id))
+    print("PADDLE ", paddle_id ," Vec = ", paddle_get_vec(paddle_id))
+    print("PADDLE ", paddle_id ," Speed = ", paddle_get_speed(paddle_id))
+
 def print_ball(ball_id):
+    print("BALL ", ball_id ," Canvas : ", ball_get_canvas(ball_id))
     print("BALL ", ball_id ," Coords : ", ball_get_coords(ball_id))
     print("BALL ", ball_id ," Bbox : ", ball_get_bbox(ball_id))
     print("BALL ", ball_id ," Vec X = ", ball_get_vecx(ball_id))
@@ -210,6 +243,7 @@ def print_ball(ball_id):
     print("BALL ", ball_id ," Speed = ", ball_get_speed(ball_id))
 
 ### HIGH-LEVEL / USERSIDE FUNCTION
+def game_add_paddle(posX, posY, width, height, speed=PADDLE_STARTING_SPEED): return list_paddle.append(make_paddle(posX, posY, width, height, speed))
 def game_add_ball(posX, posY, width): return list_ball.append(make_ball(posX, posY, width)) # TODO : rename in devconsole
 
 ##### I DON'T WHAT IT IS / EXPERIMENT
@@ -230,13 +264,10 @@ windows.bind("<Escape>", lambda event: windows.destroy())
 ##~~~~~~~~~~~~~~~~-~~~~~~~~~~~~~~~~~##
 # MAIN
 #
-##### TESTS
+game_add_paddle(left_paddle_x, (DEFAULT_HEIGHT/2), left_paddle_x + 10, paddle_length)
 
-list_paddle.append(make_paddle(0, 0, paddle_width, paddle_height)) # Add a new paddle to the game
-print(playground.coords(list_paddle[0]))
-print(playground.bbox(list_paddle[0]))
-
-### MAIN LOOP
+print(list_paddle)
+print_paddle(0)
 
 def game_init():
     # OBJECT SPAWN
@@ -247,6 +278,7 @@ def game_init():
     return
 
 def game_loop():
+    for_every(list_paddle, paddle_physics) # Paddles have priority over balls in manner to punish less the players
     for_every(list_ball, ball_physics)
     windows.after(1, game_loop)
     return
