@@ -34,8 +34,8 @@ SECONDARY_COLOR = "white"
 
 PADDLE_STARTING_SPEED = 0.1
 
-BALL_STARTING_ANGLE = 90
-BALL_STARTING_SPEED = 0.05
+BALL_STARTING_ANGLE = 45
+BALL_STARTING_SPEED = 0.1
 
 ### STRUCTURES (because we don't use class)
 ##### PADDLE STRUCTURE
@@ -75,8 +75,7 @@ DY = 10 # Has to be deprecated soon
 DX = 10 # Has to be deprecated soon
 
 ### GAME STATE
-score_a = 0
-score_b = 0
+game_score = [0, 0]
 
 game_timescale = 1.0
 
@@ -104,7 +103,7 @@ windows.resizable(False,False)
 ### SCORE
 scoring = tk.Label(
     windows,
-    text=f"Player A: {score_a}\t\tPlayer B: {score_b}",
+    text=f"Player A: {game_score[0]}\t\tPlayer B: {game_score[1]}",
     foreground=SECONDARY_COLOR,
     background=PRIMARY_COLOR,
     font="consolas"
@@ -196,7 +195,7 @@ def ball_set_vecy(ball_id, value): list_ball[ball_id][BALL_VEC][BALL_VECY] = val
 def ball_set_angle(ball_id, value): list_ball[ball_id][BALL_ANGLE] = value
 def ball_set_speed(ball_id, value): list_ball[ball_id][BALL_SPEED] = value
 
-### PHYSICS
+### PHYSICS / PROCESS
 def is_colliding(ball_id, paddle_id):
     return (
         ball_get_posx(ball_id) < paddle_get_posx(paddle_id) + paddle_get_width(paddle_id)
@@ -231,12 +230,37 @@ def paddle_physics(paddle_id):
     return
 
 ##### BALL PHYSIC
-
-def ball_switch_direction(ball_id):
-    angle = ball_get_angle(ball_id)
-    ball_set_angle(ball_id, angle-180)
-    ball_update(ball_id)
+def ball_reset(ball_id):
+    posx = ball_get_posx(ball_id)
+    posy = ball_get_posy(ball_id)
+    tpx = DEFAULT_WIDTH/2
+    tpy = DEFAULT_HEIGHT/2
+    x = posx - tpx
+    y = posy - tpy
+    playground.move(ball_get_canvas(ball_id), -x, -y)
+    return
     
+def ball_switch_direction(ball_id, angle):
+    ball_angle = ball_get_angle(ball_id)
+    ball_set_angle(ball_id, ball_angle + angle)
+    ball_update(ball_id)
+    return
+
+def ball_checkbounds(ball_id):
+    posx = ball_get_posx(ball_id)
+    posy = ball_get_posy(ball_id)
+    width = ball_get_width(ball_id)
+    height = ball_get_height(ball_id)
+    if posy + height >= DEFAULT_HEIGHT or posy < 0: # TOP / BOTTOM
+        ball_switch_direction(ball_id, 90)
+    if posx + width >= DEFAULT_WIDTH: # RIGHT
+        game_score[0] += 1
+        ball_reset(ball_id)
+    if posx < 0: # LEFT
+        game_score[1] += 1
+        ball_reset(ball_id)
+    return
+        
 
 def ball_update(ball_id):
     """To call when an event change the state of the ball (for exemple a collision)"""
@@ -251,7 +275,8 @@ def ball_physics(ball_id):
     for paddle_id in range(len(list_paddle)):
         if is_colliding(ball_id, paddle_id):
             print("Collision with ", paddle_id)
-            ball_switch_direction(ball_id)
+            ball_switch_direction(ball_id, 90)
+    ball_checkbounds(ball_id)
     return
 
 ### PRINT AND DEBUG
@@ -316,14 +341,5 @@ def game_loop():
     return
 
 game_init()
-
-print("Paddle 1:")
-print_paddle(0)
-print("Paddle 2:")
-print_paddle(1)
-
-print(ball_get_coords(0))
-print(paddle_get_coords(1))
-
 game_loop()
 windows.mainloop()
