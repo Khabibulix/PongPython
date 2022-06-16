@@ -40,7 +40,6 @@ DY = 10 # Has to be deprecated soon
 DX = 10 # Has to be deprecated soon
 
 ### GAME STATE
-
 score_a = 0
 score_b = 0
 
@@ -52,8 +51,7 @@ paddle_height = DEFAULT_HEIGHT / 6
 
 ball_width = (DEFAULT_WIDTH + DEFAULT_HEIGHT) / 140
 
-### LISTS
-
+### LISTS (contains the game objects)
 list_paddle = []
 list_ball = []
 list_player = []
@@ -108,7 +106,6 @@ create_rectangle(x,y,x2,y2)
 ##~~~~~~~~~~~~~~~~-~~~~~~~~~~~~~~~~~##
 # FUNCTIONS
 #
-
 ### CONSTRUCTOR
 def make_paddle(posX, posY, width, height):
     paddle = playground.create_rectangle(
@@ -157,13 +154,16 @@ def ball_get_angle(ball_id):
     return list_ball[ball_id][BALL_ANGLE]
 
 ### PRINT AND DEBUG
-
 def print_ball(ball_id):
     print("BALL ", ball_id ," Coords : ", ball_get_coords(ball_id))
     print("BALL ", ball_id ," Bbox : ", ball_get_bbox(ball_id))
     print("BALL ", ball_id ," X = ", ball_get_x(ball_id))
     print("BALL ", ball_id ," Y = ", ball_get_y(ball_id))
     print("BALL ", ball_id ," Angle = ", ball_get_angle(ball_id))
+
+### HIGH-LEVEL / USERSIDE FUNCTION
+def game_add_ball(posX, posY, width): # To rename in devconsole
+    return list_ball.append(make_ball(posX, posY, width))
 
 ##~~~~~~~~~~~~~~~~-~~~~~~~~~~~~~~~~~##
 # KEY BINDING
@@ -194,9 +194,8 @@ print(playground.coords(list_paddle[0]))
 print(playground.bbox(list_paddle[0]))
 
 ##### BALL INIT
-list_ball.append(make_ball(DEFAULT_WIDTH/2, DEFAULT_HEIGHT/2, ball_width))
+game_add_ball(DEFAULT_WIDTH/2, DEFAULT_HEIGHT/2, ball_width)
 print_ball(0)
-
 
 ### MAIN LOOP
 """-- windows.after() goes here --"""
