@@ -281,14 +281,13 @@ def for_every(list_object, function):
 #
 windows.bind("<Escape>", lambda event: windows.destroy())
 
-
 ##~~~~~~~~~~~~~~~~-~~~~~~~~~~~~~~~~~##
 # MAIN
 #
 def game_init():
     # OBJECT SPAWN
-    game_add_paddle(left_paddle_x, DEFAULT_HEIGHT/2, left_paddle_x + 10, paddle_length)
-    game_add_paddle(right_paddle_x,DEFAULT_HEIGHT/2, right_paddle_x - 10, paddle_length)
+    game_add_paddle(left_paddle_x, DEFAULT_HEIGHT/2, left_paddle_x + 10, paddle_length, "<z>", "<s>")
+    game_add_paddle(right_paddle_x,DEFAULT_HEIGHT/2, right_paddle_x - 10, paddle_length, "<Up>", "<Down>")
     for_every(list_paddle, paddle_setup)
     game_add_ball(DEFAULT_WIDTH/2, DEFAULT_HEIGHT/2, ball_width)
     # UPDATE
