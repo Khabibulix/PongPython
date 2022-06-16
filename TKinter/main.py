@@ -41,7 +41,12 @@ BALL_STARTING_SPEED = 0.01
 ##### PADDLE STRUCTURE
 PADDLE_CANVAS = 0 # Contains the TKinter canvas object
 PADDLE_VEC = 1
-PADDLE_SPEED = 2
+PADDLE_KEYSET = 2
+###
+PADDLE_KEYSET_MOVEUP = 0
+PADDLE_KEYSET_MOVEDOWN = 1
+###
+PADDLE_SPEED = 3
 
 ##### BALL STRUCTURE
 BALL_CANVAS = 0     # Contains the TKinter canvas object
@@ -114,23 +119,7 @@ playground.pack()
 # FUNCTIONS
 #
 ### CONSTRUCTOR
-"""TODO"""
-"""
-left_paddle = playground.create_rectangle(
-    left_paddle_x,
-    DEFAULT_HEIGHT/2,
-    left_paddle_x + 10,
-    paddle_length,
-    fill=SECONDARY_COLOR)
-right_paddle = playground.create_rectangle(
-    right_paddle_x,
-    DEFAULT_HEIGHT/2,
-    right_paddle_x - 10,
-    paddle_length,
-    fill=SECONDARY_COLOR)
-"""
-
-def make_paddle(posX, posY, width, height, speed=PADDLE_STARTING_SPEED):
+def make_paddle(posX, posY, width, height, key_moveup="<z>", key_movedown="<s>", speed=PADDLE_STARTING_SPEED):
     paddle = playground.create_rectangle(
         posX,           # X1
         posY,           # Y1
@@ -138,7 +127,7 @@ def make_paddle(posX, posY, width, height, speed=PADDLE_STARTING_SPEED):
         posY + height,  # Y2
         fill=SECONDARY_COLOR)
     vecY = 0
-    return [paddle, vecY, speed]
+    return [paddle, vecY, [key_moveup,key_movedown], speed]
 
 def make_ball(posX, posY, width, angle=BALL_STARTING_ANGLE, speed=BALL_STARTING_SPEED):
     ball = playground.create_oval(
@@ -161,6 +150,8 @@ def paddle_get_width(paddle_id): return paddle_get_coords(paddle_id)[2]
 def paddle_get_height(paddle_id): return paddle_get_coords(paddle_id)[3]
 def paddle_get_bbox(paddle_id): return playground.bbox(list_paddle[paddle_id][PADDLE_CANVAS])
 def paddle_get_vec(paddle_id): return list_paddle[paddle_id][PADDLE_VEC]
+def paddle_get_key_moveup(paddle_id): return list_paddle[paddle_id][PADDLE_KEYSET][PADDLE_KEYSET_MOVEUP]
+def paddle_get_key_movedown(paddle_id): return list_paddle[paddle_id][PADDLE_KEYSET][PADDLE_KEYSET_MOVEDOWN]
 def paddle_get_speed(paddle_id): return list_paddle[paddle_id][PADDLE_SPEED]
 ##### BALL DATA
 def ball_get_canvas(ball_id): return list_ball[ball_id][0]
@@ -231,6 +222,8 @@ def print_paddle(paddle_id):
     print("PADDLE ", paddle_id ," Coords : ", paddle_get_coords(paddle_id))
     print("PADDLE ", paddle_id ," Bbox : ", paddle_get_bbox(paddle_id))
     print("PADDLE ", paddle_id ," Vec = ", paddle_get_vec(paddle_id))
+    print("PADDLE ", paddle_id ," Key MOVEUP = ", paddle_get_key_moveup(paddle_id))
+    print("PADDLE ", paddle_id ," Key MOVEDOWN = ", paddle_get_key_movedown(paddle_id))
     print("PADDLE ", paddle_id ," Speed = ", paddle_get_speed(paddle_id))
 
 def print_ball(ball_id):
@@ -243,7 +236,8 @@ def print_ball(ball_id):
     print("BALL ", ball_id ," Speed = ", ball_get_speed(ball_id))
 
 ### HIGH-LEVEL / USERSIDE FUNCTION
-def game_add_paddle(posX, posY, width, height, speed=PADDLE_STARTING_SPEED): return list_paddle.append(make_paddle(posX, posY, width, height, speed))
+def game_add_paddle(posX, posY, width, height, key_moveup="<z>", key_movedown="<s>", speed=PADDLE_STARTING_SPEED):
+    return list_paddle.append(make_paddle(posX, posY, width, height, key_moveup, key_movedown, speed))
 def game_add_ball(posX, posY, width): return list_ball.append(make_ball(posX, posY, width)) # TODO : rename in devconsole
 
 ##### I DON'T WHAT IT IS / EXPERIMENT
@@ -255,22 +249,19 @@ def for_every(list_object, function):
 ##~~~~~~~~~~~~~~~~-~~~~~~~~~~~~~~~~~##
 # KEY BINDING
 #
-windows.bind("<Up>", lambda event: playground.move(right_paddle, 0, -5))
-windows.bind("<Down>", lambda event: playground.move(right_paddle, 0, 5))
-windows.bind("<z>", lambda event: playground.move(left_paddle, 0, -5))
-windows.bind("<s>", lambda event: playground.move(left_paddle, 0, 5))
+windows.bind("<Up>", lambda event: playground.move(paddle_get_canvas(1), 0, -5))
+windows.bind("<Down>", lambda event: playground.move(paddle_get_canvas(1), 0, 5))
+windows.bind("<z>", lambda event: playground.move(paddle_get_canvas(0), 0, -5))
+windows.bind("<s>", lambda event: playground.move(paddle_get_canvas(0), 0, 5))
 windows.bind("<Escape>", lambda event: windows.destroy())
 
 ##~~~~~~~~~~~~~~~~-~~~~~~~~~~~~~~~~~##
 # MAIN
 #
-game_add_paddle(left_paddle_x, (DEFAULT_HEIGHT/2), left_paddle_x + 10, paddle_length)
-
-print(list_paddle)
-print_paddle(0)
-
 def game_init():
     # OBJECT SPAWN
+    game_add_paddle(left_paddle_x, DEFAULT_HEIGHT/2, left_paddle_x + 10, paddle_length)
+    game_add_paddle(right_paddle_x,DEFAULT_HEIGHT/2, right_paddle_x - 10, paddle_length)
     game_add_ball(DEFAULT_WIDTH/2, DEFAULT_HEIGHT/2, ball_width)
     # UPDATE
     for_every(list_ball, ball_update)
@@ -284,5 +275,9 @@ def game_loop():
     return
 
 game_init()
+
+print(list_paddle)
+print_paddle(0)
+
 game_loop()
 windows.mainloop()
