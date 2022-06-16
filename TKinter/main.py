@@ -32,9 +32,10 @@ SECONDARY_COLOR = "white"
 
 ### BALL STRUCTURE (because we don't use class)
 BALL_CANVAS = 0    # Contains the TKinter canvas object
-BALL_X = 1
-BALL_Y = 2
+BALL_VECX = 1
+BALL_VECY = 2
 BALL_ANGLE = 3
+BALL_SPEED = 4
 
 ##~~~~~~~~~~~~~~~~-~~~~~~~~~~~~~~~~~##
 # GLOBAL
@@ -127,7 +128,11 @@ def make_ball(posX, posY, width):
         posX + width,   # X2
         posY + width,   # Y2
         fill=SECONDARY_COLOR)
-    return [ball,0,0,90]
+    angle = 90
+    speed = 1
+    vecX = 0
+    vecY = 0
+    return [ball,vecX,vecY,angle,speed]
 
 ### GETTER
 def is_colliding(bbox1, bbox2):
@@ -148,22 +153,26 @@ def ball_get_coords(ball_id):
 def ball_get_bbox(ball_id):
     return playground.bbox(list_ball[ball_id][BALL_CANVAS])
 
-def ball_get_x(ball_id):
-    return list_ball[ball_id][BALL_X]
+def ball_get_vecx(ball_id):
+    return list_ball[ball_id][BALL_VECX]
 
-def ball_get_y(ball_id):
-    return list_ball[ball_id][BALL_Y]
+def ball_get_vecy(ball_id):
+    return list_ball[ball_id][BALL_VECY]
 
 def ball_get_angle(ball_id):
     return list_ball[ball_id][BALL_ANGLE]
+
+def ball_get_speed(ball_id):
+    return list_ball[ball_id][BALL_SPEED]
 
 ### PRINT AND DEBUG
 def print_ball(ball_id):
     print("BALL ", ball_id ," Coords : ", ball_get_coords(ball_id))
     print("BALL ", ball_id ," Bbox : ", ball_get_bbox(ball_id))
-    print("BALL ", ball_id ," X = ", ball_get_x(ball_id))
-    print("BALL ", ball_id ," Y = ", ball_get_y(ball_id))
+    print("BALL ", ball_id ," Vec X = ", ball_get_vecx(ball_id))
+    print("BALL ", ball_id ," Vec Y = ", ball_get_vecy(ball_id))
     print("BALL ", ball_id ," Angle = ", ball_get_angle(ball_id))
+    print("BALL ", ball_id ," Speed = ", ball_get_speed(ball_id))
 
 ### HIGH-LEVEL / USERSIDE FUNCTION
 def game_add_ball(posX, posY, width): # To rename in devconsole
