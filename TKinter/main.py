@@ -156,6 +156,7 @@ def ball_get_posy(ball_id): return ball_get_coords(ball_id)[1]
 def ball_get_width(ball_id): return ball_get_coords(ball_id)[2]
 def ball_get_height(ball_id): return ball_get_coords(ball_id)[3]
 def ball_get_bbox(ball_id): return playground.bbox(list_ball[ball_id][BALL_CANVAS])
+def ball_get_vec(ball_id): return list_ball[ball_id][BALL_VEC]
 def ball_get_vecx(ball_id): return list_ball[ball_id][BALL_VEC][BALL_VECX]
 def ball_get_vecy(ball_id): return list_ball[ball_id][BALL_VEC][BALL_VECY]
 def ball_get_angle(ball_id): return list_ball[ball_id][BALL_ANGLE]
@@ -164,15 +165,25 @@ def ball_get_speed(ball_id): return list_ball[ball_id][BALL_SPEED]
 ### PHYSICS
 def angle_to_vec(angle,speed):
     """Angle is between 0 and 359 (degrees)"""
-    vecX = math.cos(math.radians(i))
-    vecY = math.sin(math.radians(i))
+    vecX = math.cos(math.radians(angle))
+    vecY = math.sin(math.radians(angle))
     vecX *= speed
     vecY *= speed
     return [vecX, vecY]
 
 ##### BALL PHYSIC
+
+def ball_update(ball_id):
+    """To call when an event change the state of the ball (for exemple a collision)"""
+    angle = ball_get_angle(ball_id)
+    speed = ball_get_speed(ball_id)
+    list_ball[ball_id][BALL_VEC] = angle_to_vec(angle, speed)
+    return
+
 def ball_physics(ball_id):
-    playground.move(ball_id, 0.01, 0)
+    """Core logic of a ball"""
+    canvas_id = ball_id[0]
+    playground.move(canvas_id, 0.01, 0)
     return
 
 ### PRINT AND DEBUG
@@ -200,23 +211,28 @@ windows.bind("<Escape>", lambda event: windows.destroy())
 # MAIN
 #
 ### INIT
+def game_init():
+    for i in range(len(list_ball)):
+        ball_update(i)
+
+##### TESTS
+
 list_paddle.append(make_paddle(0, 0, paddle_width, paddle_height)) # Add a new paddle to the game
 print(playground.coords(list_paddle[0]))
 print(playground.bbox(list_paddle[0]))
 
-##### BALL INIT
 game_add_ball(DEFAULT_WIDTH/2, DEFAULT_HEIGHT/2, ball_width)
-print_ball(0)
+print(list_ball)
 
 ### MAIN LOOP
 
-print(list_ball)
-
 def game_loop():
     for i in list_ball:
-        ball_physics(i[BALL_CANVAS])
+        ball_physics(i)
     windows.after(1, game_loop)
     return
 
+game_init()
 game_loop()
+print_ball(0)
 windows.mainloop()
