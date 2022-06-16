@@ -147,26 +147,18 @@ def is_colliding(bbox1, bbox2):
     )
 
 ##### BALL DATA
-def ball_get_coords(ball_id):
-    return playground.coords(list_ball[ball_id][BALL_CANVAS])
-
-def ball_get_bbox(ball_id):
-    return playground.bbox(list_ball[ball_id][BALL_CANVAS])
-
-def ball_get_vecx(ball_id):
-    return list_ball[ball_id][BALL_VECX]
-
-def ball_get_vecy(ball_id):
-    return list_ball[ball_id][BALL_VECY]
-
-def ball_get_angle(ball_id):
-    return list_ball[ball_id][BALL_ANGLE]
-
-def ball_get_speed(ball_id):
-    return list_ball[ball_id][BALL_SPEED]
+def ball_get_coords(ball_id): return playground.coords(list_ball[ball_id][BALL_CANVAS])
+def ball_get_posx(ball_id): return ball_get_coords(ball_id)[0]
+def ball_get_posy(ball_id): return ball_get_coords(ball_id)[1]
+def ball_get_width(ball_id): return ball_get_coords(ball_id)[2]
+def ball_get_height(ball_id): return ball_get_coords(ball_id)[3]
+def ball_get_bbox(ball_id): return playground.bbox(list_ball[ball_id][BALL_CANVAS])
+def ball_get_vecx(ball_id): return list_ball[ball_id][BALL_VECX]
+def ball_get_vecy(ball_id): return list_ball[ball_id][BALL_VECY]
+def ball_get_angle(ball_id): return list_ball[ball_id][BALL_ANGLE]
+def ball_get_speed(ball_id): return list_ball[ball_id][BALL_SPEED]
 
 ### PHYSICS
-
 def angle_to_vec(angle,speed):
     """Angle is between 0 and 359 (degrees)"""
     vecX = math.cos(math.radians(i))
@@ -174,6 +166,11 @@ def angle_to_vec(angle,speed):
     vecX *= speed
     vecY *= speed
     return [vecX, vecY]
+
+##### BALL PHYSIC
+def ball_physics(ball_id):
+    playground.move(ball_id, 0.01, 0)
+    return
 
 ### PRINT AND DEBUG
 def print_ball(ball_id):
@@ -221,5 +218,14 @@ game_add_ball(DEFAULT_WIDTH/2, DEFAULT_HEIGHT/2, ball_width)
 print_ball(0)
 
 ### MAIN LOOP
-"""-- windows.after() goes here --"""
+
+print(list_ball)
+
+def game_loop():
+    for i in list_ball:
+        ball_physics(i[BALL_CANVAS])
+    windows.after(1, game_loop)
+    return
+
+game_loop()
 windows.mainloop()
