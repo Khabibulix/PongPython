@@ -35,7 +35,7 @@ SECONDARY_COLOR = "white"
 PADDLE_STARTING_SPEED = 0.1
 
 BALL_STARTING_ANGLE = 90
-BALL_STARTING_SPEED = 0.01
+BALL_STARTING_SPEED = 0.05
 
 ### STRUCTURES (because we don't use class)
 ##### PADDLE STRUCTURE
@@ -150,8 +150,8 @@ def paddle_get_canvas(paddle_id): return list_paddle[paddle_id][0]
 def paddle_get_coords(paddle_id): return playground.coords(list_paddle[paddle_id][PADDLE_CANVAS])
 def paddle_get_posx(paddle_id): return paddle_get_coords(paddle_id)[0]
 def paddle_get_posy(paddle_id): return paddle_get_coords(paddle_id)[1]
-def paddle_get_width(paddle_id): return paddle_get_coords(paddle_id)[2]
-def paddle_get_height(paddle_id): return paddle_get_coords(paddle_id)[3]
+def paddle_get_width(paddle_id): return paddle_get_coords(paddle_id)[2] - paddle_get_coords(paddle_id)[0]
+def paddle_get_height(paddle_id): return paddle_get_coords(paddle_id)[3] - paddle_get_coords(paddle_id)[1]
 def paddle_get_bbox(paddle_id): return playground.bbox(list_paddle[paddle_id][PADDLE_CANVAS])
 def paddle_get_vec(paddle_id): return list_paddle[paddle_id][PADDLE_VEC]
 def paddle_get_key_moveup(paddle_id): return list_paddle[paddle_id][PADDLE_KEYSET][PADDLE_KEYSET_MOVEUP]
@@ -163,8 +163,8 @@ def paddle_get_state_down(paddle_id): return list_paddle[paddle_id][PADDLE_STATE
 def paddle_set_canvas(paddle_id, value): list_paddle[paddle_id][0] = value
 def paddle_set_posx(paddle_id, value): paddle_get_coords(paddle_id)[0] = value
 def paddle_set_posy(paddle_id, value): paddle_get_coords(paddle_id)[1] = value
-def paddle_set_width(paddle_id, value): paddle_get_coords(paddle_id)[2] = value
-def paddle_set_height(paddle_id, value): paddle_get_coords(paddle_id)[3] = value
+# TOFIX def paddle_set_width(paddle_id, value): paddle_get_coords(paddle_id)[2] = value
+# TOFIX def paddle_set_height(paddle_id, value): paddle_get_coords(paddle_id)[3] = value
 def paddle_set_vec(paddle_id, value): list_paddle[paddle_id][PADDLE_VEC] = value
 def paddle_set_key_moveup(paddle_id, value): list_paddle[paddle_id][PADDLE_KEYSET][PADDLE_KEYSET_MOVEUP] = value
 def paddle_set_key_movedown(paddle_id, value): list_paddle[paddle_id][PADDLE_KEYSET][PADDLE_KEYSET_MOVEDOWN] = value
@@ -176,8 +176,8 @@ def ball_get_canvas(ball_id): return list_ball[ball_id][0]
 def ball_get_coords(ball_id): return playground.coords(list_ball[ball_id][BALL_CANVAS])
 def ball_get_posx(ball_id): return ball_get_coords(ball_id)[0]
 def ball_get_posy(ball_id): return ball_get_coords(ball_id)[1]
-def ball_get_width(ball_id): return ball_get_coords(ball_id)[2]
-def ball_get_height(ball_id): return ball_get_coords(ball_id)[3]
+def ball_get_width(ball_id): return ball_get_coords(ball_id)[2] - ball_get_coords(ball_id)[0]
+def ball_get_height(ball_id): return ball_get_coords(ball_id)[3] - ball_get_coords(ball_id)[1]
 def ball_get_bbox(ball_id): return playground.bbox(list_ball[ball_id][BALL_CANVAS])
 def ball_get_vec(ball_id): return list_ball[ball_id][BALL_VEC]
 def ball_get_vecx(ball_id): return list_ball[ball_id][BALL_VEC][BALL_VECX]
@@ -188,8 +188,8 @@ def ball_get_speed(ball_id): return list_ball[ball_id][BALL_SPEED]
 def ball_set_canvas(ball_id, value): list_ball[ball_id][0] = value
 def ball_set_posx(ball_id, value): ball_get_coords(ball_id)[0] = value
 def ball_set_posy(ball_id, value): ball_get_coords(ball_id)[1] = value
-def ball_set_width(ball_id, value): ball_get_coords(ball_id)[2] = value
-def ball_set_height(ball_id, value): ball_get_coords(ball_id)[3] = value
+# TOFIX def ball_set_width(ball_id, value): ball_get_coords(ball_id)[2] = value
+# TOFIX def ball_set_height(ball_id, value): ball_get_coords(ball_id)[3] = value
 def ball_set_vec(ball_id, value): list_ball[ball_id][BALL_VEC] = value
 def ball_set_vecx(ball_id, value): list_ball[ball_id][BALL_VEC][BALL_VECX] = value
 def ball_set_vecy(ball_id, value): list_ball[ball_id][BALL_VEC][BALL_VECY] = value
@@ -197,16 +197,16 @@ def ball_set_angle(ball_id, value): list_ball[ball_id][BALL_ANGLE] = value
 def ball_set_speed(ball_id, value): list_ball[ball_id][BALL_SPEED] = value
 
 ### PHYSICS
-def is_colliding(bbox1, bbox2):
+def is_colliding(ball_id, paddle_id):
     return (
-    bbox1[0] < bbox2[0] + bbox2[2]
-    and
-    bbox1[0] + bbox1[2] > bbox2[0]
-    and
-    bbox1[1] < bbox2[1] + bbox2[3]
-    and
-    bbox1[1] + bbox1[3] > bbox2[1]
-    )
+        ball_get_posx(ball_id) < paddle_get_posx(paddle_id) + paddle_get_width(paddle_id)
+        and
+        paddle_get_posx(paddle_id) < ball_get_posx(ball_id) + ball_get_width(ball_id)
+        and
+        ball_get_posy(ball_id) < paddle_get_posy(paddle_id) + paddle_get_height(paddle_id)
+        and
+        paddle_get_posy(paddle_id) < ball_get_posy(ball_id) + ball_get_height(ball_id) 
+        )
 
 def angle_to_vec(angle,speed):
     """Angle is between 0 and 359 (degrees)"""
@@ -242,6 +242,9 @@ def ball_update(ball_id):
 def ball_physics(ball_id):
     """Core logic of a ball""" 
     playground.move(ball_get_canvas(ball_id), ball_get_vecx(ball_id), ball_get_vecy(ball_id))
+    for paddle_id in range(len(list_paddle)):
+        if is_colliding(ball_id, paddle_id):
+            print("Collision with ", paddle_id)
     return
 
 ### PRINT AND DEBUG
@@ -249,6 +252,8 @@ def print_paddle(paddle_id):
     print("PADDLE ", paddle_id ," Canvas : ", paddle_get_canvas(paddle_id))
     print("PADDLE ", paddle_id ," Coords : ", paddle_get_coords(paddle_id))
     print("PADDLE ", paddle_id ," Bbox : ", paddle_get_bbox(paddle_id))
+    print("PADDLE ", paddle_id ," Width : ", paddle_get_width(paddle_id))
+    print("PADDLE ", paddle_id ," Height : ", paddle_get_height(paddle_id))
     print("PADDLE ", paddle_id ," Vec = ", paddle_get_vec(paddle_id))
     print("PADDLE ", paddle_id ," Key MOVEUP = ", paddle_get_key_moveup(paddle_id))
     print("PADDLE ", paddle_id ," Key MOVEDOWN = ", paddle_get_key_movedown(paddle_id))
@@ -260,6 +265,8 @@ def print_ball(ball_id):
     print("BALL ", ball_id ," Canvas : ", ball_get_canvas(ball_id))
     print("BALL ", ball_id ," Coords : ", ball_get_coords(ball_id))
     print("BALL ", ball_id ," Bbox : ", ball_get_bbox(ball_id))
+    print("BALL ", ball_id ," Width : ", ball_get_width(ball_id))
+    print("BALL ", ball_id ," Height : ", ball_get_height(ball_id))  
     print("BALL ", ball_id ," Vec X = ", ball_get_vecx(ball_id))
     print("BALL ", ball_id ," Vec Y = ", ball_get_vecy(ball_id))
     print("BALL ", ball_id ," Angle = ", ball_get_angle(ball_id))
@@ -286,8 +293,8 @@ windows.bind("<Escape>", lambda event: windows.destroy())
 #
 def game_init():
     # OBJECT SPAWN
-    game_add_paddle(left_paddle_x, DEFAULT_HEIGHT/2, left_paddle_x + 10, paddle_length, "<z>", "<s>")
-    game_add_paddle(right_paddle_x,DEFAULT_HEIGHT/2, right_paddle_x - 10, paddle_length, "<Up>", "<Down>")
+    game_add_paddle(left_paddle_x, DEFAULT_HEIGHT/2, paddle_width, paddle_height, "<z>", "<s>")
+    game_add_paddle(right_paddle_x,DEFAULT_HEIGHT/2, paddle_width, paddle_height, "<Up>", "<Down>")
     for_every(list_paddle, paddle_setup)
     game_add_ball(DEFAULT_WIDTH/2, DEFAULT_HEIGHT/2, ball_width)
     # UPDATE
@@ -307,6 +314,9 @@ print("Paddle 1:")
 print_paddle(0)
 print("Paddle 2:")
 print_paddle(1)
+
+print(ball_get_coords(0))
+print(paddle_get_coords(1))
 
 game_loop()
 windows.mainloop()
