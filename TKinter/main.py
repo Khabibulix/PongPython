@@ -32,10 +32,10 @@ SECONDARY_COLOR = "white"
 
 ### GAME PARAMETER
 
-PADDLE_STARTING_SPEED = 0.1
+PADDLE_STARTING_SPEED = 0.5
 
 BALL_STARTING_ANGLE = 45
-BALL_STARTING_SPEED = 0.1
+BALL_STARTING_SPEED = 0.3
 
 ### STRUCTURES (because we don't use class)
 ##### PADDLE STRUCTURE
@@ -125,7 +125,7 @@ scoring.pack(ipady=10)
 # FUNCTIONS
 #
 ### CONSTRUCTOR
-def make_paddle(posX, posY, width, height, key_moveup="<z>", key_movedown="<s>", speed=PADDLE_STARTING_SPEED, up=False, down=False):
+def make_paddle(posX, posY, width, height, key_moveup="Up", key_movedown="Down", speed=PADDLE_STARTING_SPEED, up=False, down=False):
     paddle = playground.create_rectangle(
         posX,           # X1
         posY,           # Y1
@@ -225,17 +225,15 @@ def angle_to_vec(angle,speed):
     return [vecX, vecY]
 
 ##### PADDLE PHYSIC
-def paddle_setup(paddle_id):
-    windows.bind(paddle_get_key_moveup(paddle_id), lambda event: paddle_set_state_up(paddle_id, True))
-    windows.bind(paddle_get_key_movedown(paddle_id), lambda event: paddle_set_state_down(paddle_id, True))
-
 def paddle_physics(paddle_id):
     if paddle_get_state_up(paddle_id):
-        playground.move(paddle_get_canvas(paddle_id), 0, -5)
-        paddle_set_state_up(paddle_id, False)
+        if paddle_get_posy(paddle_id) >= 0:
+            playground.move(paddle_get_canvas(paddle_id), 0, -paddle_get_speed(paddle_id))
+            # paddle_set_state_up(paddle_id, False)
     if paddle_get_state_down(paddle_id):
-        playground.move(paddle_get_canvas(paddle_id), 0, 5)
-        paddle_set_state_down(paddle_id, False)
+        if paddle_get_posy(paddle_id) + paddle_get_height(paddle_id) <= DEFAULT_HEIGHT:
+            playground.move(paddle_get_canvas(paddle_id), 0, paddle_get_speed(paddle_id))
+            # paddle_set_state_down(paddle_id, False)
     return
 
 ##### BALL PHYSIC
@@ -312,25 +310,40 @@ def game_add_paddle(posX, posY, width, height, key_moveup="<z>", key_movedown="<
     return list_paddle.append(make_paddle(posX, posY, width, height, key_moveup, key_movedown, speed))
 def game_add_ball(posX, posY, width): return list_ball.append(make_ball(posX, posY, width)) # TODO : rename in devconsole
 
-##### I DON'T WHAT IT IS / EXPERIMENT
+##### I DON'T know WHAT IT IS / EXPERIMENT
 def for_every(list_object, function):
     """Takes a compatible list, applies a function to each element of it"""
     for i in range(len(list_object)):
         function(i)
-    
+
 ##~~~~~~~~~~~~~~~~-~~~~~~~~~~~~~~~~~##
 # KEY BINDING
 #
+def keymanager_paddle_keycheck(list_paddle, key, state):
+    for paddle_id in range(len(list_paddle)):
+        if paddle_get_key_moveup(paddle_id) == key:
+            paddle_set_state_up(paddle_id, state)
+        if paddle_get_key_movedown(paddle_id) == key:
+            paddle_set_state_down(paddle_id, state)
+    return
+
+def keymanager_in(e):
+    keymanager_paddle_keycheck(list_paddle, e.keysym, True)
+
+def keymanager_out(e):
+    keymanager_paddle_keycheck(list_paddle, e.keysym, False)
+
 windows.bind("<Escape>", lambda event: windows.destroy())
+windows.bind("<KeyPress>", keymanager_in)
+windows.bind("<KeyRelease>", keymanager_out)
 
 ##~~~~~~~~~~~~~~~~-~~~~~~~~~~~~~~~~~##
 # MAIN
 #
 def game_init():
     # OBJECT SPAWN
-    game_add_paddle(left_paddle_x, DEFAULT_HEIGHT/2, paddle_width, paddle_height, "<z>", "<s>")
-    game_add_paddle(right_paddle_x,DEFAULT_HEIGHT/2, paddle_width, paddle_height, "<Up>", "<Down>")
-    for_every(list_paddle, paddle_setup)
+    game_add_paddle(left_paddle_x, DEFAULT_HEIGHT/2, paddle_width, paddle_height, "Up", "Down")
+    game_add_paddle(right_paddle_x,DEFAULT_HEIGHT/2, paddle_width, paddle_height, "Up", "Down")
     game_add_ball(DEFAULT_WIDTH/2, DEFAULT_HEIGHT/2, ball_width)
     # UPDATE
     for_every(list_ball, ball_update)
