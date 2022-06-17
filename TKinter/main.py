@@ -100,6 +100,15 @@ windows.geometry(str(DEFAULT_WIDTH)+"x"+str(DEFAULT_HEIGHT))
 windows.configure(bg=PRIMARY_COLOR)
 windows.resizable(False,False)
 
+### CANVAS
+playground = tk.Canvas(windows,
+    width=DEFAULT_WIDTH,
+    height=DEFAULT_HEIGHT,
+    bg=PRIMARY_COLOR
+    )
+playground.pack()
+
+"""
 ### SCORE
 scoring = tk.Label(
     windows,
@@ -109,14 +118,8 @@ scoring = tk.Label(
     font="consolas"
     )
 scoring.pack(ipady=10)
+"""
 
-### CANVAS
-playground = tk.Canvas(windows,
-    width=DEFAULT_WIDTH,
-    height=DEFAULT_HEIGHT,
-    bg=PRIMARY_COLOR
-    )
-playground.pack()
 
 ##~~~~~~~~~~~~~~~~-~~~~~~~~~~~~~~~~~##
 # FUNCTIONS
