@@ -185,15 +185,21 @@ def ball_get_angle(ball_id): return list_ball[ball_id][BALL_ANGLE]
 def ball_get_speed(ball_id): return list_ball[ball_id][BALL_SPEED]
 #
 def ball_set_canvas(ball_id, value): list_ball[ball_id][0] = value
-def ball_set_posx(ball_id, value): ball_get_coords(ball_id)[0] = value
-def ball_set_posy(ball_id, value): ball_get_coords(ball_id)[1] = value
-# TOFIX def ball_set_width(ball_id, value): ball_get_coords(ball_id)[2] = value
-# TOFIX def ball_set_height(ball_id, value): ball_get_coords(ball_id)[3] = value
+# def ball_set_posx(ball_id, value): ball_get_coords(ball_id)[0] = value # DEPRECATED - USE BALL_TELEPORT() INSTEAD
+# def ball_set_posy(ball_id, value): ball_get_coords(ball_id)[1] = value # DEPRECATED - USE BALL_TELEPORT() INSTEAD
 def ball_set_vec(ball_id, value): list_ball[ball_id][BALL_VEC] = value
 def ball_set_vecx(ball_id, value): list_ball[ball_id][BALL_VEC][BALL_VECX] = value
 def ball_set_vecy(ball_id, value): list_ball[ball_id][BALL_VEC][BALL_VECY] = value
 def ball_set_angle(ball_id, value): list_ball[ball_id][BALL_ANGLE] = value
 def ball_set_speed(ball_id, value): list_ball[ball_id][BALL_SPEED] = value
+#
+def ball_teleport(ball_id, posx, posy):
+    begx = ball_get_posx(ball_id)
+    begy = ball_get_posy(ball_id)
+    dir = lambda a, b : (a - b) * -1
+    playground.move(ball_get_canvas(ball_id), dir(begx, posx), dir(begy, posy))
+    return
+    
 
 ### PHYSICS / PROCESS
 def is_colliding(ball_id, paddle_id):
@@ -231,13 +237,7 @@ def paddle_physics(paddle_id):
 
 ##### BALL PHYSIC
 def ball_reset(ball_id):
-    posx = ball_get_posx(ball_id)
-    posy = ball_get_posy(ball_id)
-    tpx = DEFAULT_WIDTH/2
-    tpy = DEFAULT_HEIGHT/2
-    x = posx - tpx
-    y = posy - tpy
-    playground.move(ball_get_canvas(ball_id), -x, -y)
+    ball_teleport(ball_id, DEFAULT_WIDTH/2, DEFAULT_HEIGHT/2)
     return
     
 def ball_switch_direction(ball_id, angle):
