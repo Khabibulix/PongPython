@@ -1,4 +1,4 @@
-import turtle, random, math, os, sys, winsound
+import turtle, random, math, os, sys
 
 DEFAULT_WIDTH = 800
 DEFAULT_HEIGHT = 600
@@ -18,6 +18,7 @@ leftPaddle = turtle.Turtle()
 
 ball_list = []
 color_list = ["purple","yellow","green","pink","gray","brown","blue","lightblue"]
+sound_list = ["pong.wav", "pong2.wav"]
 
 adding_ia = False
 shock = False
@@ -28,6 +29,7 @@ shock = False
 
 def ppgame_playsound(sound):
     if sys.platform.startswith("win"):
+        import winsound
         winsound.PlaySound(sound, winsound.SND_ASYNC)
     if sys.platform.startswith("lin"):
         os.system("paplay " + sound)
@@ -175,14 +177,14 @@ def collision_detection(ball):
     if ball.ycor() > UP_BORDER:
         ball.sety(UP_BORDER)
         ball.dy *= -1
-        ppgame_playsound("pong.wav")
+        ppgame_playsound(random.choice(sound_list))
         ball.clear()
 
     #bouncing on bottom
     if ball.ycor() < DOWN_BORDER:
         ball.sety(DOWN_BORDER)
         ball.dy *= -1
-        ppgame_playsound("pong.wav")
+        ppgame_playsound(random.choice(sound_list))
         ball.clear()
 
     #left goal
@@ -224,14 +226,14 @@ def collision_detection(ball):
     if bntrb and borp:
         ball.setx(340)
         ball.dx *= random.choice([-0.8, -0.9, -1])
-        ppgame_playsound("pong.wav")
+        ppgame_playsound(random.choice(sound_list))
         shock = True
         ball.clear()
     #bouncing on left paddle
     if bntlb and bolp:
         ball.setx(-340)
         ball.dx *= random.choice([-0.8, -0.9, -1])
-        ppgame_playsound("pong.wav")
+        ppgame_playsound(random.choice(sound_list))
         shock = True
         ball.clear()
 
